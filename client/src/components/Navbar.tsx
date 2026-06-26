@@ -8,6 +8,7 @@ import { useActiveSection } from '@/hooks/useActiveSection';
 import { BRAND } from '@/lib/brand';
 import { scrollToSection } from '@/lib/scroll';
 import BrandLogo from '@/components/BrandLogo';
+import NavbarAuth, { MobileNavbarAuth } from '@/components/NavbarAuth';
 import { Heart, Menu, Phone, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -100,6 +101,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2">
+              <NavbarAuth />
               <button
                 onClick={toggleWishlist}
                 className="relative p-2.5 text-white/80 hover:text-white transition-colors rounded-md hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
@@ -178,6 +180,7 @@ export default function Navbar() {
               >
                 Book Service
               </a>
+              <MobileNavbarAuth onNavigate={() => setMobileOpen(false)} />
               <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 px-4 py-3 text-orange-100 text-sm min-h-[48px]">
                 <Phone size={16} />
                 {BRAND.contact.phones[0]}

@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'wouter';
-import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
+import { Link } from 'wouter';
 import BrandLogo from '@/components/BrandLogo';
 import { BRAND } from '@/lib/brand';
 
@@ -58,17 +59,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </header>
 
       <main className="container py-8">
-        <SignedOut>
-          <div className="max-w-md mx-auto text-center py-16">
-            <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-3">Admin Sign In</h1>
-            <p className="text-gray-600 font-['Inter'] text-sm mb-6">
-              Sign in with an authorized {BRAND.legalName} account to manage the product catalog.
-            </p>
-            <SignInButton mode="modal">
-              <button type="button" className="btn-gwecely">Sign in with Clerk</button>
-            </SignInButton>
-          </div>
-        </SignedOut>
+            <SignedOut>
+              <div className="max-w-md mx-auto text-center py-16">
+                <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-3">Admin Sign In</h1>
+                <p className="text-gray-600 font-['Inter'] text-sm mb-6">
+                  Sign in with an authorized {BRAND.legalName} account to manage the product catalog.
+                </p>
+                <Link href="/sign-in" className="btn-gwecely inline-flex">
+                  Go to sign in
+                </Link>
+              </div>
+            </SignedOut>
 
         <SignedIn>
           {!isLoaded ? (

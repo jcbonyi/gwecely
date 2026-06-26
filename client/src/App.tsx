@@ -1,4 +1,3 @@
-import { ClerkProvider } from '@clerk/clerk-react';
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -6,6 +5,8 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import AdminProductsPage from "@/pages/admin/AdminProductsPage";
 import AdminProductEditPage from "@/pages/admin/AdminProductEditPage";
+import SignInPage from "@/pages/SignInPage";
+import SignUpPage from "@/pages/SignUpPage";
 import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -13,12 +14,12 @@ import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import Home from "./pages/Home";
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string | undefined;
-
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/sign-in"} component={SignInPage} />
+      <Route path={"/sign-up"} component={SignUpPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/terms"} component={TermsOfService} />
       <Route path={"/admin/products"} component={AdminProductsPage} />
@@ -33,7 +34,7 @@ function Router() {
 }
 
 function App() {
-  const content = (
+  return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <CartProvider>
@@ -47,13 +48,6 @@ function App() {
       </ThemeProvider>
     </ErrorBoundary>
   );
-
-  if (!clerkPubKey) {
-    console.warn('VITE_CLERK_PUBLISHABLE_KEY not set — admin sign-in disabled');
-    return content;
-  }
-
-  return <ClerkProvider publishableKey={clerkPubKey}>{content}</ClerkProvider>;
 }
 
 export default App;
