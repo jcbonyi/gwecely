@@ -35,6 +35,8 @@ export default function AdminProductEditPage() {
   const [form, setForm] = useState<ProductInput>(EMPTY);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleImageUpload = async (file: File, onProgress: (percent: number) => void) => {
     const token = await getToken();
@@ -86,10 +88,16 @@ export default function AdminProductEditPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.image || !form.description.trim() || !form.price) {
+    if (!form.image.trim()) {
+      setImageError(true);
+      toast.error('Upload an image or enter an image URL');
+      return;
+    }
+    if (!form.name.trim() || !form.description.trim() || !form.price) {
       toast.error('Name, price, image, and description are required');
       return;
     }
+    setImageError(false);
     setSaving(true);
     try {
       const token = await getToken();
@@ -203,7 +211,12 @@ export default function AdminProductEditPage() {
 
         <ImageUploadZone
           value={form.image}
-          onChange={(url) => set('image', url)}
+          showError={imageError}
+          onUploadingChange={setImageUploading}
+          onChange={(url) => {
+            set('image', url);
+            if (url.trim()) setImageError(false);
+          }}
           onUpload={async (file, onProgress) => {
             try {
               return await handleImageUpload(file, onProgress);
@@ -229,8 +242,12 @@ export default function AdminProductEditPage() {
           </label>
         </div>
 
-        <button type="submit" disabled={saving} className="btn-gwecely text-sm py-2.5 px-6 disabled:opacity-60">
-          {saving ? 'Saving…' : isNew ? 'Create Product' : 'Save Changes'}
+        <button
+          type="submit"
+          disabled={saving || imageUploading}
+          className="btn-gwecely text-sm py-2.5 px-6 disabled:opacity-60"
+        >
+          {imageUploading ? 'Waiting for upload…' : saving ? 'Saving…' : isNew ? 'Create Product' : 'Save Changes'}
         </button>
       </form>
     </AdminLayout>

@@ -9,9 +9,18 @@ interface ImageUploadZoneProps {
   onChange: (url: string) => void;
   onUpload: (file: File, onProgress: (percent: number) => void) => Promise<string>;
   disabled?: boolean;
+  showError?: boolean;
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
-export default function ImageUploadZone({ value, onChange, onUpload, disabled }: ImageUploadZoneProps) {
+export default function ImageUploadZone({
+  value,
+  onChange,
+  onUpload,
+  disabled,
+  showError,
+  onUploadingChange,
+}: ImageUploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -20,12 +29,14 @@ export default function ImageUploadZone({ value, onChange, onUpload, disabled }:
   const runUpload = useCallback(
     async (file: File) => {
       setUploading(true);
+      onUploadingChange?.(true);
       setProgress(0);
       try {
         const url = await onUpload(file, setProgress);
         onChange(url);
       } finally {
         setUploading(false);
+        onUploadingChange?.(false);
         setProgress(0);
       }
     },
@@ -83,7 +94,9 @@ export default function ImageUploadZone({ value, onChange, onUpload, disabled }:
         {uploading ? (
           <div className="flex flex-col items-center gap-3 py-2">
             <Loader2 className="h-8 w-8 text-[#F05A32] animate-spin" />
-            <p className="text-sm font-medium text-[#2D2626] font-['Inter']">Uploading… {progress}%</p>
+            <p className="text-sm font-medium text-[#2D2626] font-['Inter']">
+              {progress <= 5 ? 'Preparing image…' : `Uploading… ${progress}%`}
+            </p>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#F05A32] transition-all duration-200"
@@ -109,15 +122,22 @@ export default function ImageUploadZone({ value, onChange, onUpload, disabled }:
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">Image URL *</label>
+        <label className="block text-xs font-medium text-gray-700 mb-1">
+          Image URL <span className="text-gray-400 font-normal">(auto-filled after upload)</span>
+        </label>
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="https://… or /products/…"
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#F05A32]"
-          required
+          placeholder="Upload above, or paste https://… or /products/…"
+          className={cn(
+            'w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#F05A32]',
+            showError && !value.trim() ? 'border-red-400 bg-red-50/50' : 'border-gray-200'
+          )}
           disabled={disabled || uploading}
         />
+        {showError && !value.trim() && (
+          <p className="mt-1 text-xs text-red-600 font-['Inter']">Upload an image or enter an image URL.</p>
+        )}
       </div>
 
       {value && (
