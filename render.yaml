@@ -1,0 +1,27 @@
+# Gwecely API — deploy on Render (https://render.com)
+# Connect this repo, create a Web Service from this blueprint, then set secrets in the dashboard.
+services:
+  - type: web
+    name: gwecely-api
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && pnpm exec esbuild server/api.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+    startCommand: node dist/api.js
+    healthCheckPath: /api/products
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: CLIENT_URL
+        value: https://gwecely.vercel.app
+      - key: DATABASE_PATH
+        value: ./data/gwecely.db
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_ADMIN_EMAILS
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false

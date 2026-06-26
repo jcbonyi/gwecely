@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { clerkMiddleware } from "@clerk/express";
@@ -7,6 +7,44 @@ import { adminProductsRouter } from "./routes/admin.js";
 import { getDb } from "./db.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function corsOrigins(): string[] {
+  const fromEnv = [
+    process.env.CLIENT_URL,
+    ...(process.env.CORS_ORIGINS ?? "").split(","),
+  ]
+    .map((o) => o?.trim())
+    .filter(Boolean) as string[];
+  return fromEnv;
+}
+
+function isAllowedOrigin(origin: string): boolean {
+  const allowed = corsOrigins();
+  if (allowed.includes(origin)) return true;
+  if (process.env.ALLOW_VERCEL_PREVIEW !== "false") {
+    try {
+      const { hostname } = new URL(origin);
+      if (hostname.endsWith(".vercel.app")) return true;
+    } catch {
+      /* ignore */
+    }
+  }
+  return false;
+}
+
+function corsMiddleware(req: Request, res: Response, next: NextFunction) {
+  const origin = req.headers.origin;
+  if (typeof origin === "string" && isAllowedOrigin(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+}
 
 function generateRef(prefix = "GWC") {
   return `${prefix}-${Date.now().toString().slice(-6)}`;
@@ -19,6 +57,8 @@ export interface CreateAppOptions {
 export function createApp(options: CreateAppOptions = {}) {
   const { serveStatic = false } = options;
   const app = express();
+
+  app.use(corsMiddleware);
 
   // Initialise DB on startup
   getDb();

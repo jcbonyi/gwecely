@@ -88,8 +88,9 @@ export default function AdminProductsPage() {
             <p className="font-medium mb-1">Catalog API unavailable</p>
             <p>{error}</p>
             <p className="mt-2 text-amber-800/80">
-              Vercel hosts the frontend only. Deploy the Express + SQLite API on a Node host (Railway, Render, Fly.io)
-              and point the site to it.
+              Deploy the Express API (see <code className="text-xs bg-amber-100 px-1 rounded">render.yaml</code>), then set{' '}
+              <code className="text-xs bg-amber-100 px-1 rounded">VITE_API_URL</code> on Vercel to your API URL and
+              redeploy.
             </p>
           </div>
         )}

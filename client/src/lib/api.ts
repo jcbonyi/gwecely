@@ -2,9 +2,11 @@
  * API client — booking, contact, and M-Pesa endpoints (when server is configured)
  */
 
+import { apiUrl } from '@/lib/apiBase';
+
 export async function submitBooking(data: Record<string, string>): Promise<{ ok: boolean; ref?: string; error?: string }> {
   try {
-    const res = await fetch('/api/booking', {
+    const res = await fetch(apiUrl('/api/booking'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -21,7 +23,7 @@ export async function submitBooking(data: Record<string, string>): Promise<{ ok:
 
 export async function submitContact(data: Record<string, string>): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await fetch('/api/contact', {
+    const res = await fetch(apiUrl('/api/contact'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -35,7 +37,7 @@ export async function submitContact(data: Record<string, string>): Promise<{ ok:
 
 export async function requestMpesaStk(phone: string, amount: number): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await fetch('/api/mpesa/stk-push', {
+    const res = await fetch(apiUrl('/api/mpesa/stk-push'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, amount }),

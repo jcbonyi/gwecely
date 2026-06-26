@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Product } from '@shared/product';
+import { apiUrl } from '@/lib/apiBase';
 
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,7 +11,7 @@ export function useProducts() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch(apiUrl('/api/products'));
       if (!res.ok) throw new Error('Failed to load products');
       const contentType = res.headers.get('content-type') ?? '';
       if (!contentType.includes('application/json')) {

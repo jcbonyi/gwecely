@@ -1,7 +1,8 @@
 import type { Product, ProductInput } from '@shared/product';
+import { apiUrl } from '@/lib/apiBase';
 
 async function adminFetch(path: string, token: string, init?: RequestInit) {
-  const res = await fetch(path, {
+  const res = await fetch(apiUrl(path), {
     ...init,
     headers: {
       ...(init?.headers ?? {}),
