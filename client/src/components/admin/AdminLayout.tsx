@@ -2,6 +2,7 @@ import { Link, useLocation } from 'wouter';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
 import BrandLogo from '@/components/BrandLogo';
 import { BRAND } from '@/lib/brand';
+import { isClerkConfigured } from '@/lib/clerk';
 
 function isAdminEmail(email: string | undefined): boolean {
   if (!email) return false;
@@ -14,7 +15,27 @@ function isAdminEmail(email: string | undefined): boolean {
   return allowed.includes(email.toLowerCase());
 }
 
+function ClerkNotConfigured() {
+  return (
+    <div className="min-h-screen bg-[#F5F3F2] flex items-center justify-center px-4">
+      <div className="max-w-md text-center">
+        <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-3">Auth not configured</h1>
+        <p className="text-gray-600 font-['Inter'] text-sm">
+          Set <code className="text-xs bg-gray-100 px-1 rounded">VITE_CLERK_PUBLISHABLE_KEY</code> in your deployment
+          environment and redeploy.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  if (!isClerkConfigured) return <ClerkNotConfigured />;
+
+  return <AdminLayoutInner>{children}</AdminLayoutInner>;
+}
+
+function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const { user, isLoaded } = useUser();
   const [location] = useLocation();
   const email = user?.primaryEmailAddress?.emailAddress;

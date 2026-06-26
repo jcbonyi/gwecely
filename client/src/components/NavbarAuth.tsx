@@ -4,8 +4,11 @@
 
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
 import { Link } from 'wouter';
+import { isClerkConfigured } from '@/lib/clerk';
 
 export default function NavbarAuth() {
+  if (!isClerkConfigured) return null;
+
   return (
     <div className="flex items-center gap-2">
       <SignedOut>
@@ -47,6 +50,8 @@ export default function NavbarAuth() {
 }
 
 export function MobileNavbarAuth({ onNavigate }: { onNavigate?: () => void }) {
+  if (!isClerkConfigured) return null;
+
   return (
     <div className="pt-3 border-t border-white/10 space-y-2">
       <SignedOut>
