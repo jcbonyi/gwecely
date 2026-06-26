@@ -9,7 +9,17 @@ async function adminFetch(path: string, token: string, init?: RequestInit) {
       ...(init?.body && !(init.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}),
     },
   });
-  const data = await res.json().catch(() => ({}));
+
+  const contentType = res.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(
+      res.ok
+        ? 'Product API returned an invalid response. The backend may not be deployed.'
+        : `Request failed (${res.status})`
+    );
+  }
+
+  const data = await res.json();
   if (!res.ok) {
     throw new Error((data as { error?: string }).error ?? `Request failed (${res.status})`);
   }
@@ -17,7 +27,11 @@ async function adminFetch(path: string, token: string, init?: RequestInit) {
 }
 
 export async function fetchAdminProducts(token: string): Promise<Product[]> {
-  return adminFetch('/api/admin/products', token);
+  const data = await adminFetch('/api/admin/products', token);
+  if (!Array.isArray(data)) {
+    throw new Error('Product API is unavailable. Deploy the Express backend to use the admin catalog.');
+  }
+  return data;
 }
 
 export async function createAdminProduct(token: string, input: ProductInput): Promise<Product> {

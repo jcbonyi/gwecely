@@ -13,16 +13,21 @@ export default function AdminProductsPage() {
   const { getToken } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
 
   const load = async () => {
     setLoading(true);
+    setError(null);
     try {
       const token = await getToken();
       if (!token) throw new Error('Not signed in');
       setProducts(await fetchAdminProducts(token));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to load products');
+      const message = e instanceof Error ? e.message : 'Failed to load products';
+      setError(message);
+      setProducts([]);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -78,6 +83,16 @@ export default function AdminProductsPage() {
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        {error && !loading && (
+          <div className="m-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-['Inter'] text-amber-900">
+            <p className="font-medium mb-1">Catalog API unavailable</p>
+            <p>{error}</p>
+            <p className="mt-2 text-amber-800/80">
+              Vercel hosts the frontend only. Deploy the Express + SQLite API on a Node host (Railway, Render, Fly.io)
+              and point the site to it.
+            </p>
+          </div>
+        )}
         {loading ? (
           <p className="p-8 text-gray-500 text-sm font-['Inter']">Loading products…</p>
         ) : (
