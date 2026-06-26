@@ -1,9 +1,10 @@
 import { useAuth } from '@clerk/clerk-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useRoute } from 'wouter';
-import { ArrowLeft, Upload } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUploadZone from '@/components/admin/ImageUploadZone';
 import {
   createAdminProduct,
   fetchAdminProducts,
@@ -34,7 +35,14 @@ export default function AdminProductEditPage() {
   const [form, setForm] = useState<ProductInput>(EMPTY);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = async (file: File, onProgress: (percent: number) => void) => {
+    const token = await getToken();
+    if (!token) throw new Error('Not signed in');
+    const url = await uploadProductImage(token, file, onProgress);
+    toast.success('Image uploaded to Cloudinary');
+    return url;
+  };
 
   useEffect(() => {
     if (isNew || !productId) return;
@@ -74,24 +82,6 @@ export default function AdminProductEditPage() {
 
   const set = (key: keyof ProductInput, value: unknown) => {
     setForm((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const token = await getToken();
-      if (!token) throw new Error('Not signed in');
-      const url = await uploadProductImage(token, file);
-      set('image', url);
-      toast.success('Image uploaded to Cloudinary');
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Upload failed');
-    } finally {
-      setUploading(false);
-      e.target.value = '';
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -211,24 +201,18 @@ export default function AdminProductEditPage() {
           />
         </div>
 
-        <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">Image URL *</label>
-          <input
-            value={form.image}
-            onChange={(e) => set('image', e.target.value)}
-            placeholder="https://… or /products/…"
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm mb-2"
-            required
-          />
-          <label className="inline-flex items-center gap-2 text-sm text-[#F05A32] font-medium cursor-pointer">
-            <Upload size={16} />
-            {uploading ? 'Uploading…' : 'Upload to Cloudinary'}
-            <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
-          </label>
-          {form.image && (
-            <img src={form.image} alt="Preview" className="mt-3 w-32 h-32 object-cover rounded-lg border" />
-          )}
-        </div>
+        <ImageUploadZone
+          value={form.image}
+          onChange={(url) => set('image', url)}
+          onUpload={async (file, onProgress) => {
+            try {
+              return await handleImageUpload(file, onProgress);
+            } catch (err) {
+              toast.error(err instanceof Error ? err.message : 'Upload failed');
+              throw err;
+            }
+          }}
+        />
 
         <div className="flex flex-wrap gap-4 pt-2">
           <label className="flex items-center gap-2 text-sm">

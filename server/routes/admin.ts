@@ -1,6 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { getAuth } from "@clerk/express";
+import { v2 as cloudinary } from "cloudinary";
 import type { ProductInput } from "../../shared/product.js";
 import { adminAuth } from "../middleware/adminAuth.js";
 import {
@@ -85,6 +86,29 @@ adminProductsRouter.delete("/products/:id", (req, res) => {
   const ok = deleteProduct(req.params.id);
   if (!ok) return res.status(404).json({ error: "Product not found" });
   res.json({ ok: true });
+});
+
+adminProductsRouter.get("/upload-signature", (_req, res) => {
+  if (!isCloudinaryConfigured()) {
+    return res.status(503).json({
+      error: "Cloudinary not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET.",
+    });
+  }
+
+  const folder = "gwecely/products";
+  const timestamp = Math.round(Date.now() / 1000);
+  const signature = cloudinary.utils.api_sign_request(
+    { timestamp, folder },
+    process.env.CLOUDINARY_API_SECRET!
+  );
+
+  res.json({
+    signature,
+    timestamp,
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    folder,
+  });
 });
 
 adminProductsRouter.post("/upload", upload.single("image"), async (req, res) => {

@@ -57,12 +57,4 @@ export async function deleteAdminProduct(token: string, id: string): Promise<voi
   await adminFetch(`/api/admin/products/${id}`, token, { method: 'DELETE' });
 }
 
-export async function uploadProductImage(token: string, file: File): Promise<string> {
-  const form = new FormData();
-  form.append('image', file);
-  const data = await adminFetch('/api/admin/upload', token, {
-    method: 'POST',
-    body: form,
-  });
-  return (data as { url: string }).url;
-}
+export { uploadProductImage } from '@/lib/cloudinaryUpload';
