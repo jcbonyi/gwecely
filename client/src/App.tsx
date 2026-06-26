@@ -18,8 +18,8 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/sign-in"} component={SignInPage} />
-      <Route path={"/sign-up"} component={SignUpPage} />
+      <Route path={"/sign-in/:rest?"} component={SignInPage} />
+      <Route path={"/sign-up/:rest?"} component={SignUpPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/terms"} component={TermsOfService} />
       <Route path={"/admin/products"} component={AdminProductsPage} />
