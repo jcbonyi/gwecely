@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'wouter';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
-import { Link } from 'wouter';
 import BrandLogo from '@/components/BrandLogo';
 import { BRAND } from '@/lib/brand';
 
@@ -45,11 +44,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               View site
             </Link>
             <SignedOut>
-              <SignInButton mode="modal">
-                <button type="button" className="btn-gwecely text-xs py-2 px-4">
-                  Sign in
-                </button>
-              </SignInButton>
+              <Link href="/sign-in" className="btn-gwecely text-xs py-2 px-4">
+                Sign in
+              </Link>
             </SignedOut>
             <SignedIn>
               <UserButton afterSignOutUrl="/" />
