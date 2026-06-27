@@ -24,6 +24,9 @@ import {
 } from '../../server/turso-admin-users.js';
 import { parseGoogleSheetUrl, sheetCsvExportUrl } from '../../shared/sheet-csv.js';
 import type { AdminRole } from '../../shared/admin.js';
+import { apiBodyConfig } from './api-config.js';
+
+export { apiBodyConfig };
 
 const VALID_CATEGORIES = new Set<string>(SHOP_CATEGORIES.map((c) => c.id));
 
@@ -69,12 +72,6 @@ function normalizeUpdateInput(body: Partial<ProductInput>): Partial<ProductInput
     reviews: body.reviews != null ? Number(body.reviews) : undefined,
   };
 }
-
-export const apiBodyConfig = {
-  api: {
-    bodyParser: false as const,
-  },
-};
 
 function notConfigured(res: VercelResponse) {
   res.status(503).json({
@@ -192,20 +189,6 @@ export async function getUploadSignature(req: VercelRequest, res: VercelResponse
     }
     res.status(200).json(sig);
   });
-}
-
-export async function getAdminMe(req: VercelRequest, res: VercelResponse) {
-  try {
-    const admin = await requireAdmin(req);
-    res.status(200).json({ email: admin.email, role: admin.role });
-  } catch (e) {
-    if (e instanceof HttpError) {
-      res.status(e.status).json({ error: e.message });
-      return;
-    }
-    console.error('[api] getAdminMe', e);
-    res.status(500).json({ error: 'Server error' });
-  }
 }
 
 export async function importAdminGoogleSheet(req: VercelRequest, res: VercelResponse) {

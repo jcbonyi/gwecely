@@ -1,8 +1,8 @@
 import { createClerkClient, verifyToken } from '@clerk/backend';
 import type { VercelRequest } from '@vercel/node';
 import type { AdminRole } from '../../shared/admin.js';
+import { bootstrapOwnerEmails } from '../../shared/admin-emails.js';
 import { tursoEnabled } from '../../server/turso-config.js';
-import { bootstrapOwnerEmails, ensureAdminUsersReady, resolveAdminRole } from '../../server/turso-admin-users.js';
 
 export class HttpError extends Error {
   constructor(
@@ -41,15 +41,21 @@ async function verifyClerkUser(req: VercelRequest): Promise<{ email: string; use
     throw new HttpError('Unauthorized', 401);
   }
 
-  const clerk = createClerkClient({ secretKey: secret });
-  const user = await clerk.users.getUser(payload.sub);
-  const email = user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress;
+  try {
+    const clerk = createClerkClient({ secretKey: secret });
+    const user = await clerk.users.getUser(payload.sub);
+    const email = user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress;
 
-  if (!email) {
-    throw new HttpError('No email on account', 403);
+    if (!email) {
+      throw new HttpError('No email on account', 403);
+    }
+
+    return { email, userId: payload.sub };
+  } catch (e) {
+    if (e instanceof HttpError) throw e;
+    console.error('[auth] getUser failed', e);
+    throw new HttpError('Authentication failed', 401);
   }
-
-  return { email, userId: payload.sub };
 }
 
 export async function requireAdmin(req: VercelRequest): Promise<AdminContext> {
@@ -66,12 +72,10 @@ export async function requireAdmin(req: VercelRequest): Promise<AdminContext> {
   }
 
   if (!tursoEnabled()) {
-    throw new HttpError(
-      'You are not authorized to manage the catalog. Ask a site owner to add your email to CLERK_ADMIN_EMAILS on Vercel.',
-      403
-    );
+    throw new HttpError('You are not authorized to manage the catalog', 403);
   }
 
+  const { ensureAdminUsersReady, resolveAdminRole } = await import('../../server/turso-admin-users.js');
   await ensureAdminUsersReady();
   const role = await resolveAdminRole(email);
   if (!role) {

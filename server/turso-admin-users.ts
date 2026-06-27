@@ -1,15 +1,11 @@
 import type { AdminRole, AdminUserRecord } from '../shared/admin.js';
+import { bootstrapOwnerEmails } from '../shared/admin-emails.js';
 import { tursoEnabled } from './turso-config.js';
 import { getTursoClient } from './turso-db.js';
 
 let adminUsersReady: Promise<void> | null = null;
 
-export function bootstrapOwnerEmails(): string[] {
-  return (process.env.CLERK_ADMIN_EMAILS ?? '')
-    .split(',')
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-}
+export { bootstrapOwnerEmails };
 
 export async function ensureAdminUsersReady(): Promise<void> {
   if (!tursoEnabled()) return;

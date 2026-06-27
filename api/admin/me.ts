@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { apiBodyConfig, getAdminMe } from '../../_lib/handlers.js';
+import { apiBodyConfig } from '../../_lib/api-config.js';
+import { getAdminMe } from '../../_lib/admin-me.js';
 
 export const config = apiBodyConfig;
 
