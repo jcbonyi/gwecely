@@ -12,6 +12,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { CATEGORIES, formatPrice, type Product } from '@/lib/products';
+import { buildProductEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -117,11 +119,27 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
             )}
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button onClick={handleAddToCart} className="flex-1 btn-gwecely text-sm py-2.5 justify-center">
               <ShoppingCart size={16} />
               Add to Cart
             </button>
+            <a
+              href={whatsAppUrl(
+                buildProductEnquiryMessage({
+                  name: product.name,
+                  id: product.id,
+                  price: product.price,
+                  category: categoryLabel,
+                })
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 btn-whatsapp text-sm py-2.5 justify-center"
+            >
+              <WhatsAppIcon className="w-4 h-4" />
+              Enquire
+            </a>
             <button
               onClick={handleWishlist}
               className={`w-11 h-11 rounded-lg border flex items-center justify-center transition-colors ${

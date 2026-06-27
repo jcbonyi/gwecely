@@ -58,12 +58,12 @@ export default function HeroSection() {
           </p>
 
           <p
-            className={`text-orange-50 text-lg md:text-xl font-['Inter'] max-w-xl mb-10 leading-relaxed transition-all duration-600 ${
+            className={`text-orange-50/95 text-lg md:text-xl font-['Inter'] max-w-xl mb-10 leading-relaxed transition-all duration-600 ${
               visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            {BRAND.subtitle}. Based in Mombasa — automotive workshop and general supplies for businesses across Kenya.
+            {BRAND.subtitle}. Mombasa workshop &amp; general supplies for businesses across Kenya.
           </p>
 
           <div

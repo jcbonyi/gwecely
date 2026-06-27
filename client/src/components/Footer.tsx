@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 import { BRAND } from '@/lib/brand';
+import { whatsAppUrl, buildGeneralEnquiryMessage } from '@/lib/whatsapp';
 import BrandLogo from '@/components/BrandLogo';
 
 const QUICK_LINKS = [
@@ -33,7 +34,7 @@ const PRODUCT_CATEGORIES = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: MessageCircle, href: `https://wa.me/${BRAND.contact.whatsapp}`, label: 'WhatsApp' },
+  { icon: MessageCircle, href: whatsAppUrl(buildGeneralEnquiryMessage()), label: 'WhatsApp' },
   { icon: Mail, href: `mailto:${BRAND.contact.emails[0]}`, label: 'Email' },
   { icon: Phone, href: `tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`, label: 'Phone' },
 ] as const;

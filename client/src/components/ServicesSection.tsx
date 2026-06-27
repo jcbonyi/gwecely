@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Calendar, Wrench, Paintbrush, FileText, Armchair, Monitor, ShieldCheck, UtensilsCrossed } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
+import { buildGeneralEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
 
 const SERVICES = [
   {
@@ -181,10 +182,10 @@ export default function ServicesSection() {
                 {BRAND.contact.phones[0]}
               </a>
               <a
-                href={`https://wa.me/${BRAND.contact.whatsapp}?text=${encodeURIComponent('Hello Gwecely, I would like to enquire about your services.')}`}
+                href={whatsAppUrl(buildGeneralEnquiryMessage('Business Solutions'))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gwecely text-sm py-2.5 px-6 bg-[#25D366] border-[#25D366] hover:bg-[#128C7E] hover:border-[#128C7E]"
+                className="btn-whatsapp text-sm py-2.5 px-6"
               >
                 WhatsApp Us
               </a>
