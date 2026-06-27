@@ -1,8 +1,8 @@
 import { createClerkClient, verifyToken } from '@clerk/backend';
 import type { VercelRequest } from '@vercel/node';
 import type { AdminRole } from '../../shared/admin.js';
-import { ensureTursoReady } from '../../server/turso-db.js';
-import { resolveAdminRole } from '../../server/turso-admin-users.js';
+import { tursoEnabled } from '../../server/turso-config.js';
+import { bootstrapOwnerEmails, ensureAdminUsersReady, resolveAdminRole } from '../../server/turso-admin-users.js';
 
 export class HttpError extends Error {
   constructor(
@@ -31,7 +31,12 @@ async function verifyClerkUser(req: VercelRequest): Promise<{ email: string; use
   }
 
   const token = header.slice(7);
-  const payload = await verifyToken(token, { secretKey: secret });
+  let payload: Awaited<ReturnType<typeof verifyToken>>;
+  try {
+    payload = await verifyToken(token, { secretKey: secret });
+  } catch {
+    throw new HttpError('Unauthorized', 401);
+  }
   if (!payload.sub) {
     throw new HttpError('Unauthorized', 401);
   }
@@ -49,7 +54,25 @@ async function verifyClerkUser(req: VercelRequest): Promise<{ email: string; use
 
 export async function requireAdmin(req: VercelRequest): Promise<AdminContext> {
   const { email, userId } = await verifyClerkUser(req);
-  await ensureTursoReady();
+  const lower = email.toLowerCase();
+  const owners = bootstrapOwnerEmails();
+
+  if (owners.length === 0) {
+    throw new HttpError('Admin access not configured. Set CLERK_ADMIN_EMAILS on Vercel, then redeploy.', 503);
+  }
+
+  if (owners.includes(lower)) {
+    return { email, userId, role: 'owner' };
+  }
+
+  if (!tursoEnabled()) {
+    throw new HttpError(
+      'You are not authorized to manage the catalog. Ask a site owner to add your email to CLERK_ADMIN_EMAILS on Vercel.',
+      403
+    );
+  }
+
+  await ensureAdminUsersReady();
   const role = await resolveAdminRole(email);
   if (!role) {
     throw new HttpError('You are not authorized to manage the catalog', 403);

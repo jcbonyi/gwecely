@@ -8,11 +8,13 @@ export function useAdminSession() {
   const [session, setSession] = useState<AdminSession | null>(null);
   const [checking, setChecking] = useState(true);
   const [denied, setDenied] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     if (!isSignedIn) {
       setSession(null);
       setDenied(false);
+      setErrorMessage(null);
       setChecking(false);
       return;
     }
@@ -22,14 +24,17 @@ export function useAdminSession() {
       if (!token) {
         setDenied(true);
         setSession(null);
+        setErrorMessage('Not signed in');
         return;
       }
       const data = (await adminFetch('/api/admin/me', token)) as AdminSession;
       setSession(data);
       setDenied(false);
-    } catch {
+      setErrorMessage(null);
+    } catch (e) {
       setSession(null);
       setDenied(true);
+      setErrorMessage(e instanceof Error ? e.message : 'Access denied');
     } finally {
       setChecking(false);
     }
@@ -47,5 +52,6 @@ export function useAdminSession() {
     isAdmin: Boolean(session),
     isOwner: session?.role === 'owner',
     refresh,
+    errorMessage,
   };
 }

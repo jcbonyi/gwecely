@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const { getToken } = useAuth();
   const [location] = useLocation();
-  const { session, checking, denied, isAdmin, isOwner } = useAdminSession();
+  const { checking, denied, isAdmin, isOwner, errorMessage } = useAdminSession();
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -104,10 +104,16 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
           ) : denied || !isAdmin ? (
             <div className="max-w-lg mx-auto bg-white rounded-xl border border-red-200 p-6 text-center">
               <h2 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-2">Access denied</h2>
-              <p className="text-gray-600 text-sm font-['Inter']">
-                Your account is not authorized to manage the catalog. Ask a site owner to invite you from{' '}
-                <strong>Admin → Team</strong>.
+              <p className="text-gray-600 text-sm font-['Inter'] mb-3">
+                {errorMessage ??
+                  'Your account is not authorized to manage the catalog. Ask a site owner to invite you from Admin → Team.'}
               </p>
+              {errorMessage?.includes('CLERK_ADMIN_EMAILS') && (
+                <p className="text-xs text-gray-500 font-['Inter']">
+                  Site owners: add your email to <code className="bg-gray-100 px-1 rounded">CLERK_ADMIN_EMAILS</code> on
+                  Vercel, then redeploy.
+                </p>
+              )}
             </div>
           ) : (
             children

@@ -1,7 +1,7 @@
 import { clerkClient, getAuth, requireAuth } from '@clerk/express';
 import type { NextFunction, Request, Response } from 'express';
-import { ensureTursoReady } from '../turso-db.js';
-import { resolveAdminRole } from '../turso-admin-users.js';
+import { tursoEnabled } from '../turso-config.js';
+import { bootstrapOwnerEmails, ensureAdminUsersReady, resolveAdminRole } from '../turso-admin-users.js';
 import type { AdminRole } from '../../shared/admin.js';
 
 declare global {
@@ -27,7 +27,18 @@ export async function requireAdmin(req: Request, res: Response, next: NextFuncti
       return res.status(403).json({ error: 'No email on account' });
     }
 
-    await ensureTursoReady();
+    const lower = email.toLowerCase();
+    if (bootstrapOwnerEmails().includes(lower)) {
+      res.locals.adminEmail = email;
+      res.locals.adminRole = 'owner';
+      return next();
+    }
+
+    if (!tursoEnabled()) {
+      return res.status(403).json({ error: 'You are not authorized to manage the catalog' });
+    }
+
+    await ensureAdminUsersReady();
     const role = await resolveAdminRole(email);
     if (!role) {
       return res.status(403).json({ error: 'You are not authorized to manage the catalog' });
