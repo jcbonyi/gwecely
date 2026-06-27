@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { clerkMiddleware } from "@clerk/express";
 import { productsRouter } from "./routes/products.js";
 import { adminProductsRouter } from "./routes/admin.js";
+import { automationRouter } from "./routes/automation.js";
 import { getDb } from "./db.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -39,7 +40,7 @@ function corsMiddleware(req: Request, res: Response, next: NextFunction) {
     res.setHeader("Vary", "Origin");
   }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Automation-Key");
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
   }
@@ -112,6 +113,7 @@ export function createApp(options: CreateAppOptions = {}) {
 
   app.use("/api/products", productsRouter);
   app.use("/api/admin", adminProductsRouter);
+  app.use("/api/automation", automationRouter);
 
   if (serveStatic) {
     const staticPath =

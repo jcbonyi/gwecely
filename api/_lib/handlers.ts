@@ -10,8 +10,55 @@ import {
   updateProductTurso,
 } from '../../server/turso-db.js';
 import { requireAdmin, HttpError } from './auth.js';
+import { requireAutomationKey, automationActor } from './automation-auth.js';
 import { cloudinarySignature } from './cloudinary.js';
 import { readJsonBody } from './http.js';
+import { SHOP_CATEGORIES } from '../../shared/product.js';
+
+const VALID_CATEGORIES = new Set(SHOP_CATEGORIES.map((c) => c.id));
+
+function validateProductInput(body: ProductInput): string | null {
+  if (!body.name?.trim()) return 'name is required';
+  if (!body.category?.trim()) return 'category is required';
+  if (!VALID_CATEGORIES.has(body.category)) {
+    return `category must be one of: ${[...VALID_CATEGORIES].join(', ')}`;
+  }
+  if (body.price == null || Number.isNaN(Number(body.price))) return 'price is required';
+  if (!body.image?.trim()) return 'image is required';
+  if (!body.description?.trim()) return 'description is required';
+  return null;
+}
+
+function normalizeCreateInput(body: ProductInput): ProductInput {
+  return {
+    ...body,
+    price: Number(body.price),
+    originalPrice: body.originalPrice != null ? Number(body.originalPrice) : null,
+    rating: body.rating != null ? Number(body.rating) : 4.5,
+    reviews: body.reviews != null ? Number(body.reviews) : 0,
+  };
+}
+
+function normalizeUpdateInput(body: Partial<ProductInput>): Partial<ProductInput> {
+  if (body.category && !VALID_CATEGORIES.has(body.category)) {
+    throw new HttpError(
+      `category must be one of: ${[...VALID_CATEGORIES].join(', ')}`,
+      400
+    );
+  }
+  return {
+    ...body,
+    price: body.price != null ? Number(body.price) : undefined,
+    originalPrice:
+      body.originalPrice !== undefined
+        ? body.originalPrice == null
+          ? null
+          : Number(body.originalPrice)
+        : undefined,
+    rating: body.rating != null ? Number(body.rating) : undefined,
+    reviews: body.reviews != null ? Number(body.reviews) : undefined,
+  };
+}
 
 export const apiBodyConfig = {
   api: {
@@ -76,20 +123,12 @@ export async function createAdminProduct(req: VercelRequest, res: VercelResponse
   await withTurso(req, res, async () => {
     const admin = await requireAdmin(req);
     const body = await readJsonBody<ProductInput>(req);
-    if (!body.name?.trim() || !body.category || body.price == null || !body.image || !body.description?.trim()) {
-      res.status(400).json({ error: 'name, category, price, image, and description are required' });
+    const validationError = validateProductInput(body);
+    if (validationError) {
+      res.status(400).json({ error: validationError });
       return;
     }
-    const product = await createProductTurso(
-      {
-        ...body,
-        price: Number(body.price),
-        originalPrice: body.originalPrice != null ? Number(body.originalPrice) : null,
-        rating: body.rating != null ? Number(body.rating) : 4.5,
-        reviews: body.reviews != null ? Number(body.reviews) : 0,
-      },
-      admin.email
-    );
+    const product = await createProductTurso(normalizeCreateInput(body), admin.email);
     res.status(201).json(product);
   });
 }
@@ -110,22 +149,7 @@ export async function updateAdminProduct(req: VercelRequest, res: VercelResponse
   await withTurso(req, res, async () => {
     const admin = await requireAdmin(req);
     const body = await readJsonBody<Partial<ProductInput>>(req);
-    const product = await updateProductTurso(
-      id,
-      {
-        ...body,
-        price: body.price != null ? Number(body.price) : undefined,
-        originalPrice:
-          body.originalPrice !== undefined
-            ? body.originalPrice == null
-              ? null
-              : Number(body.originalPrice)
-            : undefined,
-        rating: body.rating != null ? Number(body.rating) : undefined,
-        reviews: body.reviews != null ? Number(body.reviews) : undefined,
-      },
-      admin.email
-    );
+    const product = await updateProductTurso(id, normalizeUpdateInput(body), admin.email);
     if (!product) {
       res.status(404).json({ error: 'Product not found' });
       return;
@@ -157,5 +181,65 @@ export async function getUploadSignature(req: VercelRequest, res: VercelResponse
       return;
     }
     res.status(200).json(sig);
+  });
+}
+
+// --- Automation API (Zapier / Make / n8n) — AUTOMATION_API_KEY ---
+
+export async function listAutomationProducts(req: VercelRequest, res: VercelResponse) {
+  await withTurso(req, res, async () => {
+    requireAutomationKey(req);
+    res.status(200).json(await listProductsTurso());
+  });
+}
+
+export async function createAutomationProduct(req: VercelRequest, res: VercelResponse) {
+  await withTurso(req, res, async () => {
+    requireAutomationKey(req);
+    const body = await readJsonBody<ProductInput>(req);
+    const validationError = validateProductInput(body);
+    if (validationError) {
+      res.status(400).json({ error: validationError });
+      return;
+    }
+    const product = await createProductTurso(normalizeCreateInput(body), automationActor());
+    res.status(201).json(product);
+  });
+}
+
+export async function getAutomationProduct(req: VercelRequest, res: VercelResponse, id: string) {
+  await withTurso(req, res, async () => {
+    requireAutomationKey(req);
+    const product = await getProductByIdTurso(id);
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
+    }
+    res.status(200).json(product);
+  });
+}
+
+export async function updateAutomationProduct(req: VercelRequest, res: VercelResponse, id: string) {
+  await withTurso(req, res, async () => {
+    requireAutomationKey(req);
+    const body = await readJsonBody<Partial<ProductInput>>(req);
+    const product = await updateProductTurso(id, normalizeUpdateInput(body), automationActor());
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
+    }
+    res.status(200).json(product);
+  });
+}
+
+export async function deleteAutomationProduct(req: VercelRequest, res: VercelResponse, id: string) {
+  await withTurso(req, res, async () => {
+    requireAutomationKey(req);
+    const ok = await deleteProductTurso(id);
+    if (!ok) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
+    }
+    res.status(200).json({ ok: true });
   });
 }

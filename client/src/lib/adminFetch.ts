@@ -1,6 +1,6 @@
 import { apiUrl } from '@/lib/apiBase';
 
-const API_TIMEOUT_MS = 45_000;
+const API_TIMEOUT_MS = 20_000;
 const WARM_TIMEOUT_MS = 25_000;
 
 let warmInFlight: Promise<void> | null = null;
