@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { Award, MapPin, Package, Wrench } from 'lucide-react';
+import { Package, Wrench } from 'lucide-react';
 import { BRAND } from '@/lib/brand';
 import { IMAGES } from '@/lib/images';
 
@@ -17,16 +17,6 @@ const PILLARS = [
     icon: Package,
     title: 'General Supplies',
     desc: 'Stationery, furniture, IT equipment, health & safety gear, and dry foods on demand.',
-  },
-  {
-    icon: MapPin,
-    title: 'Mombasa Based',
-    desc: 'Behind CMC Motors, off Bishop Macarios Road — serving coast and nationwide clients.',
-  },
-  {
-    icon: Award,
-    title: 'Registered in Kenya',
-    desc: 'Gwecely Limited — incorporated under the Companies Act, 2015.',
   },
 ];
 
@@ -90,7 +80,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        <div className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14 reveal ${visible ? 'visible' : ''}`} style={{ transitionDelay: '120ms' }}>
+        <div className={`grid sm:grid-cols-2 gap-5 mt-14 reveal ${visible ? 'visible' : ''}`} style={{ transitionDelay: '120ms' }}>
           {PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
