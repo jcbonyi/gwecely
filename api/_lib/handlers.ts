@@ -12,7 +12,7 @@ import {
 import { requireAdmin, HttpError } from './auth.js';
 import { requireAutomationKey, automationActor } from './automation-auth.js';
 import { cloudinarySignature } from './cloudinary.js';
-import { readJsonBody } from './http.js';
+import { readAutomationBody, readJsonBody } from './http.js';
 import { SHOP_CATEGORIES } from '../../shared/product.js';
 
 const VALID_CATEGORIES = new Set(SHOP_CATEGORIES.map((c) => c.id));
@@ -196,10 +196,23 @@ export async function listAutomationProducts(req: VercelRequest, res: VercelResp
 export async function createAutomationProduct(req: VercelRequest, res: VercelResponse) {
   await withTurso(req, res, async () => {
     requireAutomationKey(req);
-    const body = await readJsonBody<ProductInput>(req);
+    const body = await readAutomationBody<ProductInput>(req);
     const validationError = validateProductInput(body);
     if (validationError) {
-      res.status(400).json({ error: validationError });
+      const received = Object.keys(body as Record<string, unknown>);
+      res.status(400).json({
+        error: validationError,
+        ...(received.length > 0 && !body.name
+          ? {
+              hint: `Received fields: ${received.join(', ')}. Add a top-level "name" field in Zapier Data (Payload Type: json).`,
+            }
+          : received.length === 0
+            ? {
+                hint:
+                  'Empty request body. In Zapier Webhooks POST, set Payload Type to json and add name, category, price, image, description as separate Data rows.',
+              }
+            : {}),
+      });
       return;
     }
     const product = await createProductTurso(normalizeCreateInput(body), automationActor());
@@ -222,7 +235,7 @@ export async function getAutomationProduct(req: VercelRequest, res: VercelRespon
 export async function updateAutomationProduct(req: VercelRequest, res: VercelResponse, id: string) {
   await withTurso(req, res, async () => {
     requireAutomationKey(req);
-    const body = await readJsonBody<Partial<ProductInput>>(req);
+    const body = await readAutomationBody<Partial<ProductInput>>(req);
     const product = await updateProductTurso(id, normalizeUpdateInput(body), automationActor());
     if (!product) {
       res.status(404).json({ error: 'Product not found' });

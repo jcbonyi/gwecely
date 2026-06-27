@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { unwrapAutomationPayload } from '../../shared/automation-body.js';
 import type { ProductInput } from '../../shared/product.js';
 import { SHOP_CATEGORIES } from '../../shared/product.js';
 import {
@@ -64,7 +65,7 @@ automationRouter.get('/products', (_req, res) => {
 });
 
 automationRouter.post('/products', (req, res) => {
-  const body = req.body as ProductInput;
+  const body = unwrapAutomationPayload(req.body) as ProductInput;
   const err = validateProductInput(body);
   if (err) return res.status(400).json({ error: err });
 
@@ -88,7 +89,7 @@ automationRouter.get('/products/:id', (req, res) => {
 });
 
 automationRouter.put('/products/:id', (req, res) => {
-  const body = req.body as Partial<ProductInput>;
+  const body = unwrapAutomationPayload(req.body) as Partial<ProductInput>;
   const product = updateProduct(
     req.params.id,
     {

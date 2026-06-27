@@ -65,6 +65,7 @@ export function createApp(options: CreateAppOptions = {}) {
   getDb();
 
   app.use(express.json({ limit: "2mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "2mb" }));
 
   if (process.env.CLERK_SECRET_KEY) {
     app.use(clerkMiddleware());
