@@ -74,7 +74,7 @@ export async function adminFetch(
       const timedOut = e instanceof DOMException && e.name === 'AbortError';
       lastError = timedOut
         ? new Error(
-            'Request timed out. Check Vercel env: TURSO_DATABASE_URL + TURSO_AUTH_TOKEN (fast), or API_URL for Render.'
+            'Request timed out. Add TURSO_DATABASE_URL + TURSO_AUTH_TOKEN on Vercel and redeploy.'
           )
         : e instanceof Error
           ? e
