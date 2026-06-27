@@ -1,9 +1,10 @@
 import { useAuth } from '@clerk/clerk-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'wouter';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { FileSpreadsheet, Pencil, Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminLayout from '@/components/admin/AdminLayout';
+import GoogleSheetImportDialog from '@/components/admin/GoogleSheetImportDialog';
 import { deleteAdminProduct, fetchAdminProducts } from '@/lib/adminApi';
 import { formatPrice } from '@/lib/products';
 import type { Product } from '@shared/product';
@@ -15,6 +16,8 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [importOpen, setImportOpen] = useState(false);
+  const [importToken, setImportToken] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -66,11 +69,39 @@ export default function AdminProductsPage() {
           <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626]">Product Catalog</h1>
           <p className="text-gray-500 text-sm font-['Inter'] mt-1">{products.length} products in database</p>
         </div>
-        <Link href="/admin/products/new" className="btn-gwecely text-sm py-2.5 px-5 justify-center">
-          <Plus size={16} />
-          Add Product
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              void getToken().then((token) => {
+                if (!token) {
+                  toast.error('Not signed in');
+                  return;
+                }
+                setImportToken(token);
+                setImportOpen(true);
+              });
+            }}
+            className="inline-flex items-center gap-2 text-sm py-2.5 px-5 rounded-lg border border-[#F05A32] text-[#F05A32] hover:bg-[#F05A32]/5 font-['Inter']"
+          >
+            <FileSpreadsheet size={16} />
+            Import from Google Sheet
+          </button>
+          <Link href="/admin/products/new" className="btn-gwecely text-sm py-2.5 px-5 justify-center">
+            <Plus size={16} />
+            Add Product
+          </Link>
+        </div>
       </div>
+
+      {importToken && (
+        <GoogleSheetImportDialog
+          open={importOpen}
+          onOpenChange={setImportOpen}
+          token={importToken}
+          onComplete={() => void load()}
+        />
+      )}
 
       <div className="mb-4">
         <input

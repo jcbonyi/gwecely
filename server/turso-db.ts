@@ -1,13 +1,12 @@
-import { createClient, type Client } from '@libsql/client';
+import { createClient, type Client, type InValue } from '@libsql/client';
 import type { Product, ProductInput } from '../shared/product.js';
 import { SEED_PRODUCTS } from './seed-data.js';
+import { tursoEnabled } from './turso-config.js';
+
+export { tursoEnabled };
 
 let client: Client | null = null;
 let ready: Promise<void> | null = null;
-
-export function tursoEnabled(): boolean {
-  return Boolean(process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN);
-}
 
 function getClient(): Client {
   if (!tursoEnabled()) {
@@ -20,6 +19,10 @@ function getClient(): Client {
     });
   }
   return client;
+}
+
+export function getTursoClient(): Client {
+  return getClient();
 }
 
 function rowToProduct(row: Record<string, unknown>): Product {
@@ -69,7 +72,7 @@ async function seedIfEmpty(c: Client) {
       p.isFeatured ? 1 : 0,
       now,
       'seed',
-    ],
+    ] as InValue[],
   }));
 
   await c.batch(statements, 'write');

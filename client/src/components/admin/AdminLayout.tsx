@@ -1,21 +1,12 @@
 import { Link, useLocation } from 'wouter';
-import { SignedIn, SignedOut, UserButton, useAuth, useUser } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import { useEffect } from 'react';
 import BrandLogo from '@/components/BrandLogo';
 import { BRAND } from '@/lib/brand';
 import { isClerkConfigured } from '@/lib/clerk';
 import { warmAdminApi } from '@/lib/adminApi';
-
-function isAdminEmail(email: string | undefined): boolean {
-  if (!email) return false;
-  const allowed = (import.meta.env.VITE_CLERK_ADMIN_EMAILS ?? import.meta.env.CLERK_ADMIN_EMAILS ?? '')
-    .split(',')
-    .map((e: string) => e.trim().toLowerCase())
-    .filter(Boolean);
-  // If not configured client-side, allow signed-in users (server still enforces)
-  if (allowed.length === 0) return true;
-  return allowed.includes(email.toLowerCase());
-}
+import { useAdminSession } from '@/hooks/useAdminSession';
+import { useAuth } from '@clerk/clerk-react';
 
 function ClerkNotConfigured() {
   return (
@@ -38,18 +29,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 }
 
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
-  const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
   const [location] = useLocation();
-  const email = user?.primaryEmailAddress?.emailAddress;
-  const isAdmin = isAdminEmail(email);
+  const { session, checking, denied, isAdmin, isOwner } = useAdminSession();
 
   useEffect(() => {
-    if (!isLoaded || !isAdmin) return;
+    if (!isAdmin) return;
     void getToken().then((token) => {
       if (token) warmAdminApi(token);
     });
-  }, [isLoaded, isAdmin, getToken]);
+  }, [isAdmin, getToken]);
 
   return (
     <div className="min-h-screen bg-[#F5F3F2]">
@@ -68,6 +57,16 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
               >
                 Products
               </Link>
+              {isOwner && (
+                <Link
+                  href="/admin/users"
+                  className={`px-3 py-2 rounded-md text-sm font-['Inter'] ${
+                    location.startsWith('/admin/users') ? 'bg-white/15 text-white' : 'text-orange-100 hover:text-white'
+                  }`}
+                >
+                  Team
+                </Link>
+              )}
             </nav>
           </div>
           <div className="flex items-center gap-3">
@@ -87,27 +86,27 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="container py-8">
-            <SignedOut>
-              <div className="max-w-md mx-auto text-center py-16">
-                <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-3">Admin Sign In</h1>
-                <p className="text-gray-600 font-['Inter'] text-sm mb-6">
-                  Sign in with an authorized {BRAND.legalName} account to manage the product catalog.
-                </p>
-                <Link href="/sign-in" className="btn-gwecely inline-flex">
-                  Go to sign in
-                </Link>
-              </div>
-            </SignedOut>
+        <SignedOut>
+          <div className="max-w-md mx-auto text-center py-16">
+            <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-3">Admin Sign In</h1>
+            <p className="text-gray-600 font-['Inter'] text-sm mb-6">
+              Sign in with an authorized {BRAND.legalName} account to manage the product catalog.
+            </p>
+            <Link href="/sign-in" className="btn-gwecely inline-flex">
+              Go to sign in
+            </Link>
+          </div>
+        </SignedOut>
 
         <SignedIn>
-          {!isLoaded ? (
+          {checking ? (
             <p className="text-gray-500 font-['Inter'] text-sm">Loading…</p>
-          ) : !isAdmin ? (
+          ) : denied || !isAdmin ? (
             <div className="max-w-lg mx-auto bg-white rounded-xl border border-red-200 p-6 text-center">
               <h2 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-2">Access denied</h2>
               <p className="text-gray-600 text-sm font-['Inter']">
-                <strong>{email}</strong> is not authorized. Contact the site owner to add your email to{' '}
-                <code className="text-xs bg-gray-100 px-1 rounded">CLERK_ADMIN_EMAILS</code>.
+                Your account is not authorized to manage the catalog. Ask a site owner to invite you from{' '}
+                <strong>Admin → Team</strong>.
               </p>
             </div>
           ) : (

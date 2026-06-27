@@ -1,7 +1,38 @@
 import type { Product, ProductInput } from '@shared/product';
+import type { AdminSession, AdminUserRecord, SheetImportResult } from '@shared/admin';
 import { adminFetch } from '@/lib/adminFetch';
 
 export { warmAdminApi } from '@/lib/adminFetch';
+
+export async function fetchAdminSession(token: string): Promise<AdminSession> {
+  return adminFetch('/api/admin/me', token) as Promise<AdminSession>;
+}
+
+export async function importAdminGoogleSheet(token: string, sheetUrl: string): Promise<SheetImportResult> {
+  return adminFetch('/api/admin/import-sheet', token, {
+    method: 'POST',
+    body: JSON.stringify({ sheetUrl }),
+  }) as Promise<SheetImportResult>;
+}
+
+export async function fetchAdminUsers(token: string): Promise<AdminUserRecord[]> {
+  const data = await adminFetch('/api/admin/users', token);
+  return Array.isArray(data) ? data : [];
+}
+
+export async function inviteAdminUser(token: string, email: string): Promise<void> {
+  await adminFetch('/api/admin/users', token, {
+    method: 'POST',
+    body: JSON.stringify({ email, role: 'editor' }),
+  });
+}
+
+export async function removeAdminUser(token: string, email: string): Promise<void> {
+  await adminFetch('/api/admin/users', token, {
+    method: 'DELETE',
+    body: JSON.stringify({ email }),
+  });
+}
 
 export async function fetchAdminProducts(
   token: string,

@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { unwrapAutomationPayload } from '../../shared/automation-body.js';
+import { pickImageField } from '../../shared/automation-image.js';
+import { resolveAutomationImageUrl } from '../automation-image.js';
 import type { ProductInput } from '../../shared/product.js';
 import { SHOP_CATEGORIES } from '../../shared/product.js';
 import {
@@ -10,7 +12,7 @@ import {
   updateProduct,
 } from '../db.js';
 
-const VALID_CATEGORIES = new Set(SHOP_CATEGORIES.map((c) => c.id));
+const VALID_CATEGORIES = new Set<string>(SHOP_CATEGORIES.map((c) => c.id));
 
 function readAutomationKey(req: { headers: Record<string, string | string[] | undefined> }): string | undefined {
   const raw = req.headers['x-automation-key'];
@@ -43,7 +45,7 @@ function requireAutomationKey(
 function validateProductInput(body: ProductInput): string | null {
   if (!body.name?.trim()) return 'name is required';
   if (!body.category?.trim() || !VALID_CATEGORIES.has(body.category)) {
-    return `category must be one of: ${[...VALID_CATEGORIES].join(', ')}`;
+    return `category must be one of: ${Array.from(VALID_CATEGORIES).join(', ')}`;
   }
   if (body.price == null) return 'price is required';
   if (!body.image?.trim()) return 'image is required';
@@ -64,8 +66,11 @@ automationRouter.get('/products', (_req, res) => {
   res.json(listProducts());
 });
 
-automationRouter.post('/products', (req, res) => {
-  const body = unwrapAutomationPayload(req.body) as ProductInput;
+automationRouter.post('/products', async (req, res) => {
+  const raw = unwrapAutomationPayload(req.body) as Record<string, unknown>;
+  const image = pickImageField(raw) || (typeof raw.image === 'string' ? raw.image : '');
+  const resolved = image ? await resolveAutomationImageUrl(image) : { url: '', imported: false };
+  const body = { ...raw, image: resolved.url } as ProductInput;
   const err = validateProductInput(body);
   if (err) return res.status(400).json({ error: err });
 
@@ -79,7 +84,7 @@ automationRouter.post('/products', (req, res) => {
     },
     actor()
   );
-  res.status(201).json(product);
+  res.status(201).json({ ...product, ...(resolved.warning ? { imageWarning: resolved.warning } : {}) });
 });
 
 automationRouter.get('/products/:id', (req, res) => {
@@ -88,8 +93,16 @@ automationRouter.get('/products/:id', (req, res) => {
   res.json(product);
 });
 
-automationRouter.put('/products/:id', (req, res) => {
-  const body = unwrapAutomationPayload(req.body) as Partial<ProductInput>;
+automationRouter.put('/products/:id', async (req, res) => {
+  const raw = unwrapAutomationPayload(req.body) as Record<string, unknown>;
+  let body = raw as Partial<ProductInput>;
+  let imageWarning: string | undefined;
+  const image = pickImageField(raw);
+  if (image) {
+    const resolved = await resolveAutomationImageUrl(image);
+    body = { ...body, image: resolved.url };
+    imageWarning = resolved.warning;
+  }
   const product = updateProduct(
     req.params.id,
     {
@@ -107,7 +120,7 @@ automationRouter.put('/products/:id', (req, res) => {
     actor()
   );
   if (!product) return res.status(404).json({ error: 'Product not found' });
-  res.json(product);
+  res.json({ ...product, ...(imageWarning ? { imageWarning } : {}) });
 });
 
 automationRouter.delete('/products/:id', (req, res) => {

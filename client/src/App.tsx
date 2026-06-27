@@ -5,6 +5,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import AdminProductsPage from "@/pages/admin/AdminProductsPage";
 import AdminProductEditPage from "@/pages/admin/AdminProductEditPage";
+import AdminUsersPage from "@/pages/admin/AdminUsersPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
 import { Route, Switch, Redirect } from "wouter";
@@ -24,6 +25,7 @@ function Router() {
       <Route path={"/terms"} component={TermsOfService} />
       <Route path={"/admin/products"} component={AdminProductsPage} />
       <Route path={"/admin/products/:id"} component={AdminProductEditPage} />
+      <Route path={"/admin/users"} component={AdminUsersPage} />
       <Route path={"/admin"}>
         <Redirect to="/admin/products" />
       </Route>
