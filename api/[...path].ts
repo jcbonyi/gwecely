@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { handleTursoApi } from './_lib/turso-routes.js';
+import { readBody } from './_lib/http.js';
 
 export const config = {
   api: {
@@ -6,29 +8,16 @@ export const config = {
   },
 };
 
-function readBody(req: VercelRequest): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    req.on('data', (chunk: Buffer | string) => {
-      chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
-    });
-    req.on('end', () => resolve(Buffer.concat(chunks)));
-    req.on('error', reject);
-  });
-}
-
-/** Proxy /api/* on Vercel to the Express API (Render/Railway). Set API_URL in Vercel env. */
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function proxyToRender(req: VercelRequest, res: VercelResponse, path: string) {
   const apiBase = process.env.API_URL?.replace(/\/+$/, '');
   if (!apiBase) {
     res.status(503).json({
-      error: 'API_URL is not set on Vercel. Deploy the Express API and add API_URL=https://your-api-host',
+      error:
+        'Database not configured. Add TURSO_DATABASE_URL + TURSO_AUTH_TOKEN on Vercel (recommended), or API_URL for Render.',
     });
     return;
   }
 
-  const segments = req.query.path;
-  const path = Array.isArray(segments) ? segments.join('/') : (segments ?? '');
   const queryIndex = req.url?.indexOf('?') ?? -1;
   const query = queryIndex >= 0 ? req.url!.slice(queryIndex) : '';
   const target = `${apiBase}/api/${path}${query}`;
@@ -40,8 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const method = req.method ?? 'GET';
-  const body =
-    method !== 'GET' && method !== 'HEAD' ? await readBody(req) : undefined;
+  const body = method !== 'GET' && method !== 'HEAD' ? await readBody(req) : undefined;
 
   const upstream = await fetch(target, { method, headers, body });
 
@@ -53,4 +41,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const buffer = Buffer.from(await upstream.arrayBuffer());
   res.send(buffer);
+}
+
+/** Vercel API — Turso edge DB (fast) or fallback proxy to Render */
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const segments = req.query.path;
+  const path = Array.isArray(segments) ? segments.join('/') : (segments ?? '');
+  const method = req.method ?? 'GET';
+
+  const handled = await handleTursoApi(req, res, path, method);
+  if (handled) return;
+
+  await proxyToRender(req, res, path);
 }

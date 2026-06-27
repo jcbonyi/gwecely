@@ -74,7 +74,7 @@ export async function adminFetch(
       const timedOut = e instanceof DOMException && e.name === 'AbortError';
       lastError = timedOut
         ? new Error(
-            'Request timed out. The API server may be waking up (Render free tier). Wait a few seconds and try again.'
+            'Request timed out. Check Vercel env: TURSO_DATABASE_URL + TURSO_AUTH_TOKEN (fast), or API_URL for Render.'
           )
         : e instanceof Error
           ? e

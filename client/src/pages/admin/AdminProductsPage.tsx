@@ -88,8 +88,9 @@ export default function AdminProductsPage() {
             <p className="font-medium mb-1">Catalog API unavailable</p>
             <p>{error}</p>
             <p className="mt-2 text-amber-800/80">
-              Deploy the Express API (see <code className="text-xs bg-amber-100 px-1 rounded">render.yaml</code>), then set{' '}
-              <code className="text-xs bg-amber-100 px-1 rounded">API_URL</code> on Vercel to your API host and redeploy.
+              Add <code className="text-xs bg-amber-100 px-1 rounded">TURSO_DATABASE_URL</code> and{' '}
+              <code className="text-xs bg-amber-100 px-1 rounded">TURSO_AUTH_TOKEN</code> on Vercel for instant
+              saves (see .env.example).
             </p>
           </div>
         )}

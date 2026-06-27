@@ -102,7 +102,7 @@ export default function AdminProductEditPage() {
     setImageError(false);
     setSaving(true);
     setSaveStatus('Saving product…');
-    const slowTimer = window.setTimeout(() => setSaveStatus('Waking up API server…'), 4000);
+    const slowTimer = window.setTimeout(() => setSaveStatus('Saving to database…'), 3000);
 
     try {
       const token = await getToken();
@@ -111,8 +111,7 @@ export default function AdminProductEditPage() {
       await warmAdminApi(token);
 
       const onRetry = () => {
-        setSaveStatus('Retrying — API was asleep…');
-        toast.message('API waking up, retrying save…');
+        setSaveStatus('Retrying…');
       };
 
       if (isNew) {
