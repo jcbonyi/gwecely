@@ -10,6 +10,7 @@ import {
   fetchAdminProducts,
   updateAdminProduct,
   uploadProductImage,
+  warmAdminApi,
 } from '@/lib/adminApi';
 import type { ProductInput } from '@shared/product';
 import { SHOP_CATEGORIES } from '@shared/product';
@@ -37,6 +38,7 @@ export default function AdminProductEditPage() {
   const [saving, setSaving] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [saveStatus, setSaveStatus] = useState('');
 
   const handleImageUpload = async (file: File, onProgress: (percent: number) => void) => {
     const token = await getToken();
@@ -99,21 +101,34 @@ export default function AdminProductEditPage() {
     }
     setImageError(false);
     setSaving(true);
+    setSaveStatus('Saving product…');
+    const slowTimer = window.setTimeout(() => setSaveStatus('Waking up API server…'), 4000);
+
     try {
       const token = await getToken();
       if (!token) throw new Error('Not signed in');
+
+      await warmAdminApi(token);
+
+      const onRetry = () => {
+        setSaveStatus('Retrying — API was asleep…');
+        toast.message('API waking up, retrying save…');
+      };
+
       if (isNew) {
-        await createAdminProduct(token, form);
+        await createAdminProduct(token, form, { onRetry });
         toast.success('Product created');
       } else if (productId) {
-        await updateAdminProduct(token, productId, form);
+        await updateAdminProduct(token, productId, form, { onRetry });
         toast.success('Product updated');
       }
       setLocation('/admin/products');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Save failed');
     } finally {
+      window.clearTimeout(slowTimer);
       setSaving(false);
+      setSaveStatus('');
     }
   };
 
@@ -247,7 +262,7 @@ export default function AdminProductEditPage() {
           disabled={saving || imageUploading}
           className="btn-gwecely text-sm py-2.5 px-6 disabled:opacity-60"
         >
-          {imageUploading ? 'Waiting for upload…' : saving ? 'Saving…' : isNew ? 'Create Product' : 'Save Changes'}
+          {saveStatus || (imageUploading ? 'Waiting for upload…' : saving ? 'Saving…' : isNew ? 'Create Product' : 'Save Changes')}
         </button>
       </form>
     </AdminLayout>

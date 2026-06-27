@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'wouter';
-import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton, useAuth, useUser } from '@clerk/clerk-react';
+import { useEffect } from 'react';
 import BrandLogo from '@/components/BrandLogo';
 import { BRAND } from '@/lib/brand';
 import { isClerkConfigured } from '@/lib/clerk';
+import { warmAdminApi } from '@/lib/adminApi';
 
 function isAdminEmail(email: string | undefined): boolean {
   if (!email) return false;
@@ -37,9 +39,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const [location] = useLocation();
   const email = user?.primaryEmailAddress?.emailAddress;
   const isAdmin = isAdminEmail(email);
+
+  useEffect(() => {
+    if (!isLoaded || !isAdmin) return;
+    void getToken().then((token) => {
+      if (token) warmAdminApi(token);
+    });
+  }, [isLoaded, isAdmin, getToken]);
 
   return (
     <div className="min-h-screen bg-[#F5F3F2]">
