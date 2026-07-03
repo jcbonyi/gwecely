@@ -4,30 +4,38 @@
  */
 
 export const AFRICAN_PORTRAITS = {
-  /** Nairobi, Kenya — professional man */
+  /** Nairobi, Kenya — professional man on phone */
   kenyanMan1: 'photo-1713747451985-761444dd8e75',
-  /** Black man, professional portrait */
-  kenyanMan2: 'photo-1531384441138-273c54d55e10',
-  /** Black man, smiling portrait */
-  kenyanMan3: 'photo-1619895862022-09128b1f6580',
-  /** African man, business attire */
-  kenyanMan4: 'photo-1589156196458-48c985b4bfb9',
-  /** Black woman, executive portrait */
-  kenyanWoman1: 'photo-1573497019236-462ed122d1b3',
-  /** Black woman, headwrap */
-  kenyanWoman2: 'photo-1594744802523-79037bd6234a',
-  /** Black woman, warm smile */
-  kenyanWoman3: 'photo-1619894423162-f8f7bbf61111',
-  /** Black woman, professional */
-  kenyanWoman4: 'photo-1545167596-77fd082fda08',
+  /** African man beside vehicle — garage / motorist */
+  kenyanMan2: 'photo-1617244148472-3566e69ae9f8',
+  /** African man beside car — workshop customer */
+  kenyanMan3: 'photo-1617244148104-e909393c51f1',
+  /** African man in business suit */
+  kenyanMan4: 'photo-1578758803946-2c4f6738df87',
+  /** African woman — confident smile */
+  kenyanWoman1: 'photo-1573496799515-eebbb63814f2',
+  /** African woman — executive portrait */
+  kenyanWoman2: 'photo-1573497019418-b400bb3ab074',
+  /** African woman — warm smile */
+  kenyanWoman3: 'photo-1573496527892-904f897eb744',
+  /** African woman with laptop — procurement / office */
+  kenyanWoman4: 'photo-1573166953836-06864dc70a21',
   /** African colleagues in office */
-  officeTeam: 'photo-1573164574511-73c77306328f',
+  officeTeam: 'photo-1573164574511-73c773193279',
   /** African professionals in meeting */
   businessMeeting: 'photo-1600880292203-757bb62b4baf',
-  /** Black woman working on laptop */
-  professionalLaptop: 'photo-1581092918056-0c4c3acd378a',
-  /** African woman in professional kitchen / hospitality context */
-  hospitalityService: 'photo-1595475208938-78320c4cace4',
+  /** African man on laptop */
+  professionalLaptop: 'photo-1528901166007-3784c7dd3653',
+  /** African woman cooking — hospitality / kitchen */
+  hospitalityService: 'photo-1697378149850-0910bce142b7',
+  /** Motorist beside car in garage setting */
+  motoristAtCar: 'photo-1625047509252-ab38fb5c7343',
+  /** African man beside car — bodywork / garage services */
+  garageTechnician: 'photo-1617244148194-7971ce22f2fb',
+  /** Three African women — hospitality procurement */
+  hospitalityTeam: 'photo-1573164574397-dd250bc8a598',
+  /** African team reviewing catalogue on laptop — shop */
+  shopProcurement: 'photo-1655720357872-ce227e4164ba',
 } as const;
 
 export type AfricanPortraitId = (typeof AFRICAN_PORTRAITS)[keyof typeof AFRICAN_PORTRAITS];

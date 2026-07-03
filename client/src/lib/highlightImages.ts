@@ -1,27 +1,28 @@
 /**
- * Home explore cards — Gwecely workshop, gallery, product & Kenyan people imagery
+ * Home explore cards — African & Kenyan people in service context
  */
 
-import { GALLERY_IMAGES } from '@/lib/galleryImages';
-import { IMAGES } from '@/lib/images';
-import { SERVICE_IMAGES, HOSPITALITY_PRODUCT_IMAGES } from '@/lib/categoryImages';
+import { AFRICAN_PORTRAITS, portraitUrl } from '@/lib/africanPortraits';
+
+const p = (id: (typeof AFRICAN_PORTRAITS)[keyof typeof AFRICAN_PORTRAITS], w = 1000) =>
+  portraitUrl(id, w);
 
 export const HIGHLIGHT_CARD_IMAGES = {
-  /** Panel beating & spray painting — core garage service */
-  services: SERVICE_IMAGES.panelBeating,
-  /** Workshop bay — book bodywork, servicing, fleet jobs */
-  book: GALLERY_IMAGES.hiluxRepair,
-  /** Real project from our gallery — Mercedes respray */
-  gallery: GALLERY_IMAGES.mercedesRespray,
-  /** Kenyan motorists & fleet operators */
-  reviews: IMAGES.people.team,
-  /** Mombasa workshop — call, email, WhatsApp */
-  contact: IMAGES.contact.mombasa,
-  /** Premium tableware & kitchen lines for hotels */
-  hospitality: IMAGES.hospitality.tableware,
-  /** Automotive spare parts & shop catalogue */
-  shop: SERVICE_IMAGES.automotiveParts,
+  /** African motorist beside vehicle — garage services */
+  services: p(AFRICAN_PORTRAITS.garageTechnician),
+  /** Nairobi professional on phone — book a repair */
+  book: p(AFRICAN_PORTRAITS.kenyanMan1),
+  /** African customer with vehicle — project gallery */
+  gallery: p(AFRICAN_PORTRAITS.motoristAtCar),
+  /** Smiling African woman — customer reviews */
+  reviews: p(AFRICAN_PORTRAITS.kenyanWoman1),
+  /** African professionals in meeting — contact */
+  contact: p(AFRICAN_PORTRAITS.businessMeeting),
+  /** African women at hospitality table — supplies */
+  hospitality: p(AFRICAN_PORTRAITS.hospitalityTeam),
+  /** African team on laptop — parts & shop */
+  shop: p(AFRICAN_PORTRAITS.shopProcurement),
 } as const;
 
-/** Fallback when a local asset fails to load */
-export const HIGHLIGHT_IMAGE_FALLBACK = HOSPITALITY_PRODUCT_IMAGES.dinnerPlates;
+/** Fallback when an image fails to load */
+export const HIGHLIGHT_IMAGE_FALLBACK = p(AFRICAN_PORTRAITS.officeTeam);
