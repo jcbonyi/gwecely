@@ -17,10 +17,12 @@ const BOOK_REPAIR_IMAGE = '/highlights/book-repair.png';
 const PROJECT_GALLERY_IMAGE = '/highlights/project-gallery.png';
 /** Hospitality Supplies — premium tableware & hotel lines */
 const HOSPITALITY_SUPPLIES_IMAGE = '/highlights/hospitality-supplies.png';
+/** Garage Services — mechanic at work in the workshop */
+const GARAGE_SERVICES_IMAGE = '/highlights/garage-services.png';
 
 export const HIGHLIGHT_CARD_IMAGES = {
-  /** African motorist beside vehicle — garage services */
-  services: p(AFRICAN_PORTRAITS.garageTechnician),
+  /** Mechanic servicing vehicle — panel beating, repairs & fleet work */
+  services: GARAGE_SERVICES_IMAGE,
   /** Damaged vehicle — book bodywork, respray, or servicing */
   book: BOOK_REPAIR_IMAGE,
   /** Before & after bodywork — project gallery */

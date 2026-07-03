@@ -51,7 +51,7 @@ export const HOSPITALITY_PRODUCT_IMAGES = {
 
 /** Home page highlight card images — African / Kenyan people */
 export const HIGHLIGHT_IMAGES = {
-  services: u('photo-1617244148194-7971ce22f2fb', 1000),
+  services: local('/highlights/garage-services.png'),
   book: local('/highlights/book-repair.png'),
   gallery: local('/highlights/project-gallery.png'),
   reviews: u('photo-1573496799515-eebbb63814f2', 1000),
