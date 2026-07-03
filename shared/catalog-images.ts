@@ -49,15 +49,15 @@ export const HOSPITALITY_PRODUCT_IMAGES = {
   chefPan: u('photo-1556912173-3bb406ef7e77', 800),
 } as const;
 
-/** Home page highlight card images — Unsplash for reliable delivery on Vercel */
+/** Home page highlight card images — workshop, gallery & product assets */
 export const HIGHLIGHT_IMAGES = {
-  services: u('photo-1486267903955-ab4e62db0cdd', 1000),
-  book: u('photo-1625047509168-a702453f1d12', 1000),
-  gallery: u('photo-1615902146659-c3950b7b8bfb', 1000),
+  services: local('/services/panel-beating-spray-painting.jpg'),
+  book: local('/gallery/hilux-body-repair.jpg'),
+  gallery: local('/gallery/mercedes-respray.jpg'),
   reviews: u('photo-1573164574511-73c77306328f', 1000),
-  contact: u('photo-1713747451985-761444dd8e75', 1000),
-  hospitality: u('photo-1559339352-11d035aa65de', 1000),
-  shop: u('photo-1492144534655-ae79c964c9d7', 1000),
+  contact: u('photo-1600880292203-757bb62b4baf', 1000),
+  hospitality: u('photo-1600565893385-07be688dd25a', 1000),
+  shop: local('/products/brake-disc.jpg'),
 } as const;
 
 export function getCategoryImage(categoryId: string): string {

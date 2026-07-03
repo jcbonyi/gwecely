@@ -17,7 +17,10 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { BRAND } from '@/lib/brand';
-import { HIGHLIGHT_IMAGES } from '@/lib/categoryImages';
+import {
+  HIGHLIGHT_CARD_IMAGES,
+  HIGHLIGHT_IMAGE_FALLBACK,
+} from '@/lib/highlightImages';
 
 const HIGHLIGHTS = [
   {
@@ -25,7 +28,7 @@ const HIGHLIGHTS = [
     icon: Wrench,
     title: 'Garage Services',
     desc: 'Panel beating, spray painting, accident repairs, servicing, mechanical work, and fleet maintenance.',
-    image: HIGHLIGHT_IMAGES.services,
+    image: HIGHLIGHT_CARD_IMAGES.services,
     featured: true,
   },
   {
@@ -33,7 +36,7 @@ const HIGHLIGHTS = [
     icon: Calendar,
     title: 'Book a Repair',
     desc: 'Schedule bodywork, respray, servicing, or fleet maintenance online.',
-    image: HIGHLIGHT_IMAGES.book,
+    image: HIGHLIGHT_CARD_IMAGES.book,
     featured: true,
   },
   {
@@ -41,7 +44,7 @@ const HIGHLIGHTS = [
     icon: Images,
     title: 'Project Gallery',
     desc: 'Before-and-after bodywork, resprays, and workshop projects.',
-    image: HIGHLIGHT_IMAGES.gallery,
+    image: HIGHLIGHT_CARD_IMAGES.gallery,
     featured: true,
   },
   {
@@ -49,7 +52,7 @@ const HIGHLIGHTS = [
     icon: Star,
     title: 'Customer Reviews',
     desc: 'What motorists and fleet operators say about Gwecely.',
-    image: HIGHLIGHT_IMAGES.reviews,
+    image: HIGHLIGHT_CARD_IMAGES.reviews,
     featured: false,
   },
   {
@@ -57,7 +60,7 @@ const HIGHLIGHTS = [
     icon: MessageCircle,
     title: 'Contact Us',
     desc: 'Call, email, or WhatsApp — we respond within 2 hours.',
-    image: HIGHLIGHT_IMAGES.contact,
+    image: HIGHLIGHT_CARD_IMAGES.contact,
     featured: false,
   },
   {
@@ -65,15 +68,15 @@ const HIGHLIGHTS = [
     icon: UtensilsCrossed,
     title: 'Hospitality Supplies',
     desc: 'Tableware, kitchen equipment, and institutional procurement for hotels and restaurants.',
-    image: HIGHLIGHT_IMAGES.hospitality,
+    image: HIGHLIGHT_CARD_IMAGES.hospitality,
     featured: false,
   },
   {
-    href: `${ROUTES.shop}?category=hospitality-supplies`,
+    href: ROUTES.shop,
     icon: Package,
-    title: 'Shop Supplies',
-    desc: 'Browse automotive parts, hospitality lines, office goods, and more in our online shop.',
-    image: HIGHLIGHT_IMAGES.shop,
+    title: 'Parts & Shop',
+    desc: 'Automotive spare parts and general procurement — secondary to our garage.',
+    image: HIGHLIGHT_CARD_IMAGES.shop,
     featured: false,
   },
 ] as const;
@@ -101,7 +104,7 @@ function HighlightCard({
           alt={title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
-          onError={() => setImgSrc(HIGHLIGHT_IMAGES.services)}
+          onError={() => setImgSrc(HIGHLIGHT_IMAGE_FALLBACK)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/90 via-[#2D2626]/35 to-[#2D2626]/10" />
         <div className="absolute bottom-0 left-0 right-0 p-4">
