@@ -1,13 +1,16 @@
+import { ROUTES } from '@/lib/routes';
+import { goTo } from '@/lib/navigation';
+
 const BOOKING_SERVICE_KEY = 'gwecely-book-service';
 
-/** Pre-select a service on the booking form and scroll to #booking */
+/** Pre-select a service on the booking form and navigate to the book page */
 export function bookService(serviceName: string): void {
   try {
     sessionStorage.setItem(BOOKING_SERVICE_KEY, serviceName);
   } catch {
     /* ignore */
   }
-  document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' });
+  goTo(ROUTES.book);
 }
 
 export function consumePreselectedService(): string | null {

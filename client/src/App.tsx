@@ -8,17 +8,32 @@ import AdminProductEditPage from "@/pages/admin/AdminProductEditPage";
 import AdminUsersPage from "@/pages/admin/AdminUsersPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
+import Home from "@/pages/Home";
+import AboutPage from "@/pages/AboutPage";
+import ServicesPage from "@/pages/ServicesPage";
+import BookPage from "@/pages/BookPage";
+import GalleryPage from "@/pages/GalleryPage";
+import ReviewsPage from "@/pages/ReviewsPage";
+import ShopPage from "@/pages/ShopPage";
+import ContactPage from "@/pages/ContactPage";
+import { ROUTES } from "@/lib/routes";
 import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
-import Home from "./pages/Home";
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={ROUTES.home} component={Home} />
+      <Route path={ROUTES.about} component={AboutPage} />
+      <Route path={ROUTES.services} component={ServicesPage} />
+      <Route path={ROUTES.book} component={BookPage} />
+      <Route path={ROUTES.gallery} component={GalleryPage} />
+      <Route path={ROUTES.reviews} component={ReviewsPage} />
+      <Route path={ROUTES.shop} component={ShopPage} />
+      <Route path={ROUTES.contact} component={ContactPage} />
       <Route path={"/sign-in/:rest?"} component={SignInPage} />
       <Route path={"/sign-up/:rest?"} component={SignUpPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />

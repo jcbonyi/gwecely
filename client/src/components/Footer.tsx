@@ -8,19 +8,9 @@ import { useState } from 'react';
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 import { BRAND } from '@/lib/brand';
+import { FOOTER_LINKS, ROUTES } from '@/lib/routes';
 import { whatsAppUrl, buildGeneralEnquiryMessage } from '@/lib/whatsapp';
 import BrandLogo from '@/components/BrandLogo';
-
-const QUICK_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Automotive Services', href: '#services' },
-  { label: 'Shop Products', href: '#shop' },
-  { label: 'Book a Service', href: '#booking' },
-  { label: 'Customer Reviews', href: '#testimonials' },
-  { label: 'Project Gallery', href: '#gallery' },
-  { label: 'Contact Us', href: '#contact' },
-];
 
 const PRODUCT_CATEGORIES = [
   'Mechanical Repairs',
@@ -53,11 +43,6 @@ export default function Footer() {
       description: 'You\'ll receive our latest offers and updates.',
     });
     setEmail('');
-  };
-
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -121,15 +106,15 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-2">
-              {QUICK_LINKS.map((link) => (
+              {FOOTER_LINKS.map((link) => (
                 <li key={link.href}>
-                  <button
-                    onClick={() => scrollTo(link.href)}
+                  <Link
+                    href={link.href}
                     className="text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors flex items-center gap-1.5 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-[#F0826E] group-hover:w-2 transition-all" />
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -143,13 +128,13 @@ export default function Footer() {
             <ul className="space-y-2">
               {PRODUCT_CATEGORIES.map((cat) => (
                 <li key={cat}>
-                  <button
-                    onClick={() => scrollTo('#shop')}
+                  <Link
+                    href={ROUTES.shop}
                     className="text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors flex items-center gap-1.5 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-[#F05A32] group-hover:w-2 transition-all" />
                     {cat}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

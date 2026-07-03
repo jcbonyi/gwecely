@@ -5,7 +5,8 @@
 
 import { useCart } from '@/contexts/CartContext';
 import { formatPrice } from '@/lib/products';
-import { scrollToSection } from '@/lib/scroll';
+import { ROUTES } from '@/lib/routes';
+import { goTo, goToHash } from '@/lib/navigation';
 import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -39,7 +40,7 @@ export default function CartSidebar() {
     });
     // M-Pesa checkout placeholder
     setTimeout(() => {
-      document.querySelector('#checkout')?.scrollIntoView({ behavior: 'smooth' });
+      goToHash(ROUTES.shop, 'checkout');
       closeCart();
     }, 1000);
   };
@@ -93,7 +94,7 @@ export default function CartSidebar() {
               <button
                 onClick={() => {
                   closeCart();
-                  scrollToSection('#shop');
+                  goTo(ROUTES.shop);
                 }}
                 className="btn-gwecely text-sm py-2.5 px-6"
               >

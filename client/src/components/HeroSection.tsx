@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, Calendar, ChevronDown, MapPin, ShoppingBag } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
-import { scrollToSection as goToSection } from '@/lib/scroll';
+import { ROUTES } from '@/lib/routes';
+import { goTo } from '@/lib/navigation';
 import { bookService } from '@/lib/booking';
 
 export default function HeroSection() {
@@ -17,8 +18,6 @@ export default function HeroSection() {
     const timer = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
-
-  const scrollToSection = (id: string) => goToSection(id);
 
   return (
     <section
@@ -74,7 +73,7 @@ export default function HeroSection() {
             }`}
             style={{ transitionDelay: '220ms' }}
           >
-            {BRAND.tagline} · {BRAND.taglineSw}
+            {BRAND.tagline}
           </p>
 
           <div
@@ -87,11 +86,11 @@ export default function HeroSection() {
               <Calendar size={18} />
               Book Garage Service
             </button>
-            <button type="button" onClick={() => scrollToSection('#services')} className="btn-outline-gwecely text-base">
+            <button type="button" onClick={() => goTo(ROUTES.services)} className="btn-outline-gwecely text-base">
               Our Garage Services
               <ArrowRight size={16} />
             </button>
-            <button type="button" onClick={() => scrollToSection('#shop')} className="btn-outline-gwecely text-base opacity-80">
+            <button type="button" onClick={() => goTo(ROUTES.shop)} className="btn-outline-gwecely text-base opacity-80">
               <ShoppingBag size={18} />
               Shop Supplies
             </button>
@@ -101,9 +100,9 @@ export default function HeroSection() {
 
       <button
         type="button"
-        onClick={() => scrollToSection('#services')}
+        onClick={() => document.getElementById('explore')?.scrollIntoView({ behavior: 'smooth' })}
         className="absolute bottom-28 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors animate-bounce"
-        aria-label="Scroll to services"
+        aria-label="Explore Gwecely"
       >
         <ChevronDown size={28} />
       </button>

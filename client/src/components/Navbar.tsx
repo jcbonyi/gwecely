@@ -4,31 +4,20 @@
 
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { useActiveSection } from '@/hooks/useActiveSection';
 import { BRAND } from '@/lib/brand';
-import { scrollToSection } from '@/lib/scroll';
+import { NAV_LINKS, ROUTES, isActiveRoute } from '@/lib/routes';
 import BrandLogo from '@/components/BrandLogo';
 import NavbarAuth, { MobileNavbarAuth } from '@/components/NavbarAuth';
 import { Heart, Menu, Phone, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Garage Services', href: '#services' },
-  { label: 'Book Repair', href: '#booking' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Reviews', href: '#testimonials' },
-  { label: 'Shop Supplies', href: '#shop' },
-  { label: 'Contact', href: '#contact' },
-];
+import { Link, useLocation } from 'wouter';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [location] = useLocation();
   const { totalItems, toggleCart } = useCart();
   const { count: wishlistCount, toggleWishlist, isOpen: wishlistOpen } = useWishlist();
-  const activeSection = useActiveSection();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -38,15 +27,14 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen]);
 
-  const handleNavClick = (href: string) => {
-    setMobileOpen(false);
-    scrollToSection(href);
-  };
-
-  const sectionId = (href: string) => href.replace('#', '');
+  const closeMobile = () => setMobileOpen(false);
+  const isHome = location === ROUTES.home;
+  const navSolid = scrolled || !isHome;
 
   return (
     <>
@@ -54,7 +42,10 @@ export default function Navbar() {
         <div className="container flex justify-between items-center gap-4">
           <span className="text-orange-100 italic truncate">Motor vehicle garage &amp; panel beating — Mombasa</span>
           <div className="flex items-center gap-5 flex-shrink-0">
-            <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-white text-orange-100 transition-colors">
+            <a
+              href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+              className="flex items-center gap-1.5 hover:text-white text-orange-100 transition-colors"
+            >
               <Phone size={13} />
               {BRAND.contact.phones[0]}
             </a>
@@ -67,7 +58,7 @@ export default function Navbar() {
 
       <nav
         className={`fixed w-full z-50 transition-all duration-200 ${
-          scrolled
+          navSolid
             ? 'bg-[#463C3C]/97 backdrop-blur-xl shadow-lg top-0'
             : 'bg-[#463C3C]/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none top-0 md:top-[36px]'
         }`}
@@ -75,28 +66,22 @@ export default function Navbar() {
       >
         <div className="container">
           <div className="flex items-center justify-between h-[4.5rem] sm:h-20">
-            <a
-              href="#home"
-              onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }}
-              className="flex items-center group min-w-0 flex-shrink-0"
-              aria-label="Gwecely home"
-            >
+            <Link href={ROUTES.home} className="flex items-center group min-w-0 flex-shrink-0" aria-label="Gwecely home">
               <BrandLogo size="nav" />
-            </a>
+            </Link>
 
             <div className="hidden lg:flex items-center gap-0.5">
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                  aria-current={activeSection === sectionId(link.href) ? 'page' : undefined}
+                  aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
                   className={`px-3 py-2 text-white/90 hover:text-white font-['Inter'] text-sm font-medium transition-colors duration-150 hover:bg-white/10 rounded-md ${
-                    activeSection === sectionId(link.href) ? 'nav-link-active' : ''
+                    isActiveRoute(location, link.href) ? 'nav-link-active' : ''
                   }`}
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -129,13 +114,9 @@ export default function Navbar() {
                 )}
               </button>
 
-              <a
-                href="#booking"
-                onClick={(e) => { e.preventDefault(); handleNavClick('#booking'); }}
-                className="hidden md:flex btn-gwecely text-sm py-2 px-4"
-              >
+              <Link href={ROUTES.book} className="hidden md:flex btn-gwecely text-sm py-2 px-4">
                 Book Repair
-              </a>
+              </Link>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -150,7 +131,11 @@ export default function Navbar() {
         </div>
 
         {mobileOpen && (
-          <div className="lg:hidden fixed inset-0 top-[4.5rem] sm:top-20 bg-black/40 z-[-1]" onClick={() => setMobileOpen(false)} aria-hidden />
+          <div
+            className="lg:hidden fixed inset-0 top-[4.5rem] sm:top-20 bg-black/40 z-[-1]"
+            onClick={closeMobile}
+            aria-hidden
+          />
         )}
 
         <div
@@ -160,28 +145,27 @@ export default function Navbar() {
         >
           <div className="container py-4 flex flex-col gap-1 max-h-[calc(80vh-1rem)] overflow-y-auto">
             {NAV_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
-                onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                aria-current={activeSection === sectionId(link.href) ? 'page' : undefined}
+                onClick={closeMobile}
+                aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
                 className={`px-4 py-3.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg font-['Inter'] text-base font-medium transition-colors min-h-[48px] flex items-center ${
-                  activeSection === sectionId(link.href) ? 'nav-link-active' : ''
+                  isActiveRoute(location, link.href) ? 'nav-link-active' : ''
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <div className="mt-3 pt-3 border-t border-white/10 space-y-2">
-              <a
-                href="#booking"
-                onClick={(e) => { e.preventDefault(); handleNavClick('#booking'); }}
-                className="btn-gwecely w-full justify-center text-sm py-3"
-              >
+              <Link href={ROUTES.book} onClick={closeMobile} className="btn-gwecely w-full justify-center text-sm py-3">
                 Book Repair
-              </a>
-              <MobileNavbarAuth onNavigate={() => setMobileOpen(false)} />
-              <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 px-4 py-3 text-orange-100 text-sm min-h-[48px]">
+              </Link>
+              <MobileNavbarAuth onNavigate={closeMobile} />
+              <a
+                href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+                className="flex items-center gap-2 px-4 py-3 text-orange-100 text-sm min-h-[48px]"
+              >
                 <Phone size={16} />
                 {BRAND.contact.phones[0]}
               </a>

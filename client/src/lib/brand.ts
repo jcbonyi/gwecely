@@ -42,7 +42,4 @@ export const BRAND = {
     emails: ['info@gwecely.co.ke'],
     whatsapp: '254712456072',
   },
-
-  /** Swahili tagline — coast market */
-  taglineSw: 'Unaota. Tunatoa. Unaishi.',
 } as const;

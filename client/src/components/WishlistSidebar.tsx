@@ -5,7 +5,8 @@
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
 import { CATEGORIES, formatPrice } from '@/lib/products';
-import { scrollToSection } from '@/lib/scroll';
+import { ROUTES } from '@/lib/routes';
+import { goTo } from '@/lib/navigation';
 import { Heart, ShoppingCart, Trash2, X } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -44,7 +45,7 @@ export default function WishlistSidebar() {
 
   const handleBrowse = () => {
     closeWishlist();
-    scrollToSection('#shop');
+    goTo(ROUTES.shop);
   };
 
   return (

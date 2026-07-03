@@ -21,7 +21,8 @@ import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { buildGeneralEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
 import { bookService } from '@/lib/booking';
-import { scrollToSection } from '@/lib/scroll';
+import { ROUTES } from '@/lib/routes';
+import { goTo } from '@/lib/navigation';
 
 const AUTOMOTIVE_SERVICES = [
   {
@@ -115,7 +116,7 @@ function AutomotiveCard({
           </div>
           <button
             type="button"
-            onClick={() => scrollToSection('#gallery')}
+            onClick={() => goTo(ROUTES.gallery)}
             className="text-[10px] uppercase tracking-wide text-orange-100/90 font-['Inter'] hover:text-white transition-colors text-right"
           >
             {service.galleryHint} →
@@ -147,7 +148,7 @@ function AutomotiveCard({
           </button>
           <button
             type="button"
-            onClick={() => scrollToSection('#contact')}
+            onClick={() => goTo(ROUTES.contact)}
             className="flex items-center gap-1 text-[#F05A32] text-xs font-['Inter'] font-medium hover:text-[#463C3C] transition-colors px-2"
           >
             Enquire <ArrowRight size={13} />
@@ -251,7 +252,7 @@ export default function ServicesSection() {
           <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => scrollToSection('#shop')}
+              onClick={() => goTo(ROUTES.shop)}
               className="btn-gwecely text-xs py-2.5 px-5"
             >
               <ShoppingBag size={14} />
@@ -259,7 +260,7 @@ export default function ServicesSection() {
             </button>
             <button
               type="button"
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => goTo(ROUTES.contact)}
               className="btn-secondary-gwecely text-xs py-2.5 px-5"
             >
               Enquire About Supplies
