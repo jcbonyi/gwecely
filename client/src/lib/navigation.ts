@@ -1,6 +1,8 @@
 import { scrollToSection } from '@/lib/scroll';
+import { ROUTES } from '@/lib/routes';
 
 const PENDING_HASH_KEY = 'gwecely-pending-hash';
+const PENDING_SHOP_CATEGORY_KEY = 'gwecely-shop-category';
 
 type NavigateFn = (path: string) => void;
 
@@ -15,6 +17,31 @@ export function registerNavigate(fn: NavigateFn): void {
 
 export function goTo(path: string): void {
   navigate(path);
+}
+
+export function goToShopCategory(categoryId: string): void {
+  try {
+    sessionStorage.setItem(PENDING_SHOP_CATEGORY_KEY, categoryId);
+  } catch {
+    /* ignore */
+  }
+  const target = `${ROUTES.shop}?category=${encodeURIComponent(categoryId)}`;
+  if (window.location.pathname === ROUTES.shop) {
+    window.history.replaceState({}, '', target);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    return;
+  }
+  navigate(target);
+}
+
+export function consumePendingShopCategory(): string | null {
+  try {
+    const value = sessionStorage.getItem(PENDING_SHOP_CATEGORY_KEY);
+    if (value) sessionStorage.removeItem(PENDING_SHOP_CATEGORY_KEY);
+    return value;
+  } catch {
+    return null;
+  }
 }
 
 export function goToHash(path: string, hash: string): void {

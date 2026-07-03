@@ -44,6 +44,7 @@ export const CATEGORIES = [
   { id: 'it-equipment', label: 'IT Equipment' },
   { id: 'safety-equipment', label: 'Health & Safety' },
   { id: 'dry-foods', label: 'Dry Foods & Beverages' },
+  { id: 'hospitality-supplies', label: 'Hospitality Supplies' },
 ] as const;
 
 export const SHOP_CATEGORIES = CATEGORIES.filter((c) => c.id !== 'all');

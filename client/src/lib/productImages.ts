@@ -1,7 +1,8 @@
 /**
- * Product imagery — local assets from Pinterest (pinimg.com)
- * https://www.pinterest.com/
+ * Product imagery — prefer product shots; African people where humans appear
  */
+
+import { AFRICAN_PORTRAITS, portraitUrl } from '@/lib/africanPortraits';
 
 const p = (file: string) => `/products/${file}`;
 
@@ -33,16 +34,16 @@ export const PRODUCT_IMAGES = {
   penSet: p('pen-set.jpg'),
   filingCabinet: p('filing-cabinet.jpg'),
 
-  // Furniture
-  officeChair: p('office-chair.jpg'),
-  officeDesk: p('office-desk.jpg'),
+  // Furniture — African office context where people may appear in marketing shots
+  officeChair: portraitUrl(AFRICAN_PORTRAITS.officeTeam, 600),
+  officeDesk: portraitUrl('photo-1497366754035-f200968a6e72', 600),
 
   // IT equipment
-  laptop: p('laptop.jpg'),
+  laptop: portraitUrl(AFRICAN_PORTRAITS.professionalLaptop, 600),
   printer: p('printer.jpg'),
 
-  // Health & safety
-  hardHat: p('hard-hat.jpg'),
+  // Health & safety — equipment only, no people
+  hardHat: portraitUrl('photo-1575311373937-040b8e1fd5b6', 600),
   firstAidKit: p('first-aid.jpg'),
   fireExtinguisher: p('fire-extinguisher.jpg'),
 

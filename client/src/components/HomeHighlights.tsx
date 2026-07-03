@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
 import { BRAND } from '@/lib/brand';
+import { HIGHLIGHT_IMAGES } from '@/lib/categoryImages';
 
 const HIGHLIGHTS = [
   {
@@ -23,6 +24,7 @@ const HIGHLIGHTS = [
     icon: Wrench,
     title: 'Garage Services',
     desc: 'Panel beating, spray painting, accident repairs, servicing, mechanical work, and fleet maintenance.',
+    image: HIGHLIGHT_IMAGES.services,
     featured: true,
   },
   {
@@ -30,6 +32,7 @@ const HIGHLIGHTS = [
     icon: Calendar,
     title: 'Book a Repair',
     desc: 'Schedule bodywork, respray, servicing, or fleet maintenance online.',
+    image: HIGHLIGHT_IMAGES.book,
     featured: true,
   },
   {
@@ -37,6 +40,7 @@ const HIGHLIGHTS = [
     icon: Images,
     title: 'Project Gallery',
     desc: 'Before-and-after bodywork, resprays, and workshop projects.',
+    image: HIGHLIGHT_IMAGES.gallery,
     featured: true,
   },
   {
@@ -44,6 +48,7 @@ const HIGHLIGHTS = [
     icon: Star,
     title: 'Customer Reviews',
     desc: 'What motorists and fleet operators say about Gwecely.',
+    image: HIGHLIGHT_IMAGES.reviews,
     featured: false,
   },
   {
@@ -51,6 +56,7 @@ const HIGHLIGHTS = [
     icon: MessageCircle,
     title: 'Contact Us',
     desc: 'Call, email, or WhatsApp — we respond within 2 hours.',
+    image: HIGHLIGHT_IMAGES.contact,
     featured: false,
   },
   {
@@ -58,13 +64,15 @@ const HIGHLIGHTS = [
     icon: UtensilsCrossed,
     title: 'Hospitality Supplies',
     desc: 'Tableware, kitchen equipment, and institutional procurement for hotels and restaurants.',
+    image: HIGHLIGHT_IMAGES.hospitality,
     featured: false,
   },
   {
-    href: ROUTES.shop,
+    href: `${ROUTES.shop}?category=hospitality-supplies`,
     icon: Package,
-    title: 'Parts & Shop',
-    desc: 'Automotive spare parts and general procurement — secondary to our garage.',
+    title: 'Shop Supplies',
+    desc: 'Browse automotive parts, hospitality lines, office goods, and more in our online shop.',
+    image: HIGHLIGHT_IMAGES.shop,
     featured: false,
   },
 ] as const;
@@ -81,13 +89,12 @@ export default function HomeHighlights() {
             GARAGE FIRST. EVERYTHING ELSE FOLLOWS.
           </h2>
           <p className="text-gray-600 font-['Inter'] text-sm leading-relaxed">
-            Book repairs, view our workshop services, or get in touch — parts and procurement are available when you need
-            them.
+            Book repairs, view our workshop services, shop hospitality supplies, or get in touch.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {HIGHLIGHTS.map(({ href, icon: Icon, title, desc, featured }) => (
+          {HIGHLIGHTS.map(({ href, icon: Icon, title, desc, image, featured }) => (
             <Link
               key={href}
               href={href}
@@ -97,14 +104,23 @@ export default function HomeHighlights() {
                   : 'border-gray-200 bg-white/80 shadow-sm opacity-95'
               }`}
             >
-              <div className="p-6">
+              <div className="relative h-36 overflow-hidden">
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/75 via-[#2D2626]/20 to-transparent" />
                 <div
-                  className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 ${
-                    featured ? 'bg-[#F05A32] text-white' : 'bg-[#F5F3F2] text-[#463C3C]'
+                  className={`absolute bottom-3 left-3 w-10 h-10 rounded-lg flex items-center justify-center ${
+                    featured ? 'bg-[#F05A32] text-white' : 'bg-white/90 text-[#F05A32]'
                   }`}
                 >
-                  <Icon size={22} />
+                  <Icon size={20} />
                 </div>
+              </div>
+              <div className="p-5">
                 <h3 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-2 group-hover:text-[#F05A32] transition-colors">
                   {title}
                 </h3>

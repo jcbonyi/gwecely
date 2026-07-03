@@ -13,16 +13,16 @@ import { FOOTER_SERVICE_LINES } from '@/lib/services';
 import { whatsAppUrl, buildGeneralEnquiryMessage } from '@/lib/whatsapp';
 import BrandLogo from '@/components/BrandLogo';
 
-const PRODUCT_CATEGORIES = [
-  'Panel Beating',
-  'Spray Painting',
-  'Accident Repairs',
-  'Vehicle Servicing',
-  'Mechanical Repairs',
-  'Fleet Maintenance',
-  'Automotive Parts Supply',
-  'Corporate Procurement',
-  'Hospitality Supplies',
+const FOOTER_CATEGORY_LINKS: { label: string; href: string }[] = [
+  { label: 'Panel Beating', href: ROUTES.services },
+  { label: 'Spray Painting', href: ROUTES.services },
+  { label: 'Accident Repairs', href: ROUTES.services },
+  { label: 'Vehicle Servicing', href: ROUTES.book },
+  { label: 'Mechanical Repairs', href: ROUTES.services },
+  { label: 'Fleet Maintenance', href: ROUTES.book },
+  { label: 'Automotive Parts Supply', href: `${ROUTES.shop}?category=spare-parts` },
+  { label: 'Corporate Procurement', href: `${ROUTES.shop}?category=office-stationery` },
+  { label: 'Hospitality Supplies', href: `${ROUTES.shop}?category=hospitality-supplies` },
 ];
 
 const SOCIAL_LINKS = [
@@ -127,14 +127,14 @@ export default function Footer() {
               Product Categories
             </h3>
             <ul className="space-y-2">
-              {PRODUCT_CATEGORIES.map((cat) => (
-                <li key={cat}>
+              {FOOTER_CATEGORY_LINKS.map((cat) => (
+                <li key={cat.label}>
                   <Link
-                    href={ROUTES.shop}
+                    href={cat.href}
                     className="text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors flex items-center gap-1.5 group"
                   >
                     <span className="w-1 h-1 rounded-full bg-[#F05A32] group-hover:w-2 transition-all" />
-                    {cat}
+                    {cat.label}
                   </Link>
                 </li>
               ))}

@@ -18,13 +18,13 @@ import {
   Wrench,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { PRIMARY_GARAGE_SERVICES, SECONDARY_SUPPORT_SERVICES } from '@/lib/services';
+import { SERVICE_IMAGES } from '@/lib/categoryImages';
 import { buildGeneralEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
 import { bookService } from '@/lib/booking';
 import { ROUTES } from '@/lib/routes';
-import { goTo } from '@/lib/navigation';
+import { goTo, goToShopCategory } from '@/lib/navigation';
 
 const PRIMARY_ICONS: Record<string, LucideIcon> = {
   'Panel Beating': Hammer,
@@ -53,7 +53,7 @@ function PrimaryServiceCard({
   delay: number;
 }) {
   const Icon = PRIMARY_ICONS[service.title] ?? Wrench;
-  const image = IMAGES.services[service.imageKey];
+  const image = SERVICE_IMAGES[service.imageKey];
 
   return (
     <div
@@ -181,7 +181,7 @@ export default function ServicesSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {SECONDARY_SUPPORT_SERVICES.map((item, i) => {
               const Icon = SECONDARY_ICONS[item.title] ?? Package;
-              const image = IMAGES.services[item.imageKey];
+              const image = SERVICE_IMAGES[item.imageKey];
               return (
                 <div
                   key={item.title}
@@ -189,7 +189,7 @@ export default function ServicesSection() {
                   style={{ transitionDelay: `${360 + i * 40}ms` }}
                 >
                   <div className="relative h-24 overflow-hidden rounded-t-lg">
-                    <img src={image} alt="" className="w-full h-full object-cover opacity-75" loading="lazy" />
+                    <img src={image} alt={item.title} className="w-full h-full object-cover opacity-90" loading="lazy" />
                     <div className="absolute inset-0 bg-[#463C3C]/40" />
                     <div className="absolute bottom-2 left-2 w-7 h-7 rounded-md bg-white/85 flex items-center justify-center">
                       <Icon size={14} className="text-[#463C3C]" />
@@ -198,22 +198,31 @@ export default function ServicesSection() {
                   <div className="p-3.5">
                     <h4 className="font-['Barlow_Condensed'] font-700 text-sm text-[#2D2626] mb-1">{item.title}</h4>
                     <p className="text-gray-500 text-xs font-['Inter'] leading-snug mb-3">{item.desc}</p>
-                    {item.link === 'shop' ? (
+                    {item.link === 'shop' && 'shopCategory' in item ? (
                       <button
                         type="button"
-                        onClick={() => goTo(ROUTES.shop)}
+                        onClick={() => goToShopCategory(item.shopCategory)}
                         className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors"
                       >
-                        Browse parts shop →
+                        Browse in shop →
                       </button>
-                    ) : item.link === 'hospitality' ? (
-                      <button
-                        type="button"
-                        onClick={() => goTo(ROUTES.hospitality)}
-                        className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors"
-                      >
-                        View hospitality supplies →
-                      </button>
+                    ) : item.link === 'hospitality-shop' && 'shopCategory' in item ? (
+                      <div className="flex flex-col gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => goToShopCategory(item.shopCategory)}
+                          className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors text-left"
+                        >
+                          Shop hospitality supplies →
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => goTo(ROUTES.hospitality)}
+                          className="text-xs font-['Inter'] font-medium text-gray-400 hover:text-[#F05A32] transition-colors text-left"
+                        >
+                          Full catalogue &amp; quotes
+                        </button>
+                      </div>
                     ) : (
                       <button
                         type="button"
@@ -234,7 +243,7 @@ export default function ServicesSection() {
         <div
           className="mt-14 rounded-xl overflow-hidden relative"
           style={{
-            background: `linear-gradient(135deg, rgba(240,90,50,0.92) 0%, rgba(70,60,60,0.95) 100%), url('${IMAGES.services.emergencyBanner}') center/cover no-repeat`,
+            background: `linear-gradient(135deg, rgba(240,90,50,0.92) 0%, rgba(70,60,60,0.95) 100%), url('${SERVICE_IMAGES.emergencyBanner}') center/cover no-repeat`,
           }}
         >
           <div className="relative p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">

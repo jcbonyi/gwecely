@@ -6,16 +6,16 @@ export type { Product } from '@shared/product';
 export { CATEGORIES, SHOP_CATEGORIES } from '@shared/product';
 
 import type { Product } from '@shared/product';
-import { CATEGORIES } from '@shared/product';
+import { CATEGORIES, SHOP_CATEGORIES } from '@shared/product';
 
 export function getProductsByCategory(products: Product[], category: string): Product[] {
   if (category === 'all') return products;
   return products.filter((p) => p.category === category);
 }
 
-export function getShopCategories(products: Product[]) {
+export function getShopCategories(_products: Product[]) {
   return CATEGORIES.filter(
-    (cat) => cat.id === 'all' || products.some((p) => p.category === cat.id)
+    (cat) => cat.id === 'all' || SHOP_CATEGORIES.some((s) => s.id === cat.id)
   );
 }
 

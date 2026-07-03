@@ -6,6 +6,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { X, ZoomIn } from 'lucide-react';
 import { GALLERY_IMAGES } from '@/lib/galleryImages';
+import { HOSPITALITY_PRODUCT_IMAGES } from '@/lib/categoryImages';
 
 const GALLERY_FILTERS = [
   { id: 'all', label: 'All Projects' },
@@ -17,6 +18,7 @@ const GALLERY_FILTERS = [
   { id: 'it-equipment', label: 'IT Equipment' },
   { id: 'safety', label: 'Health & Safety' },
   { id: 'dry-foods', label: 'Dry Foods' },
+  { id: 'hospitality', label: 'Hospitality Supplies' },
 ] as const;
 
 const GALLERY_ITEMS = [
@@ -129,6 +131,22 @@ const GALLERY_ITEMS = [
     title: 'Dry Foods & Beverages Supply',
     desc: 'Rice, tea, cooking oil, and pantry staples delivered to schools and offices.',
     image: GALLERY_IMAGES.dryFoodsSupply,
+    wide: true,
+  },
+  {
+    id: 16,
+    category: 'hospitality',
+    title: 'Hotel Tableware Supply',
+    desc: 'Porcelain dinnerware, glassware, and cutlery supplied to a Mombasa hotel refurbishment.',
+    image: HOSPITALITY_PRODUCT_IMAGES.dinnerPlates,
+    featured: true,
+  },
+  {
+    id: 17,
+    category: 'hospitality',
+    title: 'Restaurant Kitchen & Buffet Setup',
+    desc: 'Chafing dishes, buffet sets, and commercial kitchen equipment for a new restaurant opening.',
+    image: HOSPITALITY_PRODUCT_IMAGES.chafingDish,
     wide: true,
   },
 ] as const;

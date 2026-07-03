@@ -1,24 +1,34 @@
 /**
- * Free Kenyan & African imagery (Unsplash License)
+ * Site imagery — Kenyan & African representation for people photos
  * https://unsplash.com/license
  */
 
-const u = (id: string, w = 800) =>
-  `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;
+import { AFRICAN_PORTRAITS, portraitUrl } from '@/lib/africanPortraits';
+
+const u = (id: string, w = 800) => portraitUrl(id, w);
+const p = (id: (typeof AFRICAN_PORTRAITS)[keyof typeof AFRICAN_PORTRAITS], w = 800) => portraitUrl(id, w);
 
 export const IMAGES = {
   logo: '/gwecely-logo.png',
   icon: '/gwecely-icon.png',
 
   hero: '/brand/page1_img1.jpeg',
-  heroOg: u('photo-1738507869660-b44ea20ab037', 1200), // Kenya highway logistics
+  heroOg: u('photo-1738507869660-b44ea20ab037', 1200), // Kenya logistics — no people
+
+  /** Photos featuring African / Kenyan people */
+  people: {
+    team: p(AFRICAN_PORTRAITS.officeTeam, 1000),
+    aboutWorkshop: p(AFRICAN_PORTRAITS.businessMeeting, 1000),
+    contactLocation: p(AFRICAN_PORTRAITS.kenyanMan1, 900),
+    hospitality: p(AFRICAN_PORTRAITS.hospitalityService, 1200),
+  },
 
   trust: {
-    technicians: u('photo-1625047509168-a702453f1d12', 600),
+    technicians: '/brand/page7_img4.jpeg', // local workshop — vehicles / garage
     genuineProducts: u('photo-1558618666-fcd25c85cd64', 600),
-    fastDelivery: u('photo-1738507869660-b44ea20ab037', 600), // Kenya trucks
+    fastDelivery: u('photo-1738507869660-b44ea20ab037', 600),
     warranty: u('photo-1619642759868-244088ba5671', 600),
-    professional: u('photo-1713747451985-761444dd8e75', 600), // Nairobi, Kenya
+    professional: p(AFRICAN_PORTRAITS.kenyanMan1, 600),
     turnaround: u('photo-1486267903955-ab4e62db0cdd', 600),
   },
 
@@ -27,10 +37,10 @@ export const IMAGES = {
     electrical: '/brand/page8_img1.jpeg',
     panelBeating: '/services/panel-beating-spray-painting.jpg',
     sprayPainting: '/brand/page9_img1.jpeg',
-    stationery: '/brand/page10_img3.jpeg',
-    furniture: '/brand/page10_img5.jpeg',
-    itEquipment: '/services/computer-accessories.jpg',
-    healthSafety: '/brand/page11_img3.jpeg',
+    stationery: p(AFRICAN_PORTRAITS.officeTeam, 700),
+    furniture: u('photo-1497366754035-f200968a6e72', 700), // office furniture — no people
+    itEquipment: p(AFRICAN_PORTRAITS.professionalLaptop, 700),
+    healthSafety: u('photo-1575311373937-040b8e1fd5b6', 700), // safety equipment — no people
     dryFoods: '/services/dry-foods-beverages.jpg',
     emergencyBanner: '/brand/page6_img1.jpeg',
   },
@@ -49,14 +59,14 @@ export const IMAGES = {
     engineOilTotal: u('photo-1607860108852-0f3eaacf2fbe', 600),
     oilFilter: u('photo-1486267903955-ab4e62db0cdd', 600),
     airFilter: u('photo-1492144534655-ae79c964c9d7', 600),
-    stationery: u('photo-1573164574511-73c77306328f', 600), // African office team
+    stationery: p(AFRICAN_PORTRAITS.officeTeam, 600),
     pens: u('photo-1598488033279-a497ad034b0c', 600),
     filingCabinet: u('photo-1497366216548-37526070297c', 600),
-    chair: u('photo-1580489944761-15a19d654956', 600),
+    chair: p(AFRICAN_PORTRAITS.officeTeam, 600),
     desk: u('photo-1497366754035-f200968a6e72', 600),
-    laptop: u('photo-1713747451985-761444dd8e75', 600), // Nairobi professional
+    laptop: p(AFRICAN_PORTRAITS.professionalLaptop, 600),
     printer: u('photo-1612198182100-3409abaf4bba', 600),
-    hardHat: u('photo-1504307651254-35680f356dfd', 600),
+    hardHat: u('photo-1575311373937-040b8e1fd5b6', 600),
     firstAid: u('photo-1603398937426-94076412ecdd', 600),
     fireExtinguisher: u('photo-1582719478250-c89cae4dc85b', 600),
   },
@@ -73,25 +83,25 @@ export const IMAGES = {
   },
 
   testimonials: {
-    james: u('photo-1713747451985-761444dd8e75', 160), // Nairobi, Kenya
-    grace: u('photo-1573497019236-462ed122d1b3', 160),
-    peter: u('photo-1531384441138-273c54d55e10', 160),
-    sarah: u('photo-1580489944761-15a19d654956', 160),
-    david: u('photo-1619895862022-09128b1f6580', 160),
-    fatuma: u('photo-1594744802523-79037bd6234a', 160),
+    james: p(AFRICAN_PORTRAITS.kenyanMan1, 160),
+    grace: p(AFRICAN_PORTRAITS.kenyanWoman1, 160),
+    peter: p(AFRICAN_PORTRAITS.kenyanMan2, 160),
+    sarah: p(AFRICAN_PORTRAITS.kenyanWoman3, 160),
+    david: p(AFRICAN_PORTRAITS.kenyanMan3, 160),
+    fatuma: p(AFRICAN_PORTRAITS.kenyanWoman2, 160),
   },
 
   booking: {
-    workshop: u('photo-1486267903955-ab4e62db0cdd', 800),
+    workshop: '/brand/page7_img4.jpeg',
   },
 
   contact: {
-    mombasa: '/brand/page13_img1.jpeg',
-    port: '/brand/page4_img1.jpeg',
+    mombasa: p(AFRICAN_PORTRAITS.businessMeeting, 1000),
+    port: u('photo-1738507869660-b44ea20ab037', 800), // Mombasa coast logistics
   },
 
   hospitality: {
-    hero: u('photo-1414235077428-338989a2e8e0', 1400),
+    hero: p(AFRICAN_PORTRAITS.hospitalityService, 1400),
     heroDining: u('photo-1559339352-11d035aa65de', 800),
     heroKitchen: u('photo-1556911220-bff31c812dba', 800),
     heroTableware: u('photo-1544025162-d76694265947', 800),
@@ -107,12 +117,12 @@ export const IMAGES = {
     featuredChafing: u('photo-1555244167-11d288d2130f', 600),
     featuredBuffet: u('photo-1556911220-e15b29be8c8f', 600),
     featuredTrolley: u('photo-1581578731548-c64695cc6952', 600),
-    procurement: u('photo-1578916171728-46686e4458f4', 1000),
+    procurement: p(AFRICAN_PORTRAITS.businessMeeting, 1000),
     avatars: {
-      daniel: u('photo-1531384441138-273c54d55e10', 160),
-      amina: u('photo-1594744802523-79037bd6234a', 160),
-      robert: u('photo-1619895862022-09128b1f6580', 160),
-      faith: u('photo-1573497019236-462ed122d1b3', 160),
+      daniel: p(AFRICAN_PORTRAITS.kenyanMan2, 160),
+      amina: p(AFRICAN_PORTRAITS.kenyanWoman2, 160),
+      robert: p(AFRICAN_PORTRAITS.kenyanMan3, 160),
+      faith: p(AFRICAN_PORTRAITS.kenyanWoman4, 160),
     },
   },
 } as const;

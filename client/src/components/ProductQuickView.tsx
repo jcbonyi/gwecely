@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { CATEGORIES, formatPrice, type Product } from '@/lib/products';
+import { getCategoryImage, resolveProductImage } from '@/lib/categoryImages';
 import { buildProductEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
@@ -48,7 +49,8 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
 
   const categoryLabel = CATEGORIES.find(c => c.id === product.category)?.label ?? product.category;
   const wishlisted = isWishlisted(product.id);
-  const fallbackSrc = `https://placehold.co/600x400/F5F3F2/463C3C?text=${encodeURIComponent(categoryLabel)}`;
+  const imageSrc = resolveProductImage(product.image, product.category);
+  const fallbackSrc = getCategoryImage(product.category);
 
   const handleAddToCart = () => {
     addItem({
@@ -78,7 +80,7 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
       <DialogContent className="sm:max-w-lg p-0 overflow-hidden gap-0">
         <div className="relative h-52 sm:h-60 bg-gray-50">
           <img
-            src={imgError ? fallbackSrc : product.image}
+            src={imgError ? fallbackSrc : imageSrc}
             alt={product.name}
             className="w-full h-full object-cover"
             onError={() => setImgError(true)}

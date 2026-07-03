@@ -24,7 +24,7 @@ export const PRIMARY_GARAGE_SERVICES = [
     bookingService: 'Accident Repairs',
     desc: 'End-to-end accident repair — from insurance assessments and bodywork to mechanical checks, so your vehicle is safe and roadworthy again.',
     features: ['Insurance Assessments', 'Collision Repair', 'Safety Inspections', 'Full Restoration'],
-    imageKey: 'panelBeating' as const,
+    imageKey: 'accidentRepair' as const,
     galleryHint: 'Accident repair projects',
   },
   {
@@ -32,7 +32,7 @@ export const PRIMARY_GARAGE_SERVICES = [
     bookingService: 'Vehicle Servicing',
     desc: 'Scheduled servicing for cars, vans, and SUVs — oil changes, filters, fluids, and manufacturer-recommended maintenance intervals.',
     features: ['Oil & Filter Changes', 'Fluid Top-Ups', 'Multi-Point Checks', 'Service Records'],
-    imageKey: 'mechanical' as const,
+    imageKey: 'vehicleServicing' as const,
     galleryHint: 'Routine servicing in our workshop',
   },
   {
@@ -48,7 +48,7 @@ export const PRIMARY_GARAGE_SERVICES = [
     bookingService: 'Fleet Maintenance',
     desc: 'Planned maintenance and repair programmes for company fleets, logistics vehicles, and commercial operators across Mombasa.',
     features: ['Fleet Servicing Plans', 'Priority Turnaround', 'Bulk Scheduling', 'Maintenance Records'],
-    imageKey: 'emergencyBanner' as const,
+    imageKey: 'fleetMaintenance' as const,
     galleryHint: 'Commercial fleet work',
   },
 ] as const;
@@ -57,21 +57,23 @@ export const SECONDARY_SUPPORT_SERVICES = [
   {
     title: 'Automotive Parts Supply',
     desc: 'Genuine and aftermarket spare parts, filters, oils, tyres, and workshop consumables — available through our shop.',
-    imageKey: 'mechanical' as const,
+    imageKey: 'automotiveParts' as const,
     link: 'shop' as const,
+    shopCategory: 'spare-parts' as const,
   },
   {
     title: 'Corporate Procurement',
     desc: 'Office stationery, furniture, IT equipment, and health & safety supplies for businesses and institutions.',
-    imageKey: 'stationery' as const,
+    imageKey: 'corporateProcurement' as const,
     link: 'contact' as const,
     enquiryTopic: 'Corporate Procurement',
   },
   {
     title: 'Hospitality Supplies',
     desc: 'Tableware, glassware, kitchen equipment, housekeeping, and catering supplies for hotels, restaurants, and institutions.',
-    imageKey: 'dryFoods' as const,
-    link: 'hospitality' as const,
+    imageKey: 'hospitality' as const,
+    link: 'hospitality-shop' as const,
+    shopCategory: 'hospitality-supplies' as const,
   },
 ] as const;
 

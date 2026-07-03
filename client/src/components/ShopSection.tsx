@@ -10,9 +10,11 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { CATEGORIES, formatPrice, getProductsByCategory, getShopCategories, searchProducts, sortProducts, type Product } from '@/lib/products';
 import { useProducts } from '@/hooks/useProducts';
-import { IMAGES } from '@/lib/images';
+import { getCategoryImage, resolveProductImage, CATEGORY_IMAGES } from '@/lib/categoryImages';
+import { consumePendingShopCategory } from '@/lib/navigation';
 import ProductQuickView from '@/components/ProductQuickView';
 import { toast } from 'sonner';
+import { useLocation } from 'wouter';
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -36,7 +38,8 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
   const [imgError, setImgError] = useState(false);
 
   const categoryLabel = CATEGORIES.find(c => c.id === product.category)?.label ?? product.category;
-  const fallbackSrc = `https://placehold.co/600x400/F5F3F2/463C3C?text=${encodeURIComponent(categoryLabel)}`;
+  const imageSrc = resolveProductImage(product.image, product.category);
+  const fallbackSrc = getCategoryImage(product.category);
 
   const handleAddToCart = () => {
     addItem({
@@ -76,7 +79,7 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
           aria-label={`Quick view ${product.name}`}
         >
           <img
-            src={imgError ? fallbackSrc : product.image}
+            src={imgError ? fallbackSrc : imageSrc}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
@@ -170,6 +173,7 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
 
 export default function ShopSection() {
   const { products, loading, error } = useProducts();
+  const [location] = useLocation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('default');
@@ -186,6 +190,15 @@ export default function ShopSection() {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category') || consumePendingShopCategory();
+    if (cat && CATEGORIES.some((c) => c.id === cat)) {
+      setActiveCategory(cat);
+      setSearchQuery('');
+    }
+  }, [location]);
 
   const shopCategories = getShopCategories(products);
 
@@ -212,7 +225,7 @@ export default function ShopSection() {
               ROADS &amp; OFFICES
             </h2>
             <p className="text-gray-600 font-['Inter'] max-w-sm">
-              Genuine OEM parts, quality business supplies, and fast delivery across Kenya. Every product backed by our warranty.
+              Genuine OEM parts, hospitality supplies, office essentials, and fast delivery across Kenya.
             </p>
           </div>
         </div>
@@ -225,8 +238,8 @@ export default function ShopSection() {
 
         <div className="relative h-40 md:h-52 rounded-2xl overflow-hidden mb-10">
           <img
-            src={IMAGES.contact.port}
-            alt="Kenya logistics and delivery — Mombasa port"
+            src={CATEGORY_IMAGES['hospitality-supplies']}
+            alt="Hospitality and business supplies — Kenya delivery"
             className="w-full h-full object-cover"
             loading="lazy"
           />

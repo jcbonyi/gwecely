@@ -131,7 +131,7 @@ export default function ContactSection() {
           <div className="space-y-5">
             <div className="relative h-48 rounded-2xl overflow-hidden shadow-sm">
               <img
-                src="/brand/page13_img1.jpeg"
+                src={IMAGES.contact.mombasa}
                 alt="Gwecely workshop, Mombasa"
                 className="w-full h-full object-cover"
                 loading="lazy"

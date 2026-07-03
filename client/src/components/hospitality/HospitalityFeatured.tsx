@@ -2,12 +2,13 @@ import { FileText } from 'lucide-react';
 import { HOSPITALITY_FEATURED } from '@/lib/hospitality';
 import { IMAGES } from '@/lib/images';
 import { requestHospitalityQuote } from '@/lib/hospitalityQuote';
+import { goToShopCategory } from '@/lib/navigation';
 
 export default function HospitalityFeatured() {
   return (
     <section className="py-20 md:py-28 bg-white">
       <div className="container">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <div>
             <div className="section-eyebrow">
               <span className="section-eyebrow-dot" />
@@ -17,10 +18,18 @@ export default function HospitalityFeatured() {
               FEATURED PRODUCTS
             </h2>
           </div>
-          <p className="text-gray-600 font-['Inter'] text-sm max-w-md leading-relaxed">
-            Popular hospitality lines requested by hotels, restaurants, and caterers — request a tailored quotation for
-            any item below.
-          </p>
+          <div className="flex flex-col gap-2 sm:items-end">
+            <p className="text-gray-600 font-['Inter'] text-sm max-w-md leading-relaxed sm:text-right">
+              Popular hospitality lines — request a quote or browse the full range in our shop.
+            </p>
+            <button
+              type="button"
+              onClick={() => goToShopCategory('hospitality-supplies')}
+              className="text-sm font-['Inter'] font-medium text-[#F05A32] hover:text-[#463C3C] transition-colors"
+            >
+              View all hospitality supplies in shop →
+            </button>
+          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
