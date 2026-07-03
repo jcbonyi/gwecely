@@ -16,6 +16,7 @@ import GalleryPage from "@/pages/GalleryPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import ShopPage from "@/pages/ShopPage";
 import ContactPage from "@/pages/ContactPage";
+import HospitalityPage from "@/pages/HospitalityPage";
 import { ROUTES } from "@/lib/routes";
 import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -34,6 +35,7 @@ function Router() {
       <Route path={ROUTES.reviews} component={ReviewsPage} />
       <Route path={ROUTES.shop} component={ShopPage} />
       <Route path={ROUTES.contact} component={ContactPage} />
+      <Route path={ROUTES.hospitality} component={HospitalityPage} />
       <Route path={"/sign-in/:rest?"} component={SignInPage} />
       <Route path={"/sign-up/:rest?"} component={SignUpPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />

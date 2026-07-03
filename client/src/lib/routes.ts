@@ -9,6 +9,7 @@ export const ROUTES = {
   reviews: '/reviews',
   shop: '/shop',
   contact: '/contact',
+  hospitality: '/hospitality',
 } as const;
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];
@@ -32,6 +33,7 @@ export const FOOTER_LINKS: { label: string; href: AppRoute }[] = [
   { label: 'Project Gallery', href: ROUTES.gallery },
   { label: 'Customer Reviews', href: ROUTES.reviews },
   { label: 'Shop Products', href: ROUTES.shop },
+  { label: 'Hospitality Supplies', href: ROUTES.hospitality },
   { label: 'Contact Us', href: ROUTES.contact },
 ];
 

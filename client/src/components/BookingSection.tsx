@@ -10,22 +10,12 @@ import { submitBooking, generateRef } from '@/lib/api';
 import { buildBookingMessage, buildServiceBookingQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { consumePreselectedService } from '@/lib/booking';
+import { BOOKING_SERVICE_OPTIONS } from '@/lib/services';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { Calendar, Car, CheckCircle, Clock, Mail, MessageCircle, Phone, User } from 'lucide-react';
 
-const SERVICES = [
-  'Mechanical Repairs',
-  'Electrical Repairs',
-  'Vehicle Diagnostics',
-  'Panel Beating',
-  'Spray Painting',
-  'Full Vehicle Service',
-  'Tyre Change / Rotation',
-  'Battery Replacement',
-  'Brake Service',
-  'Other',
-];
+const SERVICES = [...BOOKING_SERVICE_OPTIONS];
 
 interface FormData {
   name: string;

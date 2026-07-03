@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { ArrowRight, Calendar, ChevronDown, MapPin, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Calendar, ChevronDown, MapPin } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
@@ -63,8 +63,8 @@ export default function HeroSection() {
             }`}
             style={{ transitionDelay: '180ms' }}
           >
-            Mechanical repairs, panel beating, and spray painting under one roof — plus general business supplies when
-            you need them.
+            Panel beating, spray painting, accident repairs, servicing, and fleet maintenance — behind CMC Motors,
+            Mombasa.
           </p>
 
           <p
@@ -82,7 +82,7 @@ export default function HeroSection() {
             }`}
             style={{ transitionDelay: '300ms' }}
           >
-            <button type="button" onClick={() => bookService('Full Vehicle Service')} className="btn-gwecely text-base">
+            <button type="button" onClick={() => bookService('Vehicle Servicing')} className="btn-gwecely text-base">
               <Calendar size={18} />
               Book Garage Service
             </button>
@@ -90,9 +90,8 @@ export default function HeroSection() {
               Our Garage Services
               <ArrowRight size={16} />
             </button>
-            <button type="button" onClick={() => goTo(ROUTES.shop)} className="btn-outline-gwecely text-base opacity-80">
-              <ShoppingBag size={18} />
-              Shop Supplies
+            <button type="button" onClick={() => goTo(ROUTES.hospitality)} className="btn-outline-gwecely text-base opacity-70 text-sm">
+              Hospitality Supplies
             </button>
           </div>
         </div>

@@ -21,16 +21,16 @@ export const BRAND = {
   },
 
   about:
-    'Gwecely Limited is a registered motor vehicle garage in Mombasa, Kenya — specialising in mechanical repairs, panel beating, and spray painting. Behind CMC Motors on Bishop Macarios Road, our workshop serves private motorists, fleets, and businesses across the coast.',
+    'Gwecely Limited is a registered motor vehicle garage in Mombasa, Kenya — specialising in panel beating, spray painting, accident repairs, vehicle servicing, mechanical work, and fleet maintenance. Behind CMC Motors on Bishop Macarios Road, our workshop serves private motorists, fleets, and businesses across the coast.',
 
   expertise:
-    'Our core expertise is motor vehicle mechanical repairs, panel beating, and spray painting at our fully equipped Mombasa workshop. We also supply office stationery, furniture, IT equipment, health & safety gear, and dry foods for businesses that need reliable procurement.',
+    'Panel beating, spray painting, accident repairs, servicing, mechanical repairs, and fleet maintenance are our core workshop services at our fully equipped Mombasa garage. We also offer automotive parts supply, corporate procurement, and hospitality supplies as supporting services for existing clients.',
 
   mission:
-    'To deliver expert motor vehicle repair, panel beating, and spray painting — with honest workmanship and fair pricing — while supporting Kenyan businesses with quality general supplies.',
+    'To deliver expert panel beating, spray painting, and garage repairs — with honest workmanship and fair pricing — while supporting fleet operators and businesses with dependable parts and procurement when needed.',
 
   vision:
-    'To be Mombasa\'s most trusted motor vehicle garage for repairs and bodywork — and a dependable partner for business supplies across Kenya.',
+    'To be Mombasa\'s most trusted motor vehicle garage for bodywork, repairs, and fleet maintenance — known first for workshop excellence.',
 
   market:
     'We serve sole trader businesses, close corporations and limited companies. Our dedicated staff members will meet your needs and provide professional service regardless of the size of your business.',

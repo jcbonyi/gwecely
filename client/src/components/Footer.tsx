@@ -9,19 +9,20 @@ import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 import { BRAND } from '@/lib/brand';
 import { FOOTER_LINKS, ROUTES } from '@/lib/routes';
+import { FOOTER_SERVICE_LINES } from '@/lib/services';
 import { whatsAppUrl, buildGeneralEnquiryMessage } from '@/lib/whatsapp';
 import BrandLogo from '@/components/BrandLogo';
 
 const PRODUCT_CATEGORIES = [
-  'Mechanical Repairs',
   'Panel Beating',
   'Spray Painting',
-  'Spare Parts & Shop',
-  'Office Stationery',
-  'Furniture & Fittings',
-  'IT Equipment',
-  'Health & Safety',
-  'Dry Foods & Beverages',
+  'Accident Repairs',
+  'Vehicle Servicing',
+  'Mechanical Repairs',
+  'Fleet Maintenance',
+  'Automotive Parts Supply',
+  'Corporate Procurement',
+  'Hospitality Supplies',
 ];
 
 const SOCIAL_LINKS = [
@@ -170,7 +171,7 @@ export default function Footer() {
             <div className="space-y-2">
               <p className="text-orange-200 text-xs font-['Inter'] font-medium uppercase tracking-wide">Our Service Lines</p>
               <div className="flex flex-wrap gap-2">
-                {['Mechanical Engineering', 'Panel Beating', 'Office Supplies', 'IT Equipment', 'Health & Safety', 'Dry Foods'].map(line => (
+                {FOOTER_SERVICE_LINES.map((line) => (
                   <span key={line} className="text-[10px] bg-white/10 border border-white/20 text-orange-100 px-2 py-0.5 rounded font-['Inter']">
                     {line}
                   </span>

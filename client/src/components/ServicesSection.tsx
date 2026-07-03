@@ -1,102 +1,60 @@
 /**
- * ServicesSection — automotive-first: garage repair, panel beating, spray painting;
- * secondary supplies grid below.
+ * ServicesSection — garage-primary hierarchy (6 core services + 3 supporting)
  */
 
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
+  Briefcase,
   Calendar,
-  Wrench,
+  Car,
+  Cog,
+  Gauge,
   Hammer,
   Paintbrush,
-  FileText,
-  Armchair,
-  Monitor,
-  ShieldCheck,
+  Package,
+  Truck,
   UtensilsCrossed,
-  ShoppingBag,
+  Wrench,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
+import { PRIMARY_GARAGE_SERVICES, SECONDARY_SUPPORT_SERVICES } from '@/lib/services';
 import { buildGeneralEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
 import { bookService } from '@/lib/booking';
 import { ROUTES } from '@/lib/routes';
 import { goTo } from '@/lib/navigation';
 
-const AUTOMOTIVE_SERVICES = [
-  {
-    icon: Wrench,
-    title: 'Motor Vehicle Mechanical Repairs',
-    bookingService: 'Mechanical Repairs',
-    desc: 'Full garage services for passenger and commercial vehicles — engine, gearbox, brakes, diagnostics, electrical faults, and routine maintenance by experienced technicians.',
-    features: ['Engine & Gearbox', 'ECU Diagnostics', 'Brake & Suspension', 'Preventive Servicing'],
-    image: IMAGES.services.mechanical,
-    galleryHint: 'Engine & gearbox work in our gallery',
-  },
-  {
-    icon: Hammer,
-    title: 'Panel Beating',
-    bookingService: 'Panel Beating',
-    desc: 'Expert panel beating after accidents and collisions — dent removal, chassis straightening, and structural bodywork to restore your vehicle’s shape and safety.',
-    features: ['Accident Repairs', 'Dent Removal', 'Chassis Straightening', 'Body Panel Replacement'],
-    image: IMAGES.services.panelBeating,
-    galleryHint: 'Before & after body repairs',
-  },
-  {
-    icon: Paintbrush,
-    title: 'Spray Painting & Auto Body Refinishing',
-    bookingService: 'Spray Painting',
-    desc: 'Professional spray painting and auto body refinishing — full resprays, colour matching, touch-ups, and flawless finishes for cars, vans, and commercial fleets.',
-    features: ['Full Respray', 'Colour Matching', 'Spot Repairs', 'Clear-Coat Finishing'],
-    image: IMAGES.services.sprayPainting,
-    galleryHint: 'Respray & refinishing projects',
-  },
-] as const;
+const PRIMARY_ICONS: Record<string, LucideIcon> = {
+  'Panel Beating': Hammer,
+  'Spray Painting': Paintbrush,
+  'Accident Repairs': Car,
+  'Vehicle Servicing': Gauge,
+  'Mechanical Repairs': Wrench,
+  'Fleet Maintenance': Truck,
+};
 
-const SUPPLY_SERVICES = [
-  {
-    icon: FileText,
-    title: 'Office Stationery',
-    desc: 'Paper, pens, filing, archival storage, and catering supplies.',
-    image: IMAGES.services.stationery,
-  },
-  {
-    icon: Armchair,
-    title: 'Furniture & Fittings',
-    desc: 'Office furniture, fittings, and repair on demand.',
-    image: IMAGES.services.furniture,
-  },
-  {
-    icon: Monitor,
-    title: 'IT Equipment',
-    desc: 'Laptops, printers, UPS, CCTV, and computer accessories.',
-    image: IMAGES.services.itEquipment,
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Health & Safety',
-    desc: 'Safety gear, first aid, fire safety, and compliance products.',
-    image: IMAGES.services.healthSafety,
-  },
-  {
-    icon: UtensilsCrossed,
-    title: 'Dry Foods & Beverages',
-    desc: 'Legumes, fresh produce, bottled water, and beverages.',
-    image: IMAGES.services.dryFoods,
-  },
-] as const;
+const SECONDARY_ICONS: Record<string, LucideIcon> = {
+  'Automotive Parts Supply': Cog,
+  'Corporate Procurement': Briefcase,
+  'Hospitality Supplies': UtensilsCrossed,
+};
 
-function AutomotiveCard({
+type PrimaryService = (typeof PRIMARY_GARAGE_SERVICES)[number];
+
+function PrimaryServiceCard({
   service,
   visible,
   delay,
 }: {
-  service: (typeof AUTOMOTIVE_SERVICES)[number];
+  service: PrimaryService;
   visible: boolean;
   delay: number;
 }) {
-  const Icon = service.icon;
+  const Icon = PRIMARY_ICONS[service.title] ?? Wrench;
+  const image = IMAGES.services[service.imageKey];
+
   return (
     <div
       className={`service-card group reveal ${visible ? 'visible' : ''}`}
@@ -104,7 +62,7 @@ function AutomotiveCard({
     >
       <div className="relative h-52 overflow-hidden">
         <img
-          src={service.image}
+          src={image}
           alt={service.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
@@ -177,11 +135,11 @@ export default function ServicesSection() {
   return (
     <section id="services" ref={ref} className="py-20 md:py-28 bg-[#F5F3F2]">
       <div className="container">
-        {/* Primary — automotive */}
-        <div className="mb-10">
+        {/* Primary — garage (~80% visual weight) */}
+        <div className="mb-12">
           <div className="section-eyebrow">
             <span className="section-eyebrow-dot" />
-            Motor Vehicle Garage
+            Primary Services
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
             <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
@@ -199,76 +157,80 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
-          {AUTOMOTIVE_SERVICES.map((service, i) => (
-            <AutomotiveCard key={service.title} service={service} visible={visible} delay={i * 80} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {PRIMARY_GARAGE_SERVICES.map((service, i) => (
+            <PrimaryServiceCard key={service.title} service={service} visible={visible} delay={i * 60} />
           ))}
         </div>
 
-        {/* Secondary — supplies */}
-        <div id="supplies" className="pt-8 border-t border-gray-200">
-          <div className="mb-8">
-            <p className="text-xs uppercase tracking-widest text-gray-400 font-['Inter'] font-medium mb-2">
-              Also available
+        {/* Secondary — supporting (~20% visual weight) */}
+        <div id="supplies" className="rounded-xl bg-white/60 border border-gray-200/80 p-6 md:p-8">
+          <div className="mb-6">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-['Inter'] font-medium mb-1.5">
+              Secondary Services
             </p>
-            <h3 className="font-['Barlow_Condensed'] font-700 text-2xl md:text-3xl text-[#2D2626]">
-              Other Services &amp; Supplies
+            <h3 className="font-['Barlow_Condensed'] font-700 text-xl md:text-2xl text-[#463C3C]/90">
+              Supporting Your Business
             </h3>
-            <p className="text-gray-500 text-sm font-['Inter'] mt-2 max-w-2xl">
-              Business procurement for offices and institutions — browse our shop or enquire for bulk orders.
+            <p className="text-gray-500 text-xs md:text-sm font-['Inter'] mt-1.5 max-w-2xl">
+              Parts supply and procurement for clients who already trust our workshop — not a substitute for our garage
+              services.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-            {SUPPLY_SERVICES.map((item, i) => {
-              const Icon = item.icon;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {SECONDARY_SUPPORT_SERVICES.map((item, i) => {
+              const Icon = SECONDARY_ICONS[item.title] ?? Package;
+              const image = IMAGES.services[item.imageKey];
               return (
                 <div
                   key={item.title}
-                  className={`supplies-card reveal ${visible ? 'visible' : ''}`}
-                  style={{ transitionDelay: `${240 + i * 50}ms` }}
+                  className={`supplies-card reveal ${visible ? 'visible' : ''} opacity-90`}
+                  style={{ transitionDelay: `${360 + i * 40}ms` }}
                 >
-                  <div className="relative h-28 overflow-hidden rounded-t-lg">
-                    <img
-                      src={item.image}
-                      alt=""
-                      className="w-full h-full object-cover opacity-90"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-[#463C3C]/30" />
-                    <div className="absolute bottom-2 left-2 w-8 h-8 rounded-md bg-white/90 flex items-center justify-center">
-                      <Icon size={16} className="text-[#F05A32]" />
+                  <div className="relative h-24 overflow-hidden rounded-t-lg">
+                    <img src={image} alt="" className="w-full h-full object-cover opacity-75" loading="lazy" />
+                    <div className="absolute inset-0 bg-[#463C3C]/40" />
+                    <div className="absolute bottom-2 left-2 w-7 h-7 rounded-md bg-white/85 flex items-center justify-center">
+                      <Icon size={14} className="text-[#463C3C]" />
                     </div>
                   </div>
-                  <div className="p-3">
+                  <div className="p-3.5">
                     <h4 className="font-['Barlow_Condensed'] font-700 text-sm text-[#2D2626] mb-1">{item.title}</h4>
-                    <p className="text-gray-500 text-xs font-['Inter'] leading-snug line-clamp-2">{item.desc}</p>
+                    <p className="text-gray-500 text-xs font-['Inter'] leading-snug mb-3">{item.desc}</p>
+                    {item.link === 'shop' ? (
+                      <button
+                        type="button"
+                        onClick={() => goTo(ROUTES.shop)}
+                        className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors"
+                      >
+                        Browse parts shop →
+                      </button>
+                    ) : item.link === 'hospitality' ? (
+                      <button
+                        type="button"
+                        onClick={() => goTo(ROUTES.hospitality)}
+                        className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors"
+                      >
+                        View hospitality supplies →
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => goTo(ROUTES.contact)}
+                        className="text-xs font-['Inter'] font-medium text-gray-500 hover:text-[#F05A32] transition-colors"
+                      >
+                        Enquire →
+                      </button>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => goTo(ROUTES.shop)}
-              className="btn-gwecely text-xs py-2.5 px-5"
-            >
-              <ShoppingBag size={14} />
-              Browse Shop
-            </button>
-            <button
-              type="button"
-              onClick={() => goTo(ROUTES.contact)}
-              className="btn-secondary-gwecely text-xs py-2.5 px-5"
-            >
-              Enquire About Supplies
-            </button>
-          </div>
         </div>
 
-        {/* CTA banner — automotive focus */}
+        {/* CTA banner — garage focus */}
         <div
           className="mt-14 rounded-xl overflow-hidden relative"
           style={{
@@ -286,10 +248,17 @@ export default function ServicesSection() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3 flex-shrink-0">
-              <button type="button" onClick={() => bookService('Full Vehicle Service')} className="btn-outline-gwecely text-sm py-2.5 px-6">
+              <button
+                type="button"
+                onClick={() => bookService('Vehicle Servicing')}
+                className="btn-outline-gwecely text-sm py-2.5 px-6"
+              >
                 Book Repair
               </button>
-              <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="btn-gwecely text-sm py-2.5 px-6 bg-white text-[#F05A32] border-white hover:bg-orange-50">
+              <a
+                href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+                className="btn-gwecely text-sm py-2.5 px-6 bg-white text-[#F05A32] border-white hover:bg-orange-50"
+              >
                 {BRAND.contact.phones[0]}
               </a>
               <a

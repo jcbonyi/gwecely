@@ -145,6 +145,38 @@ export function buildOrderMessage(
   ].join('\n');
 }
 
+export function buildHospitalityQuoteMessage(data: {
+  name: string;
+  company: string;
+  phone: string;
+  email?: string;
+  category: string;
+  quantity: string;
+  location: string;
+  notes?: string;
+  product?: string;
+}): string {
+  return [
+    `*GWECELY — HOSPITALITY QUOTE REQUEST*`,
+    '',
+    '*Contact*',
+    `• Name: ${data.name}`,
+    `• Company: ${data.company}`,
+    `• Phone: ${data.phone}`,
+    ...(data.email ? [`• Email: ${data.email}`] : []),
+    '',
+    '*Order details*',
+    ...(data.product ? [`• Product: *${data.product}*`] : []),
+    `• Category: ${data.category}`,
+    `• Quantity: ${data.quantity}`,
+    `• Delivery location: ${data.location}`,
+    ...(data.notes?.trim() ? ['', '*Additional requirements:*', data.notes.trim()] : []),
+    '',
+    'Please send me a quotation at your earliest convenience.',
+    footer(),
+  ].join('\n');
+}
+
 export function buildBookingMessage(
   form: {
     name: string;

@@ -11,12 +11,12 @@ const PILLARS = [
   {
     icon: Wrench,
     title: 'Motor Vehicle Garage',
-    desc: 'Mechanical repairs, panel beating, and spray painting — our core workshop services in Mombasa.',
+    desc: 'Panel beating, spray painting, accident repairs, servicing, mechanical work, and fleet maintenance — our core business in Mombasa.',
   },
   {
     icon: Package,
-    title: 'Business Supplies',
-    desc: 'Stationery, furniture, IT, health & safety, and dry foods — available when your business needs them.',
+    title: 'Supporting Services',
+    desc: 'Automotive parts supply, corporate procurement, and hospitality supplies — available for clients who already trust our workshop.',
   },
 ];
 

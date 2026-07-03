@@ -8,9 +8,10 @@ import {
   Calendar,
   Images,
   MessageCircle,
-  ShoppingBag,
+  Package,
   Star,
   User,
+  UtensilsCrossed,
   Wrench,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/routes';
@@ -21,14 +22,14 @@ const HIGHLIGHTS = [
     href: ROUTES.services,
     icon: Wrench,
     title: 'Garage Services',
-    desc: 'Mechanical repairs, panel beating, and spray painting at our CMC Motors workshop.',
+    desc: 'Panel beating, spray painting, accident repairs, servicing, mechanical work, and fleet maintenance.',
     featured: true,
   },
   {
     href: ROUTES.book,
     icon: Calendar,
     title: 'Book a Repair',
-    desc: 'Schedule mechanical work, body repairs, or a full service online.',
+    desc: 'Schedule bodywork, respray, servicing, or fleet maintenance online.',
     featured: true,
   },
   {
@@ -36,20 +37,13 @@ const HIGHLIGHTS = [
     icon: Images,
     title: 'Project Gallery',
     desc: 'Before-and-after bodywork, resprays, and workshop projects.',
-    featured: false,
+    featured: true,
   },
   {
     href: ROUTES.reviews,
     icon: Star,
     title: 'Customer Reviews',
-    desc: 'What motorists and businesses say about Gwecely.',
-    featured: false,
-  },
-  {
-    href: ROUTES.shop,
-    icon: ShoppingBag,
-    title: 'Shop Supplies',
-    desc: 'Stationery, furniture, IT, health & safety, and dry foods.',
+    desc: 'What motorists and fleet operators say about Gwecely.',
     featured: false,
   },
   {
@@ -57,6 +51,20 @@ const HIGHLIGHTS = [
     icon: MessageCircle,
     title: 'Contact Us',
     desc: 'Call, email, or WhatsApp — we respond within 2 hours.',
+    featured: false,
+  },
+  {
+    href: ROUTES.hospitality,
+    icon: UtensilsCrossed,
+    title: 'Hospitality Supplies',
+    desc: 'Tableware, kitchen equipment, and institutional procurement for hotels and restaurants.',
+    featured: false,
+  },
+  {
+    href: ROUTES.shop,
+    icon: Package,
+    title: 'Parts & Shop',
+    desc: 'Automotive spare parts and general procurement — secondary to our garage.',
     featured: false,
   },
 ] as const;
@@ -70,11 +78,11 @@ export default function HomeHighlights() {
             Explore Gwecely
           </div>
           <h2 className="font-['Barlow_Condensed'] font-800 text-3xl md:text-4xl text-[#2D2626] section-heading mb-3">
-            EVERYTHING IN ONE PLACE
+            GARAGE FIRST. EVERYTHING ELSE FOLLOWS.
           </h2>
           <p className="text-gray-600 font-['Inter'] text-sm leading-relaxed">
-            Our motor garage is the heart of the business — browse services, book repairs, or shop supplies on
-            dedicated pages.
+            Book repairs, view our workshop services, or get in touch — parts and procurement are available when you need
+            them.
           </p>
         </div>
 
@@ -86,13 +94,13 @@ export default function HomeHighlights() {
               className={`group block rounded-xl border overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${
                 featured
                   ? 'border-[#F05A32]/30 bg-white shadow-md'
-                  : 'border-gray-200 bg-white shadow-sm'
+                  : 'border-gray-200 bg-white/80 shadow-sm opacity-95'
               }`}
             >
               <div className="p-6">
                 <div
                   className={`w-11 h-11 rounded-lg flex items-center justify-center mb-4 ${
-                    featured ? 'bg-[#F05A32] text-white' : 'bg-[#F5F3F2] text-[#F05A32]'
+                    featured ? 'bg-[#F05A32] text-white' : 'bg-[#F5F3F2] text-[#463C3C]'
                   }`}
                 >
                   <Icon size={22} />
@@ -111,7 +119,10 @@ export default function HomeHighlights() {
         </div>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
-          <Link href={ROUTES.about} className="inline-flex items-center gap-2 text-[#463C3C] hover:text-[#F05A32] font-['Inter'] text-sm font-medium transition-colors">
+          <Link
+            href={ROUTES.about}
+            className="inline-flex items-center gap-2 text-[#463C3C] hover:text-[#F05A32] font-['Inter'] text-sm font-medium transition-colors"
+          >
             <User size={16} />
             Learn about {BRAND.legalName}
             <ArrowRight size={14} />
