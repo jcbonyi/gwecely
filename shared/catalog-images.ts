@@ -49,15 +49,15 @@ export const HOSPITALITY_PRODUCT_IMAGES = {
   chefPan: u('photo-1556912173-3bb406ef7e77', 800),
 } as const;
 
-/** Home page highlight card images */
+/** Home page highlight card images — Unsplash for reliable delivery on Vercel */
 export const HIGHLIGHT_IMAGES = {
-  services: SERVICE_IMAGES.panelBeating,
-  book: SERVICE_IMAGES.mechanical,
-  gallery: local('/gallery/mercedes-respray.jpg'),
-  reviews: u('photo-1573164574511-73c77306328f', 600),
-  contact: u('photo-1713747451985-761444dd8e75', 600),
-  hospitality: SERVICE_IMAGES.hospitality,
-  shop: SERVICE_IMAGES.automotiveParts,
+  services: u('photo-1486267903955-ab4e62db0cdd', 1000),
+  book: u('photo-1625047509168-a702453f1d12', 1000),
+  gallery: u('photo-1615902146659-c3950b7b8bfb', 1000),
+  reviews: u('photo-1573164574511-73c77306328f', 1000),
+  contact: u('photo-1713747451985-761444dd8e75', 1000),
+  hospitality: u('photo-1559339352-11d035aa65de', 1000),
+  shop: u('photo-1492144534655-ae79c964c9d7', 1000),
 } as const;
 
 export function getCategoryImage(categoryId: string): string {

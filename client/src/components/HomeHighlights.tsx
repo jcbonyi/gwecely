@@ -1,7 +1,8 @@
 /**
- * HomeHighlights — compact cards linking to dedicated site pages
+ * HomeHighlights — compact cards with photo headers linking to site pages
  */
 
+import { useState } from 'react';
 import { Link } from 'wouter';
 import {
   ArrowRight,
@@ -77,6 +78,56 @@ const HIGHLIGHTS = [
   },
 ] as const;
 
+function HighlightCard({
+  href,
+  icon: Icon,
+  title,
+  desc,
+  image,
+  featured,
+}: (typeof HIGHLIGHTS)[number]) {
+  const [imgSrc, setImgSrc] = useState(image);
+
+  return (
+    <Link
+      href={href}
+      className={`group block rounded-xl border overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
+        featured ? 'border-[#F05A32]/40 bg-white shadow-md' : 'border-gray-200 bg-white shadow-sm'
+      }`}
+    >
+      <div className="relative h-44 sm:h-48 md:h-52 overflow-hidden bg-[#463C3C]">
+        <img
+          src={imgSrc}
+          alt={title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          onError={() => setImgSrc(HIGHLIGHT_IMAGES.services)}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/90 via-[#2D2626]/35 to-[#2D2626]/10" />
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <div
+            className={`inline-flex items-center justify-center w-11 h-11 rounded-lg mb-2 shadow-lg ${
+              featured ? 'bg-[#F05A32] text-white' : 'bg-white text-[#F05A32]'
+            }`}
+          >
+            <Icon size={22} />
+          </div>
+          <h3 className="font-['Barlow_Condensed'] font-700 text-xl sm:text-2xl text-white leading-tight drop-shadow-sm">
+            {title}
+          </h3>
+        </div>
+      </div>
+      <div className="p-5">
+        <p className="text-gray-600 text-sm font-['Inter'] leading-relaxed mb-4">{desc}</p>
+        <span className="inline-flex items-center gap-1 text-[#F05A32] text-sm font-['Inter'] font-medium">
+          View page
+          <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export default function HomeHighlights() {
   return (
     <section id="explore" className="py-16 md:py-20 bg-[#F5F3F2]">
@@ -93,44 +144,9 @@ export default function HomeHighlights() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {HIGHLIGHTS.map(({ href, icon: Icon, title, desc, image, featured }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`group block rounded-xl border overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${
-                featured
-                  ? 'border-[#F05A32]/30 bg-white shadow-md'
-                  : 'border-gray-200 bg-white/80 shadow-sm opacity-95'
-              }`}
-            >
-              <div className="relative h-36 overflow-hidden">
-                <img
-                  src={image}
-                  alt={title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/75 via-[#2D2626]/20 to-transparent" />
-                <div
-                  className={`absolute bottom-3 left-3 w-10 h-10 rounded-lg flex items-center justify-center ${
-                    featured ? 'bg-[#F05A32] text-white' : 'bg-white/90 text-[#F05A32]'
-                  }`}
-                >
-                  <Icon size={20} />
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-2 group-hover:text-[#F05A32] transition-colors">
-                  {title}
-                </h3>
-                <p className="text-gray-600 text-sm font-['Inter'] leading-relaxed mb-4">{desc}</p>
-                <span className="inline-flex items-center gap-1 text-[#F05A32] text-sm font-['Inter'] font-medium">
-                  View page
-                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </div>
-            </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {HIGHLIGHTS.map((item) => (
+            <HighlightCard key={item.href} {...item} />
           ))}
         </div>
 
