@@ -52,12 +52,12 @@ export const HOSPITALITY_PRODUCT_IMAGES = {
 /** Home page highlight card images — African / Kenyan people */
 export const HIGHLIGHT_IMAGES = {
   services: u('photo-1617244148194-7971ce22f2fb', 1000),
-  book: u('photo-1713747451985-761444dd8e75', 1000),
-  gallery: u('photo-1625047509252-ab38fb5c7343', 1000),
+  book: local('/highlights/book-repair.png'),
+  gallery: local('/highlights/project-gallery.png'),
   reviews: u('photo-1573496799515-eebbb63814f2', 1000),
-  contact: u('photo-1600880292203-757bb62b4baf', 1000),
-  hospitality: u('photo-1573164574397-dd250bc8a598', 1000),
-  shop: u('photo-1655720357872-ce227e4164ba', 1000),
+  contact: local('/highlights/contact-us.png'),
+  hospitality: local('/highlights/hospitality-supplies.png'),
+  shop: local('/highlights/parts-shop.jpg'),
 } as const;
 
 export function getCategoryImage(categoryId: string): string {
