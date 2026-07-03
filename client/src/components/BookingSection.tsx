@@ -4,11 +4,12 @@
  * Full form validation, success state
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DemoBanner from '@/components/DemoBanner';
 import { submitBooking, generateRef } from '@/lib/api';
 import { buildBookingMessage, buildServiceBookingQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
+import { consumePreselectedService } from '@/lib/booking';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { Calendar, Car, CheckCircle, Clock, Mail, MessageCircle, Phone, User } from 'lucide-react';
@@ -60,6 +61,13 @@ export default function BookingSection() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
+
+  useEffect(() => {
+    const preselected = consumePreselectedService();
+    if (preselected && SERVICES.includes(preselected as (typeof SERVICES)[number])) {
+      setForm((prev) => ({ ...prev, service: preselected }));
+    }
+  }, []);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};

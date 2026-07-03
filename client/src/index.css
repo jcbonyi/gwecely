@@ -324,6 +324,20 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(240, 90, 50, 0.15);
   }
+
+  .supplies-card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid #ebe8e6;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .supplies-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
   .product-actions {
     opacity: 1;
     transform: translateY(0);

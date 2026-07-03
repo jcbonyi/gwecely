@@ -23,14 +23,15 @@ const QUICK_LINKS = [
 ];
 
 const PRODUCT_CATEGORIES = [
-  'Mechanical & Electrical',
-  'Panel Beating & Painting',
+  'Mechanical Repairs',
+  'Panel Beating',
+  'Spray Painting',
+  'Spare Parts & Shop',
   'Office Stationery',
   'Furniture & Fittings',
   'IT Equipment',
   'Health & Safety',
   'Dry Foods & Beverages',
-  'Spare Parts',
 ];
 
 const SOCIAL_LINKS = [
@@ -69,7 +70,10 @@ export default function Footer() {
             <div className="mb-5">
               <BrandLogo size="footer" />
             </div>
-            <p className="text-orange-100 text-sm font-['Inter'] leading-relaxed mb-2 italic">
+            <p className="text-orange-100 text-sm font-['Inter'] leading-relaxed mb-1 font-medium">
+              {BRAND.subtitle}
+            </p>
+            <p className="text-orange-100/60 text-xs font-['Inter'] leading-relaxed mb-2 italic">
               &ldquo;{BRAND.tagline}&rdquo;
             </p>
             <p className="text-orange-100/80 text-sm font-['Inter'] leading-relaxed mb-5">

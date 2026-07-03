@@ -15,11 +15,11 @@ import { useEffect, useState } from 'react';
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Shop', href: '#shop' },
-  { label: 'Book', href: '#booking' },
-  { label: 'Reviews', href: '#testimonials' },
+  { label: 'Garage Services', href: '#services' },
+  { label: 'Book Repair', href: '#booking' },
   { label: 'Gallery', href: '#gallery' },
+  { label: 'Reviews', href: '#testimonials' },
+  { label: 'Shop Supplies', href: '#shop' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -52,7 +52,7 @@ export default function Navbar() {
     <>
       <div className="bg-[#463C3C] text-white text-sm py-2 hidden md:block">
         <div className="container flex justify-between items-center gap-4">
-          <span className="text-orange-100 italic truncate">&ldquo;{BRAND.tagline}&rdquo;</span>
+          <span className="text-orange-100 italic truncate">Motor vehicle garage &amp; panel beating — Mombasa</span>
           <div className="flex items-center gap-5 flex-shrink-0">
             <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-white text-orange-100 transition-colors">
               <Phone size={13} />
@@ -134,7 +134,7 @@ export default function Navbar() {
                 onClick={(e) => { e.preventDefault(); handleNavClick('#booking'); }}
                 className="hidden md:flex btn-gwecely text-sm py-2 px-4"
               >
-                Book Service
+                Book Repair
               </a>
 
               <button
@@ -178,7 +178,7 @@ export default function Navbar() {
                 onClick={(e) => { e.preventDefault(); handleNavClick('#booking'); }}
                 className="btn-gwecely w-full justify-center text-sm py-3"
               >
-                Book Service
+                Book Repair
               </a>
               <MobileNavbarAuth onNavigate={() => setMobileOpen(false)} />
               <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-2 px-4 py-3 text-orange-100 text-sm min-h-[48px]">

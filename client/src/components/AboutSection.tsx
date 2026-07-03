@@ -10,13 +10,13 @@ import { IMAGES } from '@/lib/images';
 const PILLARS = [
   {
     icon: Wrench,
-    title: 'Full-Service Garage',
-    desc: 'Mechanical, electrical, panel beating, and spray painting under one roof in Mombasa.',
+    title: 'Motor Vehicle Garage',
+    desc: 'Mechanical repairs, panel beating, and spray painting — our core workshop services in Mombasa.',
   },
   {
     icon: Package,
-    title: 'General Supplies',
-    desc: 'Stationery, furniture, IT equipment, health & safety gear, and dry foods on demand.',
+    title: 'Business Supplies',
+    desc: 'Stationery, furniture, IT, health & safety, and dry foods — available when your business needs them.',
   },
 ];
 
@@ -42,9 +42,9 @@ export default function AboutSection() {
             About Gwecely
           </div>
           <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
-            MECHANICAL EXPERTISE.
+            MOMBASA&apos;S TRUSTED
             <br />
-            <span className="text-[#F05A32]">TRUSTED SUPPLIES.</span>
+            <span className="text-[#F05A32]">MOTOR GARAGE.</span>
           </h2>
         </div>
 

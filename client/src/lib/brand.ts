@@ -6,7 +6,7 @@ export const BRAND = {
   name: 'GWECELY',
   legalName: 'Gwecely Limited',
   tagline: 'You dream it. We provide it. You live it.',
-  subtitle: 'Mechanical Engineering & General Supplies',
+  subtitle: 'Motor Vehicle Garage, Panel Beating & Spray Painting',
 
   colors: {
     orange: '#F05A32',
@@ -21,16 +21,16 @@ export const BRAND = {
   },
 
   about:
-    'Gwecely Limited is a registered company in Kenya under the Companies Act, 2015, founded and led by a team of networked experts with strategic insight and industry-gained experience in Mechanical Engineering.',
+    'Gwecely Limited is a registered motor vehicle garage in Mombasa, Kenya — specialising in mechanical repairs, panel beating, and spray painting. Behind CMC Motors on Bishop Macarios Road, our workshop serves private motorists, fleets, and businesses across the coast.',
 
   expertise:
-    'Our areas of expertise include panel beating and spray painting. We also engage in general supplies of office stationery, furniture and fittings, computer and computer accessories, health and safety equipment, and dry foods and beverages.',
+    'Our core expertise is motor vehicle mechanical repairs, panel beating, and spray painting at our fully equipped Mombasa workshop. We also supply office stationery, furniture, IT equipment, health & safety gear, and dry foods for businesses that need reliable procurement.',
 
   mission:
-    'To deliver trusted automotive services and quality general supplies to Kenyan businesses and vehicle owners, with professionalism and integrity.',
+    'To deliver expert motor vehicle repair, panel beating, and spray painting — with honest workmanship and fair pricing — while supporting Kenyan businesses with quality general supplies.',
 
   vision:
-    'To be Mombasa\'s preferred one-stop partner for workshop excellence and business procurement — growing with our clients across Kenya.',
+    'To be Mombasa\'s most trusted motor vehicle garage for repairs and bodywork — and a dependable partner for business supplies across Kenya.',
 
   market:
     'We serve sole trader businesses, close corporations and limited companies. Our dedicated staff members will meet your needs and provide professional service regardless of the size of your business.',
