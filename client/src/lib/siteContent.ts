@@ -1,155 +1,105 @@
 /**
- * Verified / carefully worded site content — no invented stats or partnerships
+ * Honest site content — no invented proof, stats, or partnerships
  */
 
-export const TRUST_POINTS = [
-  {
-    title: 'Professional workmanship',
-    detail: 'Panel beating, spray painting, and mechanical work handled in our Mombasa workshop.',
-  },
-  {
-    title: 'Insurance claim support',
-    detail: 'We assist with assessments and repair documentation where your insurer requires it.',
-  },
-  {
-    title: 'Clear process',
-    detail: 'From inspection and estimate through repair and handover — you know the next step.',
-  },
-  {
-    title: 'Local workshop',
-    detail: 'Behind CMC Motors, Off Bishop Macarios Road, Mombasa — easy to find and visit.',
-  },
-  {
-    title: 'Fleet & private vehicles',
-    detail: 'We work with individual owners, fleets, and organisations that need dependable turnaround.',
-  },
-  {
-    title: 'Direct communication',
-    detail: 'Call, WhatsApp, or request a quote online — the workshop team responds during opening hours.',
-  },
+export const TRUST_STRIP = [
+  'Mombasa workshop behind CMC Motors',
+  'Panel, paint and mechanical work',
+  'Private vehicles and fleets',
+  'Insurance documentation support where required',
 ] as const;
 
-/** Accident / repair journey — careful wording on insurer steps */
-export const REPAIR_JOURNEY = [
+/** Short customer-facing process */
+export const WHAT_HAPPENS_NEXT = [
   {
-    step: '01',
-    title: 'Report the incident',
-    detail: 'Notify your insurer if the repair is part of a claim. Keep photos and details of the damage.',
+    step: '1',
+    title: 'Send photos or call',
+    detail: 'WhatsApp damage photos or call the workshop with your vehicle details.',
   },
   {
-    step: '02',
-    title: 'Contact Gwecely',
-    detail: 'Call, WhatsApp, or send a quote request with vehicle details and a short description of the damage.',
-  },
-  {
-    step: '03',
+    step: '2',
     title: 'Vehicle inspection',
-    detail: 'Bring the vehicle to our workshop behind CMC Motors, or arrange assessment as guided by our team.',
+    detail: 'We inspect the vehicle at the bay behind CMC Motors and confirm the scope of work.',
   },
   {
-    step: '04',
-    title: 'Damage assessment',
-    detail: 'We inspect bodywork and related systems and prepare an estimate of the work required.',
+    step: '3',
+    title: 'Written estimate',
+    detail: 'You receive a clear estimate of the work. Where an insurer must approve, that approval remains with them.',
   },
   {
-    step: '05',
-    title: 'Approval where required',
-    detail: 'Where an insurer or fleet manager must approve the estimate, we support that process with clear documentation.',
+    step: '4',
+    title: 'Repair and updates',
+    detail: 'Bodywork, paint, and mechanical work proceed with practical progress updates.',
   },
   {
-    step: '06',
-    title: 'Repair & restoration',
-    detail: 'Panel beating, spray painting, mechanical work, and related repairs are carried out in the workshop.',
-  },
-  {
-    step: '07',
-    title: 'Quality check',
-    detail: 'We review the finished work before the vehicle is released.',
-  },
-  {
-    step: '08',
-    title: 'Vehicle handover',
-    detail: 'Collect your vehicle and confirm the completed work with our team.',
+    step: '5',
+    title: 'Check and handover',
+    detail: 'We review the finished work before you collect the vehicle.',
   },
 ] as const;
 
-export const WHY_GWECELY = [
-  {
-    title: 'Workshop-first capability',
-    detail:
-      'Our core work is panel beating, spray painting, accident repairs, servicing, mechanical repairs, and fleet maintenance — not a front desk without a bay.',
-  },
-  {
-    title: 'Structured repair process',
-    detail:
-      'Inspection, estimate, repair, and handover are organised steps so owners, fleets, and brokers know where the job stands.',
-  },
-  {
-    title: 'Insurance-aware documentation',
-    detail:
-      'For claim-related jobs we prepare assessments and estimates you can share with your insurer. We do not claim exclusive insurer partnerships.',
-  },
+export const WHY_POINTS = [
   {
     title: 'Accessible Mombasa location',
-    detail:
-      'The workshop sits behind CMC Motors on Bishop Macarios Road — practical for drop-off, collection, and fleet coordination.',
+    detail: 'Workshop behind CMC Motors on Bishop Macarios Road — practical for drop-off and collection.',
   },
   {
-    title: 'Multiple ways to start',
-    detail:
-      'Request a quote online, call the workshop, or WhatsApp vehicle details and damage photos to begin assessment.',
+    title: 'Direct workshop communication',
+    detail: 'Call or WhatsApp the same workshop number you see on this site. No call-centre runaround.',
   },
   {
-    title: 'Transparent communication',
-    detail:
-      'You receive practical updates on scope and progress. Prefer clear estimates over vague promises.',
+    title: 'Bodywork and mechanical support',
+    detail: 'Panel beating and spray painting sit alongside servicing and mechanical repairs under one roof.',
+  },
+  {
+    title: 'Clear estimates',
+    detail: 'Inspection first, then a written scope and estimate before major work proceeds.',
+  },
+  {
+    title: 'Insurance documentation support',
+    detail: 'We can prepare assessments and estimates for claim files. Insurer approval stays with the insurer.',
+  },
+  {
+    title: 'Private owners and fleets',
+    detail: 'The same bay handles individual vehicles and organised fleet maintenance work.',
   },
 ] as const;
 
 export const FAQ_ITEMS = [
   {
     q: 'Do you repair accident-damaged vehicles?',
-    a: 'Yes. We handle accident repairs including panel beating, spray painting, and related mechanical checks so the vehicle can return to the road safely.',
-  },
-  {
-    q: 'Can I bring my vehicle after an accident?',
-    a: 'Yes. Contact us first by phone or WhatsApp when possible, then bring the vehicle to our workshop behind CMC Motors, Mombasa, for inspection.',
-  },
-  {
-    q: 'Do you assist with insurance repair processes?',
-    a: 'We can inspect the vehicle, prepare an estimate, and support documentation your insurer may need. Approval remains with your insurer where a claim applies.',
-  },
-  {
-    q: 'How long does a repair take?',
-    a: 'Turnaround depends on the extent of damage, parts availability, and any insurer approval steps. After inspection we give a realistic estimate for your specific job.',
-  },
-  {
-    q: 'Can I request a quotation online?',
-    a: 'Yes. Use Get a Quote on this website with your vehicle details and a description of the damage. You can also call or WhatsApp the workshop directly.',
+    a: 'Yes. We handle accident repairs including panel beating, spray painting, and related mechanical checks.',
   },
   {
     q: 'Can I send photos of the damage?',
-    a: 'Yes. Photos help us prepare for assessment. WhatsApp them to our workshop number, or note in your quote request that you will send photos.',
+    a: 'Yes. WhatsApp photos to our workshop number — that is the fastest way to start an assessment conversation.',
   },
   {
-    q: 'Where is Gwecely located?',
-    a: 'Behind CMC Motors, Off Bishop Macarios Road, Mombasa. P.O. Box 323 - 80100, Mombasa.',
+    q: 'Do you assist with insurance repairs?',
+    a: 'We inspect, estimate, and can provide documentation for your claim file. Approval of the claim remains with your insurer.',
   },
   {
-    q: 'What types of vehicles do you service?',
-    a: 'We work on private cars, vans, SUVs, and fleet/commercial vehicles for panel, paint, servicing, and mechanical repairs.',
+    q: 'Where are you located?',
+    a: 'Behind CMC Motors, Off Bishop Macarios Road, Mombasa.',
   },
   {
     q: 'What are your opening hours?',
-    a: 'Monday–Friday 8:00 AM – 6:00 PM, Saturday 8:00 AM – 2:00 PM. Closed on Sunday.',
+    a: 'Monday–Friday 8:00 AM – 6:00 PM, Saturday 8:00 AM – 2:00 PM. Closed Sunday.',
   },
 ] as const;
 
-export const SERVICE_SLUGS: Record<string, string> = {
-  'Panel Beating': 'panel-beating',
-  'Spray Painting': 'spray-painting',
-  'Accident Repairs': 'accident-repairs',
-  'Vehicle Servicing': 'vehicle-servicing',
-  'Mechanical Repairs': 'mechanical-repairs',
-  'Fleet Maintenance': 'fleet-maintenance',
+/** Customer-problem oriented service blurbs */
+export const SERVICE_PROBLEMS: Record<string, string> = {
+  'Accident Repairs':
+    'Collision or impact damage — we assess the vehicle and plan the body and related repairs needed to get it roadworthy again.',
+  'Panel Beating':
+    'Dents, crumpled panels, or structural body damage that needs reshaping or panel work before painting.',
+  'Spray Painting':
+    'Faded, mismatched, or repaired panels that need colour-matched refinishing and clear coat.',
+  'Mechanical Repairs':
+    'Engine, gearbox, brakes, suspension, or electrical faults diagnosed and repaired in the workshop.',
+  'Vehicle Servicing':
+    'Scheduled maintenance — oils, filters, fluids, and checks to keep the vehicle reliable.',
+  'Fleet Maintenance':
+    'Company or commercial vehicles that need planned servicing and repair coordination.',
 };

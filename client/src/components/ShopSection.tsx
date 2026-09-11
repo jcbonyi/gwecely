@@ -173,6 +173,7 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
 
 export default function ShopSection() {
   const { products, loading, error } = useProducts();
+  const { toggleCart, totalItems } = useCart();
   const [location] = useLocation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -219,14 +220,27 @@ export default function ShopSection() {
             Genuine Parts &amp; Supplies — Mombasa &amp; Nairobi Delivery
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2 className="font-[family-name:var(--font-display)] font-800 text-4xl md:text-5xl text-[#111111] section-heading">
-              BUILT FOR KENYA'S
-              <br />
-              ROADS &amp; OFFICES
+            <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading">
+              Parts &amp; supplies
             </h2>
-            <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-sm">
-              Genuine OEM parts, hospitality supplies, office essentials, and fast delivery across Kenya.
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-sm text-sm">
+                Secondary to the workshop — spare parts and supplies for clients who need them.
+              </p>
+              <button
+                type="button"
+                onClick={toggleCart}
+                className="relative flex-shrink-0 p-3 border border-[#E6E6E6] min-w-[44px] min-h-[44px]"
+                aria-label={`Open cart${totalItems ? `, ${totalItems} items` : ''}`}
+              >
+                <ShoppingCart size={18} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#F05030] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 

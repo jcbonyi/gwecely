@@ -5,11 +5,11 @@ import { usePageMeta } from '@/hooks/usePageMeta';
 
 export default function Home() {
   usePageMeta({
-    title: 'Vehicle Repair & Panel Beating Mombasa | Gwecely Limited',
+    title: 'Accident Repairs & Panel Beating Mombasa | Gwecely Limited',
     description:
-      'Professional vehicle repair, panel beating, spray painting and accident repairs in Mombasa. Workshop behind CMC Motors. Get a quote or call Gwecely Limited.',
+      'Mombasa vehicle repair workshop behind CMC Motors. Accident repairs, panel beating, spray painting, servicing and mechanical work. Send damage photos on WhatsApp.',
     keywords:
-      'garage Mombasa, panel beating Mombasa, car repair Mombasa, accident repair Mombasa, spray painting Mombasa',
+      'panel beating Mombasa, accident repair Mombasa, garage Mombasa, spray painting Mombasa, car repair Mombasa',
   });
 
   return (

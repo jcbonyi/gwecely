@@ -1,13 +1,13 @@
 /**
- * Gwecely Limited — brand constants
- * Colors sampled from official logo artwork (#F05030 orange, #404040 charcoal)
+ * Gwecely Limited — brand constants (logo-matched colours)
  */
 
 export const BRAND = {
   name: 'GWECELY',
   legalName: 'Gwecely Limited',
-  tagline: 'You dream it. We provide it. You live it.',
-  subtitle: 'Motor Vehicle Garage, Panel Beating & Spray Painting',
+  /** Short workshop positioning — not lifestyle slogan */
+  tagline: 'Mombasa vehicle repair workshop',
+  subtitle: 'Accident repairs, panel beating, spray painting & mechanical work',
 
   colors: {
     orange: '#F05030',
@@ -28,19 +28,19 @@ export const BRAND = {
   },
 
   about:
-    'Gwecely Limited is a registered motor vehicle garage in Mombasa, specialising in panel beating, spray painting, accident repairs, vehicle servicing, mechanical work, and fleet maintenance. Our workshop sits behind CMC Motors on Bishop Macarios Road and serves private motorists, fleets, and businesses along the coast.',
+    'Gwecely Limited operates a motor vehicle workshop in Mombasa behind CMC Motors on Bishop Macarios Road. We handle panel beating, spray painting, accident repairs, vehicle servicing, mechanical repairs, and fleet maintenance for private owners and organisations along the coast.',
 
   expertise:
-    'Core workshop work covers panel beating, spray painting, accident repairs, servicing, mechanical repairs, and fleet maintenance. Parts supply, corporate procurement, and hospitality supplies are available as supporting services for clients who already use the garage.',
+    'Primary work is accident repairs, panel beating, spray painting, servicing, mechanical repairs, and fleet maintenance.',
 
   mission:
-    'To deliver careful panel beating, spray painting, and garage repairs — with honest workmanship and clear pricing — while supporting fleet operators and businesses with dependable parts and procurement when needed.',
+    'To inspect damage carefully, give a clear estimate, carry out the repair work, and keep customers informed until handover.',
 
   vision:
-    'To be Mombasa’s most trusted motor vehicle garage for bodywork, repairs, and fleet maintenance — known first for workshop quality.',
+    'To be a trusted Mombasa workshop for bodywork, repairs, and fleet maintenance.',
 
   market:
-    'We work with private vehicle owners, sole traders, and limited companies. The same workshop team handles small jobs and fleet work alike.',
+    'We work with private vehicle owners, fleets, and organisations that need workshop repairs in Mombasa.',
 
   contact: {
     address: 'Behind CMC Motors, Off Bishop Macarios Road, Mombasa',

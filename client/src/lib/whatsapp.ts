@@ -62,23 +62,58 @@ export function buildServiceBookingQuickMessage(): string {
 
 export function buildQuoteQuickMessage(): string {
   return [
-    `*GWECELY — QUOTE REQUEST*`,
-    '',
     'Hello Gwecely, I would like to request a quotation for my vehicle.',
     '',
-    '*My details*',
-    '• Name:',
-    '• Phone:',
+    'Name:',
+    'Phone:',
+    'Vehicle make / model:',
+    'Registration:',
+    'Service / damage:',
     '',
-    '*Vehicle*',
-    '• Make / model:',
-    '• Registration:',
+    'I can send photos of the damage in this chat.',
+  ].join('\n');
+}
+
+export function buildPhotoQuoteMessage(): string {
+  return [
+    'Hello Gwecely, I would like to send photos of vehicle damage for an assessment.',
     '',
-    '*Damage / service needed*',
-    '• ',
+    'Name:',
+    'Phone:',
+    'Vehicle make / model:',
+    'Registration (optional):',
     '',
-    'I can send photos of the damage in this chat. Thank you!',
-    footer(),
+    'I will attach the photos in this chat.',
+  ].join('\n');
+}
+
+export function buildQuoteFormMessage(form: {
+  name: string;
+  phone: string;
+  email?: string;
+  vehicleMake: string;
+  vehicleModel: string;
+  regNumber?: string;
+  service: string;
+  notes: string;
+  preferredContact?: string;
+}): string {
+  return [
+    '*Gwecely — quote request*',
+    '',
+    `Name: ${form.name}`,
+    `Phone: ${form.phone}`,
+    ...(form.email ? [`Email: ${form.email}`] : []),
+    ...(form.preferredContact ? [`Preferred contact: ${form.preferredContact}`] : []),
+    '',
+    `Vehicle: ${form.vehicleMake} ${form.vehicleModel}`,
+    ...(form.regNumber?.trim() ? [`Registration: ${form.regNumber.toUpperCase()}`] : []),
+    `Service needed: ${form.service}`,
+    '',
+    'Damage / problem:',
+    form.notes.trim(),
+    '',
+    'I can send photos next in this chat.',
   ].join('\n');
 }
 

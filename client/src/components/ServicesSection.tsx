@@ -5,23 +5,19 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
-  Briefcase,
   Calendar,
   Car,
-  Cog,
   Gauge,
   Hammer,
   Paintbrush,
-  Package,
   Truck,
-  UtensilsCrossed,
   Wrench,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { BRAND } from '@/lib/brand';
-import { PRIMARY_GARAGE_SERVICES, SECONDARY_SUPPORT_SERVICES } from '@/lib/services';
+import { PRIMARY_GARAGE_SERVICES } from '@/lib/services';
 import { SERVICE_IMAGES } from '@/lib/categoryImages';
-import { buildGeneralEnquiryMessage, whatsAppUrl } from '@/lib/whatsapp';
+import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 import { bookService } from '@/lib/booking';
 import { ROUTES } from '@/lib/routes';
 import { goTo, goToShopCategory } from '@/lib/navigation';
@@ -33,12 +29,6 @@ const PRIMARY_ICONS: Record<string, LucideIcon> = {
   'Vehicle Servicing': Gauge,
   'Mechanical Repairs': Wrench,
   'Fleet Maintenance': Truck,
-};
-
-const SECONDARY_ICONS: Record<string, LucideIcon> = {
-  'Automotive Parts Supply': Cog,
-  'Corporate Procurement': Briefcase,
-  'Hospitality Supplies': UtensilsCrossed,
 };
 
 type PrimaryService = (typeof PRIMARY_GARAGE_SERVICES)[number];
@@ -180,79 +170,25 @@ export default function ServicesSection() {
           ))}
         </div>
 
-        {/* Secondary — supporting (~20% visual weight) */}
-        <div id="supplies" className="rounded-xl bg-white/60 border border-gray-200/80 p-6 md:p-8">
-          <div className="mb-6">
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-[family-name:var(--font-body)] font-medium mb-1.5">
-              Secondary Services
-            </p>
-            <h3 className="font-[family-name:var(--font-display)] font-700 text-xl md:text-2xl text-[#404040]/90">
-              Supporting Your Business
-            </h3>
-            <p className="text-gray-500 text-xs md:text-sm font-[family-name:var(--font-body)] mt-1.5 max-w-2xl">
-              Parts supply and procurement for clients who already trust our workshop — not a substitute for our garage
-              services.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {SECONDARY_SUPPORT_SERVICES.map((item, i) => {
-              const Icon = SECONDARY_ICONS[item.title] ?? Package;
-              const image = SERVICE_IMAGES[item.imageKey];
-              return (
-                <div
-                  key={item.title}
-                  className={`supplies-card reveal ${visible ? 'visible' : ''} opacity-90`}
-                  style={{ transitionDelay: `${360 + i * 40}ms` }}
-                >
-                  <div className="relative h-24 overflow-hidden rounded-t-lg">
-                    <img src={image} alt={item.title} className="w-full h-full object-cover opacity-90" loading="lazy" />
-                    <div className="absolute inset-0 bg-[#404040]/40" />
-                    <div className="absolute bottom-2 left-2 w-7 h-7 rounded-md bg-white/85 flex items-center justify-center">
-                      <Icon size={14} className="text-[#404040]" />
-                    </div>
-                  </div>
-                  <div className="p-3.5">
-                    <h4 className="font-[family-name:var(--font-display)] font-700 text-sm text-[#111111] mb-1">{item.title}</h4>
-                    <p className="text-gray-500 text-xs font-[family-name:var(--font-body)] leading-snug mb-3">{item.desc}</p>
-                    {item.link === 'shop' && 'shopCategory' in item ? (
-                      <button
-                        type="button"
-                        onClick={() => goToShopCategory(item.shopCategory)}
-                        className="text-xs font-[family-name:var(--font-body)] font-medium text-gray-500 hover:text-[#F05030] transition-colors"
-                      >
-                        Browse in shop →
-                      </button>
-                    ) : item.link === 'hospitality-shop' && 'shopCategory' in item ? (
-                      <div className="flex flex-col gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => goToShopCategory(item.shopCategory)}
-                          className="text-xs font-[family-name:var(--font-body)] font-medium text-gray-500 hover:text-[#F05030] transition-colors text-left"
-                        >
-                          Shop hospitality supplies →
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => goTo(ROUTES.hospitality)}
-                          className="text-xs font-[family-name:var(--font-body)] font-medium text-gray-400 hover:text-[#F05030] transition-colors text-left"
-                        >
-                          Full catalogue &amp; quotes
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => goTo(ROUTES.contact)}
-                        className="text-xs font-[family-name:var(--font-body)] font-medium text-gray-500 hover:text-[#F05030] transition-colors"
-                      >
-                        Enquire →
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+        {/* Other business — demoted */}
+        <div id="supplies" className="border border-[#E6E6E6] bg-white p-5 md:p-6">
+          <p className="text-[10px] uppercase tracking-widest text-[#999] font-[family-name:var(--font-body)] mb-1">
+            Other business services
+          </p>
+          <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] mb-3">
+            Parts supply, corporate procurement and hospitality supplies are available separately and are not the
+            primary workshop offer.
+          </p>
+          <div className="flex flex-wrap gap-4 text-sm font-semibold">
+            <button type="button" onClick={() => goToShopCategory('spare-parts')} className="text-[#404040] hover:text-[#F05030]">
+              Parts shop
+            </button>
+            <button type="button" onClick={() => goTo(ROUTES.hospitality)} className="text-[#404040] hover:text-[#F05030]">
+              Hospitality supplies
+            </button>
+            <button type="button" onClick={() => goTo(ROUTES.contact)} className="text-[#404040] hover:text-[#F05030]">
+              Procurement enquiry
+            </button>
           </div>
         </div>
 
@@ -287,7 +223,7 @@ export default function ServicesSection() {
                 {BRAND.contact.phones[0]}
               </a>
               <a
-                href={whatsAppUrl(buildGeneralEnquiryMessage('Vehicle Repair & Panel Beating'))}
+                href={whatsAppUrl(buildPhotoQuoteMessage())}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-whatsapp text-sm py-2.5 px-6"

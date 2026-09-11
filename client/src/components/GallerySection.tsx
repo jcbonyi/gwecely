@@ -1,408 +1,106 @@
 /**
- * GallerySection — Gwecely Limited
- * Filterable closeup workshop gallery with lightbox
+ * Our Work — honest workshop photography only (no fabricated case studies)
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { X, ZoomIn } from 'lucide-react';
-import { GALLERY_IMAGES } from '@/lib/galleryImages';
-import { HOSPITALITY_PRODUCT_IMAGES } from '@/lib/categoryImages';
-import { bookService } from '@/lib/booking';
 import { Link } from 'wouter';
+import { MessageCircle } from 'lucide-react';
+import { IMAGES } from '@/lib/images';
 import { ROUTES } from '@/lib/routes';
+import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 
-const GALLERY_FILTERS = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'panel-beating', label: 'Panel Beating' },
-  { id: 'spray-painting', label: 'Spray Painting' },
-  { id: 'mechanical', label: 'Mechanical' },
-  { id: 'restoration', label: 'Restoration' },
-  { id: 'supplies', label: 'Office & Supplies' },
-  { id: 'hospitality', label: 'Hospitality' },
-  { id: 'it-equipment', label: 'IT Equipment' },
-  { id: 'safety', label: 'Health & Safety' },
-  { id: 'dry-foods', label: 'Dry Foods' },
-] as const;
-
-const GALLERY_ITEMS = [
+const WORKSHOP_GALLERY = [
   {
-    id: 1,
-    category: 'panel-beating',
-    title: 'Toyota Hilux Full Body Repair',
-    desc: 'Complete panel beating after accident damage. Restored to factory condition.',
-    image: GALLERY_IMAGES.panelCloseup,
-    featured: true,
+    src: IMAGES.hero,
+    alt: 'Gwecely Limited workshop area behind CMC Motors, Mombasa',
+    caption: 'Workshop location — behind CMC Motors, Mombasa',
   },
   {
-    id: 2,
-    category: 'spray-painting',
-    title: 'Mercedes C-Class Full Respray',
-    desc: 'Full body respray in Obsidian Black with ceramic clear coat.',
-    image: GALLERY_IMAGES.paintSpray,
+    src: IMAGES.booking.workshop,
+    alt: 'Vehicles in the Gwecely workshop bay',
+    caption: 'Workshop bay',
   },
   {
-    id: 3,
-    category: 'mechanical',
-    title: 'Engine Overhaul — Nissan Patrol',
-    desc: 'Complete engine rebuild including new pistons, rings, and gaskets.',
-    image: GALLERY_IMAGES.engineOverhaul,
+    src: '/gallery/panel-closeup.jpg',
+    alt: 'Close-up of panel work at Gwecely workshop',
+    caption: 'Panel work',
   },
   {
-    id: 4,
-    category: 'restoration',
-    title: 'Classic Land Cruiser Restoration',
-    desc: 'Full restoration of a 1985 Land Cruiser FJ40 to showroom condition.',
-    image: GALLERY_IMAGES.landCruiserRestore,
+    src: '/gallery/paint-spray.jpg',
+    alt: 'Spray painting work at Gwecely workshop',
+    caption: 'Spray painting',
   },
   {
-    id: 5,
-    category: 'spray-painting',
-    title: 'Toyota Corolla Spot Repair',
-    desc: 'Precision spot repair and color-matched respray on rear quarter panel.',
-    image: GALLERY_IMAGES.corollaSpotRepair,
+    src: '/gallery/engine-overhaul.jpg',
+    alt: 'Mechanical work in the Gwecely workshop',
+    caption: 'Mechanical work',
   },
   {
-    id: 6,
-    category: 'panel-beating',
-    title: 'Isuzu D-Max Dent Removal',
-    desc: 'Paintless dent removal on bonnet and door panels.',
-    image: GALLERY_IMAGES.dmaxDent,
-    wide: true,
-  },
-  {
-    id: 7,
-    category: 'mechanical',
-    title: 'Gearbox Rebuild — Toyota Prado',
-    desc: 'Full automatic gearbox rebuild with new clutch packs and seals.',
-    image: GALLERY_IMAGES.gearboxPrado,
-  },
-  {
-    id: 8,
-    category: 'restoration',
-    title: 'VW Golf GTI Full Restoration',
-    desc: 'Mechanical, electrical, and cosmetic restoration of a 2005 Golf GTI.',
-    image: GALLERY_IMAGES.golfGti,
-  },
-  {
-    id: 9,
-    category: 'spray-painting',
-    title: 'Performance Coupe Finish',
-    desc: 'Mirror-smooth clear coat and colour correction on a performance coupe.',
-    image: GALLERY_IMAGES.mercedesRespray,
-    wide: true,
-  },
-  {
-    id: 10,
-    category: 'mechanical',
-    title: 'Wheel & Brake Assembly',
-    desc: 'Precision brake disc and caliper service with full safety inspection.',
-    image: GALLERY_IMAGES.wheelBrake,
-  },
-  {
-    id: 11,
-    category: 'supplies',
-    title: 'Office Stationery Procurement',
-    desc: 'Bulk supply of paper, pens, filing, and desktop accessories for a Mombasa corporate client.',
-    image: GALLERY_IMAGES.officeStationery,
-    wide: true,
-  },
-  {
-    id: 12,
-    category: 'supplies',
-    title: 'Furniture & Fittings Delivery',
-    desc: 'Office desks, chairs, and filing solutions supplied and installed on site.',
-    image: GALLERY_IMAGES.officeFurniture,
-  },
-  {
-    id: 13,
-    category: 'it-equipment',
-    title: 'IT Equipment Setup',
-    desc: 'Laptops, printers, UPS, and networking gear supplied for a growing business.',
-    image: GALLERY_IMAGES.itSetup,
-    featured: true,
-  },
-  {
-    id: 14,
-    category: 'safety',
-    title: 'Workplace Safety Kit',
-    desc: 'Hard hats, first aid kits, and fire safety equipment for a construction site.',
-    image: GALLERY_IMAGES.safetyGear,
-  },
-  {
-    id: 15,
-    category: 'dry-foods',
-    title: 'Dry Foods & Beverages Supply',
-    desc: 'Rice, tea, cooking oil, and pantry staples delivered to schools and offices.',
-    image: GALLERY_IMAGES.dryFoodsSupply,
-    wide: true,
-  },
-  {
-    id: 16,
-    category: 'hospitality',
-    title: 'Hotel Tableware Supply',
-    desc: 'Porcelain dinnerware, glassware, and cutlery supplied to a Mombasa hotel refurbishment.',
-    image: HOSPITALITY_PRODUCT_IMAGES.dinnerPlates,
-    featured: true,
-  },
-  {
-    id: 17,
-    category: 'hospitality',
-    title: 'Restaurant Kitchen & Buffet Setup',
-    desc: 'Chafing dishes, buffet sets, and commercial kitchen equipment for a new restaurant opening.',
-    image: HOSPITALITY_PRODUCT_IMAGES.chafingDish,
-    wide: true,
+    src: '/gallery/wheel-brake-service.jpg',
+    alt: 'Wheel and brake service at Gwecely workshop',
+    caption: 'Brake and wheel service',
   },
 ] as const;
-
-type GalleryItem = (typeof GALLERY_ITEMS)[number];
-
-function isFeatured(item: GalleryItem): item is GalleryItem & { featured: true } {
-  return 'featured' in item && item.featured === true;
-}
-
-function isWide(item: GalleryItem): item is GalleryItem & { wide: true } {
-  return 'wide' in item && item.wide === true;
-}
-
-interface LightboxItem {
-  title: string;
-  desc: string;
-  image: string;
-  category: string;
-}
-
-function GalleryCard({
-  item,
-  index,
-  visible,
-  onOpen,
-}: {
-  item: GalleryItem;
-  index: number;
-  visible: boolean;
-  onOpen: () => void;
-}) {
-  const [imgError, setImgError] = useState(false);
-  const categoryLabel =
-    GALLERY_FILTERS.find(f => f.id === item.category)?.label ?? item.category;
-
-  const layoutClass = isFeatured(item)
-    ? 'md:col-span-2 md:row-span-2'
-    : isWide(item)
-      ? 'md:col-span-2'
-      : '';
-
-  const aspectClass = isFeatured(item)
-    ? 'aspect-[4/5] md:aspect-auto md:min-h-[420px]'
-    : isWide(item)
-      ? 'aspect-[16/10]'
-      : 'aspect-square';
-
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className={`group relative overflow-hidden rounded-2xl text-left cursor-pointer reveal ${visible ? 'visible' : ''} ${layoutClass} bg-[#111111] shadow-md shadow-[#111111]/10 ring-1 ring-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F05030] focus-visible:ring-offset-2`}
-      style={{ transitionDelay: `${index * 50}ms` }}
-    >
-      <div className={`relative w-full h-full ${aspectClass}`}>
-        <img
-          src={imgError ? GALLERY_IMAGES.panelCloseup : item.image}
-          alt={item.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-          loading="lazy"
-          onError={() => setImgError(true)}
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-[#111111]/25 to-transparent" />
-
-        <div className="absolute top-3 left-3">
-          <span className="inline-block px-2.5 py-1 rounded-md bg-[#F05030] text-white text-[10px] font-[family-name:var(--font-body)] font-semibold uppercase tracking-wide">
-            {categoryLabel}
-          </span>
-        </div>
-
-        <div className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300">
-          <ZoomIn size={16} className="text-white" />
-        </div>
-
-        <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
-          <h3 className="font-[family-name:var(--font-display)] font-700 text-white text-lg md:text-xl leading-tight mb-1 group-hover:text-[#F07058] transition-colors">
-            {item.title}
-          </h3>
-          <p className="text-orange-100/90 text-xs md:text-sm font-[family-name:var(--font-body)] line-clamp-2 opacity-90">
-            {item.desc}
-          </p>
-        </div>
-      </div>
-    </button>
-  );
-}
 
 export default function GallerySection() {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [lightbox, setLightbox] = useState<LightboxItem | null>(null);
-  const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.05 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLightbox(null);
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = lightbox ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [lightbox]);
-
-  const filtered =
-    activeFilter === 'all'
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter(i => i.category === activeFilter);
-
   return (
-    <section id="gallery" ref={ref} className="py-20 md:py-28 bg-[#F6F6F6]">
+    <section id="gallery" className="py-14 md:py-20 bg-white">
       <div className="container">
-        <div className="mb-10 md:mb-12 max-w-2xl">
+        <div className="max-w-2xl mb-10">
           <p className="section-eyebrow">Our work</p>
-          <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading mb-4">
-            Work from the Mombasa workshop
-          </h2>
-          <p className="text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-5">
-            Photographs from workshop jobs. Captions describe the type of work — replace any marketing-style project
-            stories with verified job records as you document them.
+          <h1 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading mb-4">
+            Workshop photographs
+          </h1>
+          <p className="text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
+            These images show the Gwecely workshop and the type of work carried out on site. We are documenting
+            verified before-and-after repair pairs for this page. Until those are published, contact us to discuss your
+            vehicle and arrange an inspection.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="border border-dashed border-[#C8C8C8] bg-[#F6F6F6] aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-              <p className="font-[family-name:var(--font-display)] font-semibold text-sm text-[#404040] mb-1">
-                TODO: Before photo
-              </p>
-              <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)]">
-                Add a verified damaged-vehicle photo for a completed job
-              </p>
-            </div>
-            <div className="border border-dashed border-[#C8C8C8] bg-[#F6F6F6] aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-              <p className="font-[family-name:var(--font-display)] font-semibold text-sm text-[#404040] mb-1">
-                TODO: After photo
-              </p>
-              <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)]">
-                Add the matching completed repair photo for the same vehicle
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => bookService('Panel Beating')} className="btn-gwecely text-xs py-2.5 px-4">
-              Get a quote
-            </button>
-            <Link href={ROUTES.contact} className="btn-secondary-gwecely text-xs py-2.5 px-4">
-              Ask about a job
-            </Link>
-          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-8 md:mb-10">
-          {GALLERY_FILTERS.map(f => {
-            const count =
-              f.id === 'all'
-                ? GALLERY_ITEMS.length
-                : GALLERY_ITEMS.filter(i => i.category === f.id).length;
-            return (
-              <button
-                key={f.id}
-                onClick={() => setActiveFilter(f.id)}
-                className={`px-3.5 py-2 text-sm font-[family-name:var(--font-body)] font-medium transition-colors duration-150 rounded-sm ${
-                  activeFilter === f.id
-                    ? 'bg-[#F05030] text-white'
-                    : 'bg-white text-[#404040] border border-[#E6E6E6] hover:border-[#c8c8c8]'
-                }`}
-              >
-                {f.label}
-                <span className={`ml-1.5 text-xs ${activeFilter === f.id ? 'text-white/80' : 'text-[#999]'}`}>
-                  ({count})
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 auto-rows-fr">
-          {filtered.map((item, i) => (
-            <GalleryCard
-              key={item.id}
-              item={item}
-              index={i}
-              visible={visible}
-              onOpen={() =>
-                setLightbox({
-                  title: item.title,
-                  desc: item.desc,
-                  image: item.image,
-                  category: item.category,
-                })
-              }
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+          {WORKSHOP_GALLERY.map((item) => (
+            <figure key={item.src} className="border border-[#E6E6E6] bg-[#F6F6F6]">
+              <div className="aspect-[4/3] overflow-hidden bg-[#111111]">
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  width={640}
+                  height={480}
+                />
+              </div>
+              <figcaption className="p-3 text-sm font-[family-name:var(--font-body)] text-[#404040]">
+                {item.caption}
+              </figcaption>
+            </figure>
           ))}
         </div>
 
-        {filtered.length === 0 && (
-          <p className="text-center text-gray-500 font-[family-name:var(--font-body)] py-16">
-            No projects in this category yet.
+        <div className="border border-[#E6E6E6] bg-[#F6F6F6] p-6 md:p-8 max-w-2xl">
+          <h2 className="font-[family-name:var(--font-display)] font-semibold text-xl text-[#111111] mb-2">
+            Before-and-after projects
+          </h2>
+          <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-5">
+            We are documenting completed repairs. Contact us to discuss your vehicle and arrange an inspection — or
+            send damage photos on WhatsApp to start the conversation.
           </p>
-        )}
-      </div>
-
-      {lightbox && (
-        <div
-          className="fixed inset-0 bg-black/92 z-50 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={lightbox.title}
-        >
-          <div
-            className="relative max-w-5xl w-full bg-[#111111] rounded-2xl overflow-hidden shadow-2xl"
-            onClick={e => e.stopPropagation()}
-          >
-            <img
-              src={lightbox.image}
-              alt={lightbox.title}
-              className="w-full max-h-[75vh] object-cover"
-            />
-            <div className="p-6 flex items-start justify-between gap-4">
-              <div>
-                <span className="text-[10px] text-[#F07058] font-[family-name:var(--font-body)] font-medium uppercase tracking-wide">
-                  {GALLERY_FILTERS.find(f => f.id === lightbox.category)?.label}
-                </span>
-                <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl text-white mt-0.5">
-                  {lightbox.title}
-                </h3>
-                <p className="text-orange-100 text-sm font-[family-name:var(--font-body)] mt-2 max-w-2xl">
-                  {lightbox.desc}
-                </p>
-              </div>
-              <button
-                onClick={() => setLightbox(null)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-            </div>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={whatsAppUrl(buildPhotoQuoteMessage())}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-whatsapp text-xs"
+            >
+              <MessageCircle size={15} />
+              Send photos on WhatsApp
+            </a>
+            <Link href={ROUTES.quote} className="btn-secondary-gwecely text-xs">
+              Request a quote
+            </Link>
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 }

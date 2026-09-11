@@ -1,5 +1,5 @@
 /**
- * MobileStickyBar — Call · WhatsApp · Get a Quote
+ * Mobile sticky — WhatsApp photos · Call · Quote
  */
 
 import { useEffect } from 'react';
@@ -8,7 +8,7 @@ import { FileText, Phone } from 'lucide-react';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
-import { buildQuoteQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
+import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 
 export default function MobileStickyBar() {
   const [location] = useLocation();
@@ -32,26 +32,27 @@ export default function MobileStickyBar() {
   return (
     <div className="mobile-sticky-bar md:hidden" role="navigation" aria-label="Quick contact">
       <a
-        href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
-        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 border border-white/25 text-white text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
-      >
-        <Phone size={15} />
-        Call
-      </a>
-      <a
-        href={whatsAppUrl(buildQuoteQuickMessage())}
+        href={whatsAppUrl(buildPhotoQuoteMessage())}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#25d366] text-white text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
+        className="flex-[1.4] min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#25d366] text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide px-1"
+        data-conversion="whatsapp-sticky"
       >
-        <WhatsAppIcon className="w-4 h-4" />
-        WhatsApp
+        <WhatsAppIcon className="w-4 h-4 flex-shrink-0" />
+        Photos
+      </a>
+      <a
+        href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 border border-white/25 text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
+      >
+        <Phone size={14} />
+        Call
       </a>
       <Link
         href={ROUTES.quote}
-        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#F05030] text-white text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
+        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#F05030] text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
       >
-        <FileText size={15} />
+        <FileText size={14} />
         Quote
       </Link>
     </div>

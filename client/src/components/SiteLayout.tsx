@@ -1,5 +1,5 @@
 /**
- * SiteLayout — shared shell for all public pages (nav, cart, footer, etc.)
+ * SiteLayout — automotive shell (cart only on shop)
  */
 
 import type { ReactNode } from 'react';
@@ -13,6 +13,7 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import MobileStickyBar from '@/components/MobileStickyBar';
 import BackToTop from '@/components/BackToTop';
 import { applyPendingScroll, registerNavigate } from '@/lib/navigation';
+import { ROUTES } from '@/lib/routes';
 
 interface SiteLayoutProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ interface SiteLayoutProps {
 
 export default function SiteLayout({ children }: SiteLayoutProps) {
   const [location, setLocation] = useLocation();
+  const onShop = location === ROUTES.shop || location.startsWith(`${ROUTES.shop}/`);
 
   useEffect(() => {
     registerNavigate(setLocation);
@@ -36,8 +38,12 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
       </a>
 
       <Navbar />
-      <CartSidebar />
-      <WishlistSidebar />
+      {onShop && (
+        <>
+          <CartSidebar />
+          <WishlistSidebar />
+        </>
+      )}
       <WhatsAppButton />
       <MobileStickyBar />
       <BackToTop />

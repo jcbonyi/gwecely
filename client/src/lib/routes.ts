@@ -1,4 +1,4 @@
-/** Public site routes — conversion-focused IA */
+/** Primary automotive IA — conversion-focused */
 
 export const ROUTES = {
   home: '/',
@@ -9,9 +9,7 @@ export const ROUTES = {
   whyGwecely: '/why-gwecely',
   contact: '/contact',
   quote: '/quote',
-  /** @deprecated use quote — kept for bookmarks */
   book: '/book',
-  /** @deprecated use ourWork */
   gallery: '/gallery',
   reviews: '/reviews',
   shop: '/shop',
@@ -20,35 +18,30 @@ export const ROUTES = {
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];
 
-/** Primary navigation — matches conversion brief */
+/** Primary nav — automotive only */
 export const NAV_LINKS: { label: string; href: AppRoute }[] = [
-  { label: 'About Us', href: ROUTES.about },
-  { label: 'Our Services', href: ROUTES.services },
-  { label: 'Insurance & Claims', href: ROUTES.insuranceClaims },
+  { label: 'Home', href: ROUTES.home },
+  { label: 'Services', href: ROUTES.services },
   { label: 'Our Work', href: ROUTES.ourWork },
-  { label: 'Why Gwecely', href: ROUTES.whyGwecely },
-  { label: 'Contact Us', href: ROUTES.contact },
+  { label: 'About', href: ROUTES.about },
+  { label: 'Contact', href: ROUTES.contact },
 ];
 
-/** Footer / secondary discovery */
-export const NAV_SECONDARY_LINKS: { label: string; href: AppRoute }[] = [
-  { label: 'Get a Quote', href: ROUTES.quote },
-  { label: 'Customer Reviews', href: ROUTES.reviews },
-  { label: 'Parts Shop', href: ROUTES.shop },
-  { label: 'Hospitality Supplies', href: ROUTES.hospitality },
+/** Low-priority / other business */
+export const OTHER_BUSINESS_LINKS: { label: string; href: AppRoute }[] = [
+  { label: 'Insurance & claims guidance', href: ROUTES.insuranceClaims },
+  { label: 'Parts shop', href: ROUTES.shop },
+  { label: 'Hospitality supplies', href: ROUTES.hospitality },
 ];
 
 export const FOOTER_LINKS: { label: string; href: AppRoute }[] = [
   { label: 'Home', href: ROUTES.home },
-  { label: 'About Us', href: ROUTES.about },
-  { label: 'Our Services', href: ROUTES.services },
-  { label: 'Insurance & Claims', href: ROUTES.insuranceClaims },
+  { label: 'Services', href: ROUTES.services },
   { label: 'Our Work', href: ROUTES.ourWork },
-  { label: 'Why Gwecely', href: ROUTES.whyGwecely },
+  { label: 'About', href: ROUTES.about },
+  { label: 'Contact', href: ROUTES.contact },
   { label: 'Get a Quote', href: ROUTES.quote },
-  { label: 'Contact Us', href: ROUTES.contact },
-  { label: 'Parts Shop', href: ROUTES.shop },
-  { label: 'Hospitality Supplies', href: ROUTES.hospitality },
+  { label: 'Insurance & Claims', href: ROUTES.insuranceClaims },
 ];
 
 export function isActiveRoute(current: string, href: AppRoute): boolean {
@@ -66,3 +59,6 @@ export function isActiveRoute(current: string, href: AppRoute): boolean {
 }
 
 export const SITE_ORIGIN = 'https://www.gwecely.co.ke';
+
+export const MAPS_DIRECTIONS_URL =
+  'https://www.google.com/maps/search/?api=1&query=CMC+Motors+Bishop+Macarios+Road+Mombasa';
