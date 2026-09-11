@@ -1,13 +1,10 @@
 /**
  * Before/after repair pairs for the homepage gallery.
  *
- * TODO (owner): Provide at least 8 genuine pairs with:
- *   - beforeSrc / afterSrc (local workshop photos, not stock)
- *   - vehicle (e.g. "Toyota Hilux")
- *   - damage (e.g. "Rear quarter panel collision")
- *   - daysInWorkshop (integer only if accurate — do not invent)
+ * REPLACE: add genuine pairs (minimum recommended: 8). Until then the homepage
+ * section is hidden entirely — never render an empty / "coming soon" block.
  *
- * Until real pairs are supplied, the UI shows an honest empty state.
+ * Each pair needs: beforeSrc, afterSrc, vehicle, damage, optional daysInWorkshop.
  */
 
 export type BeforeAfterPair = {
@@ -16,12 +13,11 @@ export type BeforeAfterPair = {
   afterSrc: string;
   vehicle: string;
   damage: string;
-  /** Omit or leave undefined until a real figure is confirmed */
   daysInWorkshop?: number;
 };
 
 export const BEFORE_AFTER_PAIRS: BeforeAfterPair[] = [
-  // TODO: add genuine repair pairs here (minimum 8)
+  // REPLACE: { id: '1', beforeSrc: '...', afterSrc: '...', vehicle: 'Toyota Hilux', damage: 'Rear quarter panel', daysInWorkshop: 5 },
 ];
 
 export function pairCaption(pair: BeforeAfterPair): string {

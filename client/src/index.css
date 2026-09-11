@@ -491,9 +491,6 @@
     .mobile-sticky-bar {
       display: flex;
     }
-    .wa-fab {
-      bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
-    }
     body.has-mobile-sticky {
       padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
     }
@@ -526,10 +523,15 @@
     bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
     right: max(1.25rem, env(safe-area-inset-right, 0px));
     z-index: 40;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: flex-end;
     gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .wa-fab {
+      display: flex;
+    }
   }
   .wa-fab-button {
     width: 3.5rem;

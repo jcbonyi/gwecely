@@ -1,21 +1,21 @@
 /**
- * Quote form — 4 fields max: name, phone, vehicle, photo upload
- * WhatsApp is the primary path (Kenya accident customers)
+ * Quote form — name, phone, vehicle, damage, photo → WhatsApp
  */
 
 import { useState, useRef } from 'react';
 import { buildSimpleQuoteMessage, buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { BRAND } from '@/lib/brand';
-import { Camera, Car, Phone, User } from 'lucide-react';
+import { Camera, Car, FileText, Phone, User } from 'lucide-react';
 
 interface FormData {
   name: string;
   phone: string;
   vehicle: string;
+  damage: string;
 }
 
-const INITIAL: FormData = { name: '', phone: '', vehicle: '' };
+const INITIAL: FormData = { name: '', phone: '', vehicle: '', damage: '' };
 
 export default function BookingSection() {
   const [form, setForm] = useState<FormData>(INITIAL);
@@ -30,11 +30,12 @@ export default function BookingSection() {
     else if (!/^(\+254|0)[17]\d{8}$/.test(form.phone.replace(/\s/g, '')))
       next.phone = 'Enter a valid Kenyan phone number';
     if (!form.vehicle.trim()) next.vehicle = 'Vehicle make / model is required';
+    if (!form.damage.trim()) next.damage = 'Briefly describe the damage';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
@@ -53,10 +54,10 @@ export default function BookingSection() {
   };
 
   const field = (name: string) =>
-    `w-full px-4 py-3 border rounded-sm text-sm font-[family-name:var(--font-body)] focus:outline-none focus:ring-2 min-h-[44px] ${
+    `w-full px-4 py-3 border rounded-xl text-sm font-[family-name:var(--font-body)] focus:outline-none focus:ring-2 min-h-[44px] ${
       errors[name]
         ? 'border-red-400 focus:ring-red-100'
-        : 'border-[#E6E6E6] focus:border-[#F05030] focus:ring-[#F05030]/15'
+        : 'border-[#E5E7E7] focus:border-[#F05030] focus:ring-[#F05030]/15'
     }`;
 
   return (
@@ -67,8 +68,7 @@ export default function BookingSection() {
           Request a quotation
         </h1>
         <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-6">
-          Four fields, then WhatsApp — attach damage photos in the chat. That is the fastest way for accident
-          assessments in Mombasa.
+          Fill the form, continue on WhatsApp, and attach damage photos in the chat.
         </p>
 
         <a
@@ -85,7 +85,7 @@ export default function BookingSection() {
         <form
           onSubmit={openWhatsApp}
           noValidate
-          className="bg-white border border-[#E6E6E6] p-6 md:p-8 space-y-4"
+          className="bg-white border border-[#E5E7E7] rounded-xl p-6 md:p-8 space-y-4"
         >
           <div>
             <label htmlFor="name" className="block text-xs font-medium text-[#404040] mb-1.5">
@@ -130,9 +130,26 @@ export default function BookingSection() {
           </div>
 
           <div>
+            <label htmlFor="damage" className="block text-xs font-medium text-[#404040] mb-1.5">
+              <FileText size={12} className="inline mr-1" />
+              Damage description *
+            </label>
+            <textarea
+              id="damage"
+              name="damage"
+              rows={3}
+              value={form.damage}
+              onChange={handleChange}
+              placeholder="e.g. Front bumper and left wing after a collision"
+              className={field('damage')}
+            />
+            {errors.damage && <p className="text-red-500 text-xs mt-1">{errors.damage}</p>}
+          </div>
+
+          <div>
             <label htmlFor="photo" className="block text-xs font-medium text-[#404040] mb-1.5">
               <Camera size={12} className="inline mr-1" />
-              Damage photo (optional here — attach on WhatsApp)
+              Damage photo (attach again on WhatsApp)
             </label>
             <input
               ref={fileRef}
@@ -150,13 +167,12 @@ export default function BookingSection() {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="w-full min-h-[44px] border border-dashed border-[#E6E6E6] px-4 py-3 text-sm text-[#6B6B6B] text-left hover:border-[#F05030]"
+              className="w-full min-h-[44px] border border-dashed border-[#E5E7E7] rounded-xl px-4 py-3 text-sm text-[#6B6B6B] text-left hover:border-[#F05030]"
             >
               {photoName ? `Selected: ${photoName}` : 'Choose a photo from your phone'}
             </button>
             <p className="text-xs text-[#888] mt-1.5 font-[family-name:var(--font-body)]">
-              Browsers cannot attach files into WhatsApp automatically. After you continue, send the same photo in the
-              WhatsApp chat.
+              After you continue, send the same photo in the WhatsApp chat.
             </p>
           </div>
 

@@ -58,13 +58,12 @@ export default function HeroSection() {
             {BRAND.legalName} · Mombasa
           </p>
 
-          <h1 className="font-[family-name:var(--font-display)] font-bold text-[1.65rem] sm:text-3xl md:text-[2.35rem] text-white leading-[1.15] tracking-tight mb-3">
-            Accident repairs and vehicle bodywork in Mombasa
+          <h1 className="font-[family-name:var(--font-display)] font-extrabold text-[clamp(1.65rem,5vw,2.75rem)] text-white leading-[1.12] tracking-tight mb-3">
+            Accident repairs &amp; vehicle bodywork in Mombasa
           </h1>
 
           <p className="text-[#D0D0D0] text-sm md:text-base font-[family-name:var(--font-body)] leading-relaxed max-w-xl mb-5">
-            Panel beating, spray painting, mechanical repairs and servicing from a workshop behind CMC Motors. Send
-            photos of the damage on WhatsApp or request an inspection.
+            Panel beating, spray painting, mechanical repairs and servicing behind CMC Motors.
           </p>
 
           <div className="flex flex-wrap gap-3 mb-6">

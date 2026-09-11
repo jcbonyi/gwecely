@@ -1,12 +1,11 @@
 /**
- * Mobile sticky — WhatsApp photos · Call · Quote
+ * Sticky WhatsApp — mobile only. Desktop uses the FAB.
+ * Single CTA: send damage photos (Base44: reduce CTA redundancy).
  */
 
 import { useEffect } from 'react';
-import { Link, useLocation } from 'wouter';
-import { FileText, Phone } from 'lucide-react';
+import { useLocation } from 'wouter';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
-import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
 import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 
@@ -30,31 +29,17 @@ export default function MobileStickyBar() {
   if (hide) return null;
 
   return (
-    <div className="mobile-sticky-bar md:hidden" role="navigation" aria-label="Quick contact">
+    <div className="mobile-sticky-bar md:hidden" role="navigation" aria-label="WhatsApp">
       <a
         href={whatsAppUrl(buildPhotoQuoteMessage())}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-[1.4] min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#25d366] text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide px-1"
+        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-2 bg-[#25D366] text-white text-sm font-[family-name:var(--font-display)] font-semibold tracking-wide px-3"
         data-conversion="whatsapp-sticky"
       >
-        <WhatsAppIcon className="w-4 h-4 flex-shrink-0" />
-        WhatsApp Photos
+        <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
+        Send damage photos on WhatsApp
       </a>
-      <a
-        href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
-        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 border border-white/25 text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
-      >
-        <Phone size={14} />
-        Call
-      </a>
-      <Link
-        href={ROUTES.quote}
-        className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-1.5 bg-[#F05030] text-white text-[11px] font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide"
-      >
-        <FileText size={14} />
-        Quote
-      </Link>
     </div>
   );
 }

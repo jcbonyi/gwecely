@@ -117,11 +117,12 @@ export function buildQuoteFormMessage(form: {
   ].join('\n');
 }
 
-/** Simplified 4-field quote → WhatsApp */
+/** Simplified quote → WhatsApp */
 export function buildSimpleQuoteMessage(form: {
   name: string;
   phone: string;
   vehicle: string;
+  damage?: string;
   photoSelected?: boolean;
 }): string {
   return [
@@ -130,6 +131,7 @@ export function buildSimpleQuoteMessage(form: {
     `Name: ${form.name}`,
     `Phone: ${form.phone}`,
     `Vehicle: ${form.vehicle}`,
+    ...(form.damage?.trim() ? ['', 'Damage:', form.damage.trim()] : []),
     '',
     form.photoSelected
       ? 'I selected a damage photo on the website and will attach it in this chat.'

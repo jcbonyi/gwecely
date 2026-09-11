@@ -1,10 +1,23 @@
 /**
- * Home page — automotive conversion hierarchy (Lovable P0–P2)
+ * Homepage sections — only render proof blocks when real data is filled.
+ * Never show empty / "coming soon" placeholders to visitors.
  */
 
 import { useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, MapPin, MessageCircle, Phone } from 'lucide-react';
+import {
+  ArrowRight,
+  Camera,
+  CheckCircle2,
+  ClipboardList,
+  FileText,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Search,
+  Wrench,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { PRIMARY_GARAGE_SERVICES } from '@/lib/services';
 import { SERVICE_IMAGE_BASES } from '@/lib/categoryImages';
 import { BRAND } from '@/lib/brand';
@@ -18,12 +31,13 @@ import {
   GOOGLE_BUSINESS_PROFILE_URL,
   GOOGLE_REVIEWS,
   PROOF_STATS,
+  hasReviewsContent,
 } from '@/lib/proofContent';
 import { BEFORE_AFTER_PAIRS, pairCaption } from '@/lib/beforeAfter';
-import WhatsAppIcon from '@/components/WhatsAppIcon';
 import ResponsivePicture from '@/components/ResponsivePicture';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
+import ContactMap from '@/components/ContactMap';
 
 const SERVICE_ALTS: Record<string, string> = {
   panelBeating: 'Panel beating and dent repair on a vehicle body at the Gwecely workshop, Mombasa',
@@ -57,10 +71,11 @@ const WORKSHOP_PHOTOS = [
   },
 ] as const;
 
+const PROCESS_ICONS: LucideIcon[] = [Camera, Search, ClipboardList, Wrench, CheckCircle2];
+
 function injectFaqJsonLd() {
   const id = 'gwecely-faq-jsonld';
-  const existing = document.getElementById(id);
-  if (existing) existing.remove();
+  document.getElementById(id)?.remove();
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.id = id;
@@ -82,10 +97,14 @@ export default function HomeSections() {
     return () => document.getElementById('gwecely-faq-jsonld')?.remove();
   }, []);
 
+  const showProofStats = PROOF_STATS.length > 0;
+  const showBeforeAfter = BEFORE_AFTER_PAIRS.length > 0;
+  const showInsurers = ACCEPTED_INSURERS.length > 0;
+  const showReviews = hasReviewsContent();
+
   return (
     <>
-      {/* Trust strip */}
-      <section className="border-b border-[#E6E6E6] bg-white" aria-label="Workshop facts">
+      <section className="border-b border-[#E5E7E7] bg-white" aria-label="Workshop facts">
         <div className="container py-6 md:py-8">
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TRUST_STRIP.map((item) => (
@@ -100,19 +119,18 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* Proof numbers — only when owner supplies real figures */}
-      <section className="bg-white border-b border-[#E6E6E6]" aria-labelledby="proof-stats-heading">
-        <div className="container py-8 md:py-10">
-          <h2
-            id="proof-stats-heading"
-            className="font-[family-name:var(--font-display)] font-bold text-xl text-[#111111] section-heading mb-4"
-          >
-            Workshop at a glance
-          </h2>
-          {PROOF_STATS.length > 0 ? (
+      {showProofStats ? (
+        <section className="bg-white border-b border-[#E5E7E7]" aria-labelledby="proof-stats-heading">
+          <div className="container py-8 md:py-10">
+            <h2
+              id="proof-stats-heading"
+              className="font-[family-name:var(--font-display)] font-bold text-xl text-[#111111] section-heading mb-4"
+            >
+              Workshop at a glance
+            </h2>
             <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {PROOF_STATS.map((stat) => (
-                <div key={stat.label} className="border border-[#E6E6E6] p-4">
+                <div key={stat.label} className="border border-[#E5E7E7] rounded-xl p-4">
                   <dt className="text-xs uppercase tracking-wider text-[#888] mb-1">{stat.label}</dt>
                   <dd className="font-[family-name:var(--font-display)] font-bold text-2xl text-[#111111]">
                     {stat.value}
@@ -120,17 +138,10 @@ export default function HomeSections() {
                 </div>
               ))}
             </dl>
-          ) : (
-            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] border border-dashed border-[#E6E6E6] p-4">
-              {/* TODO: years operating · vehicles repaired · average turnaround — ask owner; do not invent */}
-              Proof figures (years operating, vehicles repaired, average turnaround) will appear here once confirmed by
-              the workshop. We do not publish estimated statistics.
-            </p>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
 
-      {/* Core services */}
       <section className="bg-[#F6F6F6]" aria-labelledby="services-heading">
         <div className="container py-12 md:py-16">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
@@ -151,14 +162,18 @@ export default function HomeSections() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {PRIMARY_GARAGE_SERVICES.map((service) => {
               const base = SERVICE_IMAGE_BASES[service.imageKey];
+              const blurb = SERVICE_PROBLEMS[service.title] ?? service.desc;
               return (
-                <article key={service.title} className="bg-white border border-[#E6E6E6] p-5 flex flex-col">
-                  <div className="h-32 mb-4 overflow-hidden bg-[#111111]">
+                <article
+                  key={service.title}
+                  className="bg-white border border-[#E5E7E7] rounded-xl p-5 flex flex-col hover:shadow-sm transition-shadow"
+                >
+                  <div className="h-36 mb-4 overflow-hidden rounded-lg bg-[#141414]">
                     {base ? (
                       <ResponsivePicture
                         baseName={base}
                         alt={SERVICE_ALTS[service.imageKey] ?? `${service.title} at Gwecely Limited, Mombasa`}
-                        className="w-full h-full object-cover opacity-90"
+                        className="w-full h-full object-cover"
                         width={800}
                         height={400}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
@@ -168,7 +183,7 @@ export default function HomeSections() {
                       <ImageWithFallback
                         src="/images/workshop-bay-800.jpg"
                         alt={SERVICE_ALTS[service.imageKey] ?? service.title}
-                        className="w-full h-full object-cover opacity-90"
+                        className="w-full h-full object-cover"
                         width={800}
                         height={400}
                       />
@@ -177,12 +192,12 @@ export default function HomeSections() {
                   <h3 className="font-[family-name:var(--font-display)] font-semibold text-lg text-[#111111] mb-2">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed flex-1 mb-4">
-                    {SERVICE_PROBLEMS[service.title] ?? service.desc}
+                  <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed line-clamp-2 flex-1 mb-4">
+                    {blurb}
                   </p>
                   <Link
                     href={`/services/${slugForService(service.title)}`}
-                    className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A]"
+                    className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A] min-h-[44px] inline-flex items-center"
                   >
                     Learn more
                   </Link>
@@ -193,24 +208,21 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* Before / after */}
-      <section className="bg-white" aria-labelledby="ba-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-8">
-            <p className="section-eyebrow">Proof of work</p>
-            <h2
-              id="ba-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
-            >
-              Before &amp; after repairs
-            </h2>
-            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
-              Drag the slider to compare damage and the finished repair. Each caption lists the vehicle, damage type, and
-              days in the workshop when known.
-            </p>
-          </div>
-
-          {BEFORE_AFTER_PAIRS.length > 0 ? (
+      {showBeforeAfter ? (
+        <section className="bg-white" aria-labelledby="ba-heading">
+          <div className="container py-12 md:py-16">
+            <div className="max-w-2xl mb-8">
+              <p className="section-eyebrow">Proof of work</p>
+              <h2
+                id="ba-heading"
+                className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
+              >
+                Before &amp; after repairs
+              </h2>
+              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
+                Drag the slider to compare damage and the finished repair.
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {BEFORE_AFTER_PAIRS.map((pair) => (
                 <BeforeAfterSlider
@@ -222,23 +234,10 @@ export default function HomeSections() {
                 />
               ))}
             </div>
-          ) : (
-            <div className="border border-dashed border-[#E6E6E6] p-6 md:p-8 bg-[#F6F6F6]">
-              <p className="text-sm text-[#404040] font-[family-name:var(--font-body)] leading-relaxed mb-3">
-                {/* TODO: minimum 8 genuine before/after pairs */}
-                We are collecting genuine before-and-after photographs from completed jobs. Stock crash photos will not
-                be used. Once the workshop supplies pairs (vehicle model, damage type, days in workshop), they will
-                appear in this slider.
-              </p>
-              <Link href={ROUTES.ourWork} className="text-sm font-semibold text-[#F05030]">
-                See workshop photographs <ArrowRight size={14} className="inline" />
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
 
-      {/* What happens next */}
       <section className="bg-[#F6F6F6]" aria-labelledby="process-heading">
         <div className="container py-12 md:py-16">
           <div className="max-w-2xl mb-8">
@@ -250,70 +249,71 @@ export default function HomeSections() {
               From first contact to handover
             </h2>
             <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)]">
-              If your repair is part of an insurance claim, we support documentation and estimates. Approval of the
-              claim remains with your insurer.
+              Insurance claim? We support estimates and documentation. Approval stays with your insurer.
             </p>
           </div>
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {WHAT_HAPPENS_NEXT.map((item) => (
-              <li key={item.step} className="border border-[#E6E6E6] bg-white p-4">
-                <p className="font-[family-name:var(--font-display)] font-bold text-[#F05030] text-sm mb-2">
-                  {item.step}
-                </p>
-                <h3 className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1.5 text-sm">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
-                  {item.detail}
-                </p>
-              </li>
-            ))}
+            {WHAT_HAPPENS_NEXT.map((item, i) => {
+              const Icon = PROCESS_ICONS[i] ?? FileText;
+              return (
+                <li key={item.step} className="border border-[#E5E7E7] bg-white rounded-xl p-4">
+                  <div className="w-9 h-9 rounded-lg bg-[#F05030]/10 text-[#F05030] flex items-center justify-center mb-3">
+                    <Icon size={18} aria-hidden />
+                  </div>
+                  <p className="font-[family-name:var(--font-display)] font-bold text-[#F05030] text-xs mb-1">
+                    Step {item.step}
+                  </p>
+                  <h3 className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1.5 text-sm">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
+                    {item.detail}
+                  </p>
+                </li>
+              );
+            })}
           </ol>
+          <p className="mt-6 text-sm">
+            <Link href={ROUTES.insuranceClaims} className="text-[#F05030] font-semibold hover:underline">
+              Insurance &amp; claims guidance
+            </Link>
+          </p>
         </div>
       </section>
 
-      {/* Working with insurers */}
-      <section className="bg-white" aria-labelledby="insurers-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-6">
-            <p className="section-eyebrow">Insurance</p>
-            <h2
-              id="insurers-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
-            >
-              Working with insurers
-            </h2>
-            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-4">
-              For claim-related repairs we help with assessor liaison, estimates and documentation, and can advise on
-              towing to the workshop when needed. Claim approval and payment terms remain with your insurer.
-            </p>
-            {ACCEPTED_INSURERS.length > 0 ? (
+      {showInsurers ? (
+        <section className="bg-white" aria-labelledby="insurers-heading">
+          <div className="container py-12 md:py-16">
+            <div className="max-w-2xl">
+              <p className="section-eyebrow">Insurance</p>
+              <h2
+                id="insurers-heading"
+                className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
+              >
+                Working with insurers
+              </h2>
+              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-4">
+                We prepare assessments and documentation for claim files. Claim approval remains with your insurer.
+              </p>
               <ul className="flex flex-wrap gap-2 mb-4">
                 {ACCEPTED_INSURERS.map((name) => (
                   <li
                     key={name}
-                    className="text-sm border border-[#E6E6E6] px-3 py-1.5 font-[family-name:var(--font-body)] text-[#404040]"
+                    className="text-sm border border-[#E5E7E7] rounded-xl px-3 py-1.5 font-[family-name:var(--font-body)] text-[#404040]"
                   >
                     {name}
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-sm text-[#6B6B6B] border border-dashed border-[#E6E6E6] p-4 mb-4 font-[family-name:var(--font-body)]">
-                {/* TODO: list insurer names you accept assessments from */}
-                Insurer names you accept assessments from will be listed here once confirmed. We do not invent partner
-                lists.
-              </p>
-            )}
-            <Link href={ROUTES.insuranceClaims} className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A]">
-              Insurance &amp; claims guidance <ArrowRight size={14} className="inline" />
-            </Link>
+              <Link href={ROUTES.insuranceClaims} className="text-sm font-semibold text-[#F05030]">
+                Claims guidance <ArrowRight size={14} className="inline" />
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      {/* Workshop photos */}
-      <section className="bg-[#F6F6F6]" aria-labelledby="proof-heading">
+      <section className="bg-white" aria-labelledby="proof-heading">
         <div className="container py-12 md:py-16">
           <div className="max-w-2xl mb-8">
             <p className="section-eyebrow">Our work</p>
@@ -324,12 +324,15 @@ export default function HomeSections() {
               Workshop photographs
             </h2>
             <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
-              Photographs from the Mombasa workshop — not stock imagery.
+              From the Mombasa workshop behind CMC Motors.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {WORKSHOP_PHOTOS.map((photo) => (
-              <figure key={photo.base} className="aspect-[4/3] overflow-hidden bg-[#111111] border border-[#E6E6E6]">
+              <figure
+                key={photo.base}
+                className="aspect-[4/3] overflow-hidden bg-[#141414] border border-[#E5E7E7] rounded-xl"
+              >
                 <ResponsivePicture
                   baseName={photo.base}
                   alt={photo.alt}
@@ -344,63 +347,54 @@ export default function HomeSections() {
             ))}
           </div>
           <Link href={ROUTES.ourWork} className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A]">
-            View our work page <ArrowRight size={14} className="inline" />
+            View our work <ArrowRight size={14} className="inline" />
           </Link>
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="bg-white" aria-labelledby="reviews-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-8">
-            <p className="section-eyebrow">Customers</p>
-            <h2
-              id="reviews-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
-            >
-              Google reviews
-            </h2>
+      {showReviews ? (
+        <section className="bg-[#F6F6F6]" aria-labelledby="reviews-heading">
+          <div className="container py-12 md:py-16">
+            <div className="max-w-2xl mb-8">
+              <p className="section-eyebrow">Customers</p>
+              <h2
+                id="reviews-heading"
+                className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
+              >
+                Google reviews
+              </h2>
+            </div>
+            {GOOGLE_REVIEWS.length > 0 ? (
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {GOOGLE_REVIEWS.map((review) => (
+                  <li key={`${review.name}-${review.date}`} className="border border-[#E5E7E7] bg-white rounded-xl p-5">
+                    <p className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1">
+                      {review.name}
+                    </p>
+                    <p className="text-xs text-[#888] mb-2">
+                      {'★'.repeat(Math.round(review.rating))} · {review.date}
+                    </p>
+                    <p className="text-sm text-[#404040] font-[family-name:var(--font-body)] leading-relaxed">
+                      “{review.quote}”
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {GOOGLE_BUSINESS_PROFILE_URL ? (
+              <a
+                href={GOOGLE_BUSINESS_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-[#F05030] min-h-[44px] inline-flex items-center"
+              >
+                See all reviews on Google <ArrowRight size={14} className="inline" />
+              </a>
+            ) : null}
           </div>
-          {GOOGLE_REVIEWS.length > 0 ? (
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {GOOGLE_REVIEWS.map((review) => (
-                <li key={`${review.name}-${review.date}`} className="border border-[#E6E6E6] p-5">
-                  <p className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1">
-                    {review.name}
-                  </p>
-                  <p className="text-xs text-[#888] mb-2">
-                    {'★'.repeat(Math.round(review.rating))} · {review.date}
-                  </p>
-                  <p className="text-sm text-[#404040] font-[family-name:var(--font-body)] leading-relaxed">
-                    “{review.quote}”
-                  </p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-[#6B6B6B] border border-dashed border-[#E6E6E6] p-4 mb-6 font-[family-name:var(--font-body)]">
-              {/* TODO: paste real Google reviews + GBP URL */}
-              Named Google reviews will appear here once provided. We do not publish anonymous or invented praise.
-            </p>
-          )}
-          {GOOGLE_BUSINESS_PROFILE_URL ? (
-            <a
-              href={GOOGLE_BUSINESS_PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold text-[#F05030]"
-            >
-              See all reviews on Google <ArrowRight size={14} className="inline" />
-            </a>
-          ) : (
-            <p className="text-xs text-[#888]">
-              TODO: add Google Business Profile URL for the “See all reviews on Google” link.
-            </p>
-          )}
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      {/* Why */}
       <section className="bg-[#F6F6F6]" aria-labelledby="why-heading">
         <div className="container py-12 md:py-16">
           <div className="max-w-2xl mb-8">
@@ -409,7 +403,7 @@ export default function HomeSections() {
               id="why-heading"
               className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading"
             >
-              Concrete reasons to contact the workshop
+              Why contact this workshop
             </h2>
           </div>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -427,8 +421,7 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* Location / NAP */}
-      <section className="bg-[#111111] text-white" aria-labelledby="location-heading">
+      <section id="contact" className="bg-[#141414] text-white" aria-labelledby="location-heading">
         <div className="container py-12 md:py-16 grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div>
             <p className="section-eyebrow !text-[#B0B0B0]">Visit / contact</p>
@@ -441,7 +434,7 @@ export default function HomeSections() {
             <p className="text-[#B0B0B0] text-sm font-[family-name:var(--font-body)] mb-2">
               Serving {AREA_SERVED.join(', ')}.
             </p>
-            <p className="text-[#B0B0B0] text-sm font-[family-name:var(--font-body)] mb-6 select-all" itemProp="address">
+            <p className="text-[#B0B0B0] text-sm font-[family-name:var(--font-body)] mb-6 select-all">
               {BRAND.legalName}
               <br />
               {BRAND.contact.address}
@@ -449,38 +442,22 @@ export default function HomeSections() {
               {BRAND.contact.poBox}
             </p>
             <ul className="space-y-3 text-sm font-[family-name:var(--font-body)] mb-8">
+              {BRAND.contact.phones.map((phone) => (
+                <li key={phone}>
+                  <a
+                    href={`tel:${phone.replace(/\s/g, '')}`}
+                    className="inline-flex items-center gap-2 text-white hover:text-[#F07058] min-h-[44px]"
+                  >
+                    <Phone size={16} className="text-[#F05030]" />
+                    {phone}
+                  </a>
+                </li>
+              ))}
               <li>
                 <a
-                  href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
-                  className="inline-flex items-center gap-2 text-white hover:text-[#F07058]"
+                  href={`mailto:${BRAND.contact.emails[0]}`}
+                  className="inline-flex items-center gap-2 text-white hover:underline min-h-[44px]"
                 >
-                  <Phone size={16} className="text-[#F05030]" />
-                  {BRAND.contact.phones[0]}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${BRAND.contact.phones[1].replace(/\s/g, '')}`}
-                  className="inline-flex items-center gap-2 text-white hover:text-[#F07058]"
-                >
-                  <Phone size={16} className="text-[#F05030]" />
-                  {BRAND.contact.phones[1]}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={whatsAppUrl(buildPhotoQuoteMessage())}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-white hover:text-[#F07058]"
-                >
-                  <MessageCircle size={16} className="text-[#25d366]" />
-                  WhatsApp the workshop
-                </a>
-              </li>
-              <li className="text-[#B0B0B0]">
-                Email:{' '}
-                <a href={`mailto:${BRAND.contact.emails[0]}`} className="text-white hover:underline">
                   {BRAND.contact.emails[0]}
                 </a>
               </li>
@@ -497,38 +474,23 @@ export default function HomeSections() {
                 href={MAPS_DIRECTIONS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline-gwecely text-xs inline-flex"
+                className="btn-outline-gwecely text-xs inline-flex min-h-[44px]"
               >
                 <MapPin size={15} />
                 Get directions
               </a>
-              {GOOGLE_BUSINESS_PROFILE_URL ? (
-                <a
-                  href={GOOGLE_BUSINESS_PROFILE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline-gwecely text-xs inline-flex"
-                >
-                  Google Business Profile
-                </a>
-              ) : null}
+              <Link href={ROUTES.quote} className="btn-gwecely text-xs inline-flex min-h-[44px]">
+                Request a quote
+              </Link>
             </div>
           </div>
-          <div className="border border-white/10 overflow-hidden min-h-[240px] bg-[#222]">
-            <ResponsivePicture
-              baseName="/images/workshop-bay"
-              alt="Gwecely Limited workshop bay in Mombasa"
-              className="w-full h-full object-cover opacity-80 min-h-[240px]"
-              width={800}
-              height={600}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+          <div className="border border-white/10 overflow-hidden rounded-xl min-h-[280px] bg-[#1F1F1F]">
+            <ContactMap className="w-full h-full min-h-[280px] border-0" />
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-white border-t border-[#E6E6E6]" aria-labelledby="faq-heading">
+      <section className="bg-white border-t border-[#E5E7E7]" aria-labelledby="faq-heading">
         <div className="container py-12 md:py-14 max-w-3xl">
           <h2
             id="faq-heading"
@@ -536,10 +498,10 @@ export default function HomeSections() {
           >
             Common questions
           </h2>
-          <div className="divide-y divide-[#E6E6E6] border border-[#E6E6E6]">
+          <div className="divide-y divide-[#E5E7E7] border border-[#E5E7E7] rounded-xl">
             {FAQ_ITEMS.map((item) => (
               <details key={item.q} className="group p-4">
-                <summary className="cursor-pointer list-none font-[family-name:var(--font-display)] font-semibold text-sm text-[#111111]">
+                <summary className="cursor-pointer list-none font-[family-name:var(--font-display)] font-semibold text-sm text-[#111111] min-h-[44px] flex items-center">
                   {item.q}
                 </summary>
                 <p className="mt-2 text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
@@ -547,43 +509,6 @@ export default function HomeSections() {
                 </p>
               </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="bg-[#F05030] text-white">
-        <div className="container py-12 md:py-14 text-center max-w-2xl">
-          <h2 className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl mb-3">
-            Send us photos of the damage and we&apos;ll guide you on the next step
-          </h2>
-          <p className="text-white/85 text-sm font-[family-name:var(--font-body)] mb-8">
-            WhatsApp is usually fastest. You can also call or fill a short quote form.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href={whatsAppUrl(buildPhotoQuoteMessage())}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-[#111111] px-5 py-3 text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide min-h-[44px]"
-              data-conversion="whatsapp-photos-final"
-            >
-              <WhatsAppIcon className="w-4 h-4" />
-              WhatsApp Photos
-            </a>
-            <a
-              href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
-              className="inline-flex items-center gap-2 border border-white px-5 py-3 text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide min-h-[44px]"
-            >
-              <Phone size={15} />
-              Call {BRAND.contact.phones[0]}
-            </a>
-            <Link
-              href={ROUTES.quote}
-              className="inline-flex items-center gap-2 border border-white/70 px-5 py-3 text-xs font-[family-name:var(--font-display)] font-semibold uppercase tracking-wide min-h-[44px]"
-            >
-              Request a quote
-            </Link>
           </div>
         </div>
       </section>

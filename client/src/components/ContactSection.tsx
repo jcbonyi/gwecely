@@ -10,7 +10,7 @@ import { buildContactEnquiryMessage, buildGeneralEnquiryMessage, whatsAppUrl } f
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
-import { MAPS_DIRECTIONS_URL } from '@/lib/routes';
+import { MAPS_DIRECTIONS_URL, MAPS_EMBED_URL } from '@/lib/routes';
 
 const ENQUIRY_TOPICS = [
   'Vehicle Service / Repairs',
@@ -285,7 +285,7 @@ export default function ContactSection() {
             <div className="flex-1 relative">
               <iframe
                 title="Gwecely Limited Location — Mombasa"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980.0!2d39.6682!3d-4.0435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x184012e5a9a9a9a9%3A0x0!2sCMC+Motors+Mombasa!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                src={MAPS_EMBED_URL}
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '350px' }}

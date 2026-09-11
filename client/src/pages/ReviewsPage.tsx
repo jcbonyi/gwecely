@@ -1,16 +1,29 @@
+/**
+ * Reviews page — only shows content when GBP / named reviews exist.
+ * Task: claim Google Business Profile, then set GOOGLE_BUSINESS_PROFILE_URL in proofContent.ts
+ */
+
 import SiteLayout from '@/components/SiteLayout';
 import PageContent from '@/components/PageContent';
 import { LeadCtaBand } from '@/components/conversion/ConversionSections';
 import { usePageMeta } from '@/hooks/usePageMeta';
-import { Link } from 'wouter';
+import { Link, Redirect } from 'wouter';
 import { ROUTES } from '@/lib/routes';
+import {
+  GOOGLE_BUSINESS_PROFILE_URL,
+  GOOGLE_REVIEWS,
+  hasReviewsContent,
+} from '@/lib/proofContent';
 
 export default function ReviewsPage() {
   usePageMeta({
     title: 'Customer Reviews | Gwecely Limited Mombasa',
-    description:
-      'Verified customer reviews for Gwecely Limited will be published here once customers grant permission. Contact the Mombasa workshop for an inspection.',
+    description: 'Customer feedback for Gwecely Limited, Mombasa vehicle repair workshop.',
   });
+
+  if (!hasReviewsContent()) {
+    return <Redirect to={ROUTES.contact} />;
+  }
 
   return (
     <SiteLayout>
@@ -19,20 +32,36 @@ export default function ReviewsPage() {
           <section className="bg-white py-16 md:py-20">
             <div className="container max-w-2xl">
               <p className="section-eyebrow">Reviews</p>
-              <h1 className="font-[family-name:var(--font-display)] font-bold text-3xl text-[#111111] section-heading mb-4">
+              <h1 className="font-[family-name:var(--font-display)] font-bold text-3xl text-[#111111] section-heading mb-6">
                 Customer reviews
               </h1>
-              <p className="text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-6">
-                We only publish reviews that customers have verified and agreed to share. This page will be updated as
-                those reviews are collected. It does not list sample or invented testimonials.
-              </p>
-              <p className="text-sm text-[#6B6B6B] mb-8">
-                If you have had work done at Gwecely and are happy to share feedback, please{' '}
-                <Link href={ROUTES.contact} className="text-[#F05030] font-semibold hover:underline">
-                  contact us
+              {GOOGLE_REVIEWS.length > 0 ? (
+                <ul className="space-y-4 mb-8">
+                  {GOOGLE_REVIEWS.map((review) => (
+                    <li key={`${review.name}-${review.date}`} className="border border-[#E5E7E7] rounded-xl p-5">
+                      <p className="font-semibold text-[#111111]">{review.name}</p>
+                      <p className="text-xs text-[#888] mb-2">
+                        {'★'.repeat(Math.round(review.rating))} · {review.date}
+                      </p>
+                      <p className="text-sm text-[#404040] leading-relaxed">“{review.quote}”</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {GOOGLE_BUSINESS_PROFILE_URL ? (
+                <a
+                  href={GOOGLE_BUSINESS_PROFILE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-[#F05030]"
+                >
+                  See all reviews on Google
+                </a>
+              ) : (
+                <Link href={ROUTES.contact} className="text-sm font-semibold text-[#F05030]">
+                  Contact the workshop
                 </Link>
-                .
-              </p>
+              )}
             </div>
           </section>
           <LeadCtaBand />

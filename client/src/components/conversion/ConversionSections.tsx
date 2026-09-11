@@ -3,8 +3,6 @@
  */
 
 import { Link } from 'wouter';
-import { Phone } from 'lucide-react';
-import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
 import { WHAT_HAPPENS_NEXT, WHY_POINTS, FAQ_ITEMS, TRUST_STRIP } from '@/lib/siteContent';
 import { requestQuote } from '@/lib/booking';
@@ -104,26 +102,28 @@ export function FaqSection() {
 
 export function LeadCtaBand({
   title = 'Send photos of the damage — we will guide the next step',
-  text = 'WhatsApp is usually fastest. You can also call or request a quote.',
+  text = 'WhatsApp is usually fastest. Or request a short quote online.',
 }: {
   title?: string;
   text?: string;
 }) {
   return (
-    <section className="bg-[#111111] text-white">
+    <section className="bg-[#141414] text-white">
       <div className="container py-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
         <div className="max-w-xl">
           <h2 className="font-[family-name:var(--font-display)] font-bold text-2xl mb-2">{title}</h2>
           <p className="text-[#B0B0B0] text-sm">{text}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <a href={whatsAppUrl(buildPhotoQuoteMessage())} target="_blank" rel="noopener noreferrer" className="btn-whatsapp">
+          <a
+            href={whatsAppUrl(buildPhotoQuoteMessage())}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-whatsapp"
+            data-conversion="whatsapp-lead-band"
+          >
             <WhatsAppIcon className="w-4 h-4" />
-            WhatsApp
-          </a>
-          <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="btn-outline-gwecely">
-            <Phone size={16} />
-            Call
+            Send photos on WhatsApp
           </a>
           <button type="button" onClick={() => requestQuote()} className="btn-gwecely">
             Request a quote
