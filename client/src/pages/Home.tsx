@@ -1,17 +1,17 @@
 /**
- * Home Page — compact landing with hero and links to dedicated pages
+ * Home Page — brand hero + proof strip
  */
 
 import SiteLayout from '@/components/SiteLayout';
 import HeroSection from '@/components/HeroSection';
-import HomeHighlights from '@/components/HomeHighlights';
+import HomeProof from '@/components/HomeProof';
 
 export default function Home() {
   return (
     <SiteLayout>
       <main id="main">
         <HeroSection />
-        <HomeHighlights />
+        <HomeProof />
       </main>
     </SiteLayout>
   );

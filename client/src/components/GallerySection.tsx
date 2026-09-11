@@ -5,20 +5,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { X, ZoomIn } from 'lucide-react';
+import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 import { GALLERY_IMAGES } from '@/lib/galleryImages';
 import { HOSPITALITY_PRODUCT_IMAGES } from '@/lib/categoryImages';
+import { bookService } from '@/lib/booking';
 
 const GALLERY_FILTERS = [
   { id: 'all', label: 'All Projects' },
-  { id: 'mechanical', label: 'Mechanical Repairs' },
   { id: 'panel-beating', label: 'Panel Beating' },
   { id: 'spray-painting', label: 'Spray Painting' },
-  { id: 'restoration', label: 'Vehicle Restoration' },
+  { id: 'mechanical', label: 'Mechanical' },
+  { id: 'restoration', label: 'Restoration' },
   { id: 'supplies', label: 'Office & Supplies' },
+  { id: 'hospitality', label: 'Hospitality' },
   { id: 'it-equipment', label: 'IT Equipment' },
   { id: 'safety', label: 'Health & Safety' },
   { id: 'dry-foods', label: 'Dry Foods' },
-  { id: 'hospitality', label: 'Hospitality Supplies' },
 ] as const;
 
 const GALLERY_ITEMS = [
@@ -214,7 +216,7 @@ function GalleryCard({
         <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/90 via-[#2D2626]/25 to-transparent" />
 
         <div className="absolute top-3 left-3">
-          <span className="inline-block px-2.5 py-1 rounded-full bg-[#F05A32] text-white text-[10px] font-['Inter'] font-semibold uppercase tracking-wide">
+          <span className="inline-block px-2.5 py-1 rounded-md bg-[#F05A32] text-white text-[10px] font-[family-name:var(--font-body)] font-semibold uppercase tracking-wide">
             {categoryLabel}
           </span>
         </div>
@@ -272,20 +274,33 @@ export default function GallerySection() {
   return (
     <section id="gallery" ref={ref} className="py-20 md:py-28 bg-[#F5F3F2]">
       <div className="container">
-        <div className="text-center mb-10 md:mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#F05A32]/10 text-[#F05A32] text-sm px-4 py-1.5 rounded-full mb-4 font-['Inter'] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F05A32]" />
-            Our Work
-          </div>
-          <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading centered">
-            OUR FINEST WORK
+        <div className="mb-12 md:mb-14">
+          <p className="section-eyebrow">Our Work</p>
+          <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading mb-4">
+            WORKSHOP RESULTS
           </h2>
-          <p className="text-gray-600 font-['Inter'] max-w-xl mx-auto mt-4">
-            Workshop craftsmanship plus supplies, IT, safety gear, and dry foods — everything Gwecely delivers across Kenya.
+          <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-xl mb-8">
+            Drag to compare a typical bodywork finish, then browse the full project grid below.
           </p>
+          <div className="overflow-hidden rounded-sm shadow-lg mb-6">
+            <BeforeAfterSlider
+              beforeSrc={GALLERY_IMAGES.hiluxRepair}
+              afterSrc={GALLERY_IMAGES.paintSpray}
+              beforeLabel="In progress"
+              afterLabel="Finished"
+              alt="Panel beating to paint finish"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => bookService('Panel Beating')}
+            className="btn-gwecely text-sm py-2.5 px-5"
+          >
+            Book a similar job
+          </button>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-8 md:mb-10">
+        <div className="flex flex-wrap gap-2 mb-8 md:mb-10">
           {GALLERY_FILTERS.map(f => {
             const count =
               f.id === 'all'
@@ -295,7 +310,7 @@ export default function GallerySection() {
               <button
                 key={f.id}
                 onClick={() => setActiveFilter(f.id)}
-                className={`px-4 py-2 rounded-full text-sm font-['Inter'] font-medium transition-all duration-200 ${
+                className={`px-4 py-2 text-sm font-[family-name:var(--font-body)] font-medium transition-all duration-200 rounded-md ${
                   activeFilter === f.id
                     ? 'bg-[#F05A32] text-white shadow-md shadow-[#F05A32]/25'
                     : 'bg-white text-gray-600 hover:bg-white/80 ring-1 ring-black/5'

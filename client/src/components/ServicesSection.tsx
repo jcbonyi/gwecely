@@ -138,7 +138,6 @@ export default function ServicesSection() {
         {/* Primary — garage (~80% visual weight) */}
         <div className="mb-12">
           <div className="section-eyebrow">
-            <span className="section-eyebrow-dot" />
             Primary Services
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
@@ -147,15 +146,35 @@ export default function ServicesSection() {
               <br />
               <span className="text-[#F05A32]">SERVICES</span>
             </h2>
-            <p className="text-gray-600 font-['Inter'] text-sm max-w-md md:text-right leading-relaxed">
+            <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm max-w-md md:text-right leading-relaxed">
               {BRAND.expertise}
             </p>
           </div>
-          <p className="text-gray-500 text-sm font-['Inter'] flex items-center gap-1.5">
+          <p className="text-gray-500 text-sm font-[family-name:var(--font-body)] flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#F05A32]" />
             {BRAND.contact.address}
           </p>
         </div>
+
+        {/* Process strip */}
+        <ol className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-14">
+          {[
+            { step: '01', title: 'Assess', desc: 'Inspect damage and diagnose at the bay' },
+            { step: '02', title: 'Quote', desc: 'Clear scope and fair pricing, same day when possible' },
+            { step: '03', title: 'Repair', desc: 'Panel, paint, mechanical — done in-house' },
+            { step: '04', title: 'Handover', desc: 'Quality check and keys back to you' },
+          ].map((item) => (
+            <li key={item.step} className="relative pl-0">
+              <p className="font-['Barlow_Condensed'] font-800 text-3xl text-[#F05A32]/35 leading-none mb-2">
+                {item.step}
+              </p>
+              <h3 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-1">{item.title}</h3>
+              <p className="text-[#6E6E6E] text-xs md:text-sm font-[family-name:var(--font-body)] leading-snug">
+                {item.desc}
+              </p>
+            </li>
+          ))}
+        </ol>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {PRIMARY_GARAGE_SERVICES.map((service, i) => (

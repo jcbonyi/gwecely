@@ -1,11 +1,11 @@
 /**
- * Navbar — Gwecely Limited
+ * Navbar — slim primary nav, commerce icons on shop (or when active)
  */
 
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { BRAND } from '@/lib/brand';
-import { NAV_LINKS, ROUTES, isActiveRoute } from '@/lib/routes';
+import { NAV_LINKS, NAV_SECONDARY_LINKS, ROUTES, isActiveRoute } from '@/lib/routes';
 import BrandLogo from '@/components/BrandLogo';
 import NavbarAuth, { MobileNavbarAuth } from '@/components/NavbarAuth';
 import { Heart, Menu, Phone, ShoppingCart, X } from 'lucide-react';
@@ -18,6 +18,9 @@ export default function Navbar() {
   const [location] = useLocation();
   const { totalItems, toggleCart } = useCart();
   const { count: wishlistCount, toggleWishlist, isOpen: wishlistOpen } = useWishlist();
+
+  const onShop = location === ROUTES.shop || location.startsWith(`${ROUTES.shop}/`);
+  const showCommerce = onShop || totalItems > 0 || wishlistCount > 0;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -40,7 +43,9 @@ export default function Navbar() {
     <>
       <div className="bg-[#463C3C] text-white text-sm py-2 hidden md:block">
         <div className="container flex justify-between items-center gap-4">
-          <span className="text-orange-100 italic truncate">Motor vehicle garage &amp; panel beating — Mombasa</span>
+          <span className="text-orange-100/90 truncate font-[family-name:var(--font-body)]">
+            Motor vehicle garage &amp; panel beating — Mombasa
+          </span>
           <div className="flex items-center gap-5 flex-shrink-0">
             <a
               href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
@@ -70,13 +75,13 @@ export default function Navbar() {
               <BrandLogo size="nav" />
             </Link>
 
-            <div className="hidden lg:flex items-center gap-0.5">
+            <div className="hidden lg:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
-                  className={`px-3 py-2 text-white/90 hover:text-white font-['Inter'] text-sm font-medium transition-colors duration-150 hover:bg-white/10 rounded-md ${
+                  className={`px-3.5 py-2 text-white/90 hover:text-white font-[family-name:var(--font-body)] text-sm font-medium transition-colors duration-150 hover:bg-white/10 rounded-md ${
                     isActiveRoute(location, link.href) ? 'nav-link-active' : ''
                   }`}
                 >
@@ -87,32 +92,36 @@ export default function Navbar() {
 
             <div className="flex items-center gap-1 sm:gap-2">
               <NavbarAuth />
-              <button
-                onClick={toggleWishlist}
-                className="relative p-2.5 text-white/80 hover:text-white transition-colors rounded-md hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label={`Wishlist${wishlistCount ? `, ${wishlistCount} items` : ''}`}
-                aria-expanded={wishlistOpen}
-              >
-                <Heart size={20} />
-                {wishlistCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-[#F05A32] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {wishlistCount}
-                  </span>
-                )}
-              </button>
+              {showCommerce && (
+                <>
+                  <button
+                    onClick={toggleWishlist}
+                    className="relative p-2.5 text-white/80 hover:text-white transition-colors rounded-md hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    aria-label={`Wishlist${wishlistCount ? `, ${wishlistCount} items` : ''}`}
+                    aria-expanded={wishlistOpen}
+                  >
+                    <Heart size={20} />
+                    {wishlistCount > 0 && (
+                      <span className="absolute top-1 right-1 bg-[#F05A32] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </button>
 
-              <button
-                onClick={toggleCart}
-                className="relative p-2.5 text-white/80 hover:text-white transition-colors rounded-md hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label={`Cart${totalItems ? `, ${totalItems} items` : ''}`}
-              >
-                <ShoppingCart size={20} />
-                {totalItems > 0 && (
-                  <span className="absolute top-1 right-1 bg-[#F0826E] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    {totalItems}
-                  </span>
-                )}
-              </button>
+                  <button
+                    onClick={toggleCart}
+                    className="relative p-2.5 text-white/80 hover:text-white transition-colors rounded-md hover:bg-white/10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                    aria-label={`Cart${totalItems ? `, ${totalItems} items` : ''}`}
+                  >
+                    <ShoppingCart size={20} />
+                    {totalItems > 0 && (
+                      <span className="absolute top-1 right-1 bg-[#F0826E] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {totalItems}
+                      </span>
+                    )}
+                  </button>
+                </>
+              )}
 
               <Link href={ROUTES.book} className="hidden md:flex btn-gwecely text-sm py-2 px-4">
                 Book Repair
@@ -150,7 +159,23 @@ export default function Navbar() {
                 href={link.href}
                 onClick={closeMobile}
                 aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
-                className={`px-4 py-3.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg font-['Inter'] text-base font-medium transition-colors min-h-[48px] flex items-center ${
+                className={`px-4 py-3.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg font-[family-name:var(--font-body)] text-base font-medium transition-colors min-h-[48px] flex items-center ${
+                  isActiveRoute(location, link.href) ? 'nav-link-active' : ''
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <p className="px-4 pt-3 pb-1 text-[10px] uppercase tracking-widest text-white/35 font-[family-name:var(--font-body)]">
+              More
+            </p>
+            {NAV_SECONDARY_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={closeMobile}
+                aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
+                className={`px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 rounded-lg font-[family-name:var(--font-body)] text-sm transition-colors min-h-[44px] flex items-center ${
                   isActiveRoute(location, link.href) ? 'nav-link-active' : ''
                 }`}
               >

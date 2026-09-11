@@ -4,8 +4,10 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'wouter';
 import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
+import { ROUTES } from '@/lib/routes';
 
 const TESTIMONIALS = [
   {
@@ -127,19 +129,17 @@ export default function TestimonialsSection() {
       style={{ background: 'linear-gradient(135deg, #2D2626 0%, #463C3C 60%, #2D2626 100%)' }}
     >
       <div className="container">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-orange-100 text-sm px-4 py-1.5 rounded-full mb-4 font-['Inter']">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F05A32]" />
+        <div className="mb-14 max-w-2xl mx-auto text-center">
+          <p className="section-eyebrow !text-[#F0826E] justify-center [&::before]:bg-[#F05A32]">
             Customer Reviews
-          </div>
+          </p>
           <h2 id="testimonials-heading" className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-white section-heading centered">
             TRUSTED ACROSS
             <br />
             <span className="text-[#F0826E]">KENYA</span>
           </h2>
-          <p className="text-orange-100 font-['Inter'] max-w-xl mx-auto mt-4">
-            Hear from vehicle owners, fleet managers, and businesses who rely on Gwecely for workshop services and supplies across the coast and beyond.
+          <p className="text-orange-100/85 font-[family-name:var(--font-body)] max-w-xl mx-auto mt-4">
+            Hear from vehicle owners and fleet managers who trust our Mombasa workshop.
           </p>
         </div>
 
@@ -244,21 +244,15 @@ export default function TestimonialsSection() {
           </button>
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-14 pt-14 border-t border-white/10">
-          {[
-            { value: '7', label: 'Service Lines' },
-            { value: 'Mombasa', label: 'Workshop Location' },
-            { value: 'OEM', label: 'Genuine Parts' },
-            { value: 'Kenya-wide', label: 'Delivery Available' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="font-['Barlow_Condensed'] font-800 text-3xl text-white mb-1">{stat.value}</div>
-              <div className="text-orange-200 text-sm font-['Inter']">{stat.label}</div>
-            </div>
-          ))}
+        <div className="mt-14 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-orange-100/80 font-[family-name:var(--font-body)] text-sm text-center sm:text-left max-w-md">
+            Ready for the same craftsmanship? Book a bay slot — we confirm within 2 hours.
+          </p>
+          <Link href={ROUTES.book} className="btn-gwecely text-sm py-2.5 px-6 flex-shrink-0">
+            Book Repair
+          </Link>
         </div>
-        <p className="text-center text-orange-200/70 text-xs font-['Inter'] mt-6">
+        <p className="text-center text-orange-200/50 text-xs font-[family-name:var(--font-body)] mt-8">
           Sample reviews for demonstration. Replace with verified client testimonials.
         </p>
       </div>

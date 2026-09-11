@@ -14,21 +14,26 @@ export const ROUTES = {
 
 export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];
 
+/** Primary chrome — keep short for conversion focus */
 export const NAV_LINKS: { label: string; href: AppRoute }[] = [
-  { label: 'Home', href: ROUTES.home },
-  { label: 'About', href: ROUTES.about },
-  { label: 'Garage Services', href: ROUTES.services },
-  { label: 'Book Repair', href: ROUTES.book },
+  { label: 'Services', href: ROUTES.services },
   { label: 'Gallery', href: ROUTES.gallery },
+  { label: 'Book', href: ROUTES.book },
+  { label: 'Shop', href: ROUTES.shop },
+];
+
+/** Secondary links — mobile “More” + footer discovery */
+export const NAV_SECONDARY_LINKS: { label: string; href: AppRoute }[] = [
+  { label: 'About', href: ROUTES.about },
   { label: 'Reviews', href: ROUTES.reviews },
-  { label: 'Shop Supplies', href: ROUTES.shop },
   { label: 'Contact', href: ROUTES.contact },
+  { label: 'Hospitality', href: ROUTES.hospitality },
 ];
 
 export const FOOTER_LINKS: { label: string; href: AppRoute }[] = [
   { label: 'Home', href: ROUTES.home },
   { label: 'About Us', href: ROUTES.about },
-  { label: 'Automotive Services', href: ROUTES.services },
+  { label: 'Garage Services', href: ROUTES.services },
   { label: 'Book a Service', href: ROUTES.book },
   { label: 'Project Gallery', href: ROUTES.gallery },
   { label: 'Customer Reviews', href: ROUTES.reviews },
