@@ -27,10 +27,10 @@ export const GOOGLE_REVIEWS: GoogleReview[] = [];
 /** TODO: exact Google Business Profile URL for "See all reviews" */
 export const GOOGLE_BUSINESS_PROFILE_URL = '';
 
-/** TODO: confirm exact lat/lng for schema.org GeoCoordinates (match GBP) */
+/** Workshop pin — Google Maps (confirmed) */
 export const WORKSHOP_GEO = {
-  latitude: null as number | null,
-  longitude: null as number | null,
+  latitude: -4.061953766630648,
+  longitude: 39.65666304822228,
 };
 
 export const AREA_SERVED = ['Mombasa', 'Nyali', 'Bamburi', 'Likoni'] as const;

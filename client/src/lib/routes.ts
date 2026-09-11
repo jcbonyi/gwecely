@@ -60,5 +60,9 @@ export function isActiveRoute(current: string, href: AppRoute): boolean {
 
 export const SITE_ORIGIN = 'https://www.gwecely.co.ke';
 
-export const MAPS_DIRECTIONS_URL =
-  'https://www.google.com/maps/search/?api=1&query=CMC+Motors+Bishop+Macarios+Road+Mombasa';
+/** Confirmed workshop pin */
+export const WORKSHOP_LAT = -4.061953766630648;
+export const WORKSHOP_LNG = 39.65666304822228;
+
+export const MAPS_DIRECTIONS_URL = `https://www.google.com/maps/search/?api=1&query=${WORKSHOP_LAT},${WORKSHOP_LNG}`;
+export const MAPS_EMBED_URL = `https://maps.google.com/maps?q=${WORKSHOP_LAT},${WORKSHOP_LNG}&z=16&output=embed`;

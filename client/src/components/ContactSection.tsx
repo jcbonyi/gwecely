@@ -10,6 +10,7 @@ import { buildContactEnquiryMessage, buildGeneralEnquiryMessage, whatsAppUrl } f
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
+import { MAPS_DIRECTIONS_URL } from '@/lib/routes';
 
 const ENQUIRY_TOPICS = [
   'Vehicle Service / Repairs',
@@ -35,7 +36,7 @@ const CONTACT_INFO = [
     icon: MapPin,
     title: 'Physical Address',
     lines: [BRAND.contact.address, BRAND.contact.poBox],
-    action: { label: 'Get Directions', href: 'https://maps.google.com/?q=Behind+CMC+Motors+Mombasa+Bishop+Macarios+Road' },
+    action: { label: 'Get Directions', href: MAPS_DIRECTIONS_URL },
   },
   {
     icon: Clock,
@@ -300,7 +301,7 @@ export default function ContactSection() {
                 <span className="text-sm font-[family-name:var(--font-body)] text-gray-700 font-medium">{BRAND.contact.address}</span>
               </div>
               <a
-                href="https://maps.google.com/?q=Behind+CMC+Motors+Mombasa+Bishop+Macarios+Road"
+                href={MAPS_DIRECTIONS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-[#F05030] font-[family-name:var(--font-body)] hover:underline mt-1 block"
