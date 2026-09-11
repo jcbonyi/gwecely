@@ -16,9 +16,9 @@ function setMetaTag(name: string, content: string, attr: 'name' | 'property' = '
   el.setAttribute('content', content);
 }
 
-const DEFAULT_TITLE = 'Gwecely Limited — Motor Vehicle Garage & Panel Beating Specialists | Mombasa, Kenya';
+const DEFAULT_TITLE = 'Vehicle Repair & Panel Beating Mombasa | Gwecely Limited';
 const DEFAULT_DESCRIPTION =
-  'Gwecely Limited — motor vehicle garage behind CMC Motors, Mombasa. Expert mechanical repairs, panel beating, and spray painting.';
+  'Professional vehicle repair, panel beating, spray painting and accident repairs in Mombasa. Workshop behind CMC Motors. Get a quote from Gwecely Limited.';
 
 export function usePageMeta({ title, description, keywords }: PageMeta) {
   useEffect(() => {

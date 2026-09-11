@@ -246,12 +246,13 @@ export default function TestimonialsSection() {
           <p className="text-orange-100/80 font-[family-name:var(--font-body)] text-sm text-center sm:text-left max-w-md">
             Ready for the same craftsmanship? Book a bay slot — we confirm within 2 hours.
           </p>
-          <Link href={ROUTES.book} className="btn-gwecely text-sm py-2.5 px-6 flex-shrink-0">
-            Book Repair
+          <Link href={ROUTES.quote} className="btn-gwecely text-sm py-2.5 px-6 flex-shrink-0">
+            Get a Quote
           </Link>
         </div>
-        <p className="text-center text-orange-200/50 text-xs font-[family-name:var(--font-body)] mt-8">
-          Sample reviews for demonstration. Replace with verified client testimonials.
+        <p className="text-center text-[#B0B0B0] text-xs font-[family-name:var(--font-body)] mt-8 border border-dashed border-white/20 p-4 max-w-2xl mx-auto">
+          TODO: Replace sample testimonials below with verified customer reviews (name, vehicle/service, permission to
+          publish). Do not treat the current quotes as live social proof.
         </p>
       </div>
     </section>

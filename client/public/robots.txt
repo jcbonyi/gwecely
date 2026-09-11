@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gwecely.com/sitemap.xml
+Sitemap: https://www.gwecely.co.ke/sitemap.xml

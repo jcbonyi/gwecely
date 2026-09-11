@@ -1,5 +1,5 @@
 /**
- * Navbar — dark brand bar aligned to logo surfaces
+ * Navbar — conversion IA + Get a Quote CTA
  */
 
 import { useCart } from '@/contexts/CartContext';
@@ -44,7 +44,7 @@ export default function Navbar() {
       <div className="bg-[#111111] text-[#B0B0B0] text-xs py-2 hidden md:block border-b border-white/5">
         <div className="container flex justify-between items-center gap-4">
           <span className="truncate font-[family-name:var(--font-body)]">
-            Workshop behind CMC Motors · Mombasa
+            Vehicle repair &amp; panel beating · Behind CMC Motors, Mombasa
           </span>
           <a
             href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
@@ -63,18 +63,18 @@ export default function Navbar() {
         aria-label="Main navigation"
       >
         <div className="container">
-          <div className="flex items-center justify-between h-16 sm:h-[4.25rem]">
+          <div className="flex items-center justify-between h-16 sm:h-[4.25rem] gap-2">
             <Link href={ROUTES.home} className="flex items-center min-w-0 flex-shrink-0" aria-label="Gwecely home">
               <BrandLogo size="nav" />
             </Link>
 
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden xl:flex items-center gap-0.5 flex-1 justify-center">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   aria-current={isActiveRoute(location, link.href) ? 'page' : undefined}
-                  className={`px-3 py-2 text-white/75 hover:text-white font-[family-name:var(--font-body)] text-sm font-medium transition-colors ${
+                  className={`px-2.5 py-2 text-white/75 hover:text-white font-[family-name:var(--font-body)] text-[13px] font-medium transition-colors whitespace-nowrap ${
                     isActiveRoute(location, link.href) ? 'nav-link-active !text-white' : ''
                   }`}
                 >
@@ -83,7 +83,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
               <NavbarAuth />
               {showCommerce && (
                 <>
@@ -115,13 +115,13 @@ export default function Navbar() {
                 </>
               )}
 
-              <Link href={ROUTES.book} className="hidden md:flex btn-gwecely text-xs py-2 px-3.5">
-                Book
+              <Link href={ROUTES.quote} className="hidden md:flex btn-gwecely text-xs py-2 px-3.5">
+                Get a Quote
               </Link>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-2.5 text-white min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="xl:hidden p-2.5 text-white min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileOpen}
               >
@@ -133,14 +133,14 @@ export default function Navbar() {
 
         {mobileOpen && (
           <div
-            className="lg:hidden fixed inset-0 top-16 sm:top-[4.25rem] bg-black/50 z-[-1]"
+            className="xl:hidden fixed inset-0 top-16 sm:top-[4.25rem] bg-black/50 z-[-1]"
             onClick={closeMobile}
             aria-hidden
           />
         )}
 
         <div
-          className={`lg:hidden bg-[#111111] border-t border-white/10 overflow-hidden transition-all duration-300 ${
+          className={`xl:hidden bg-[#111111] border-t border-white/10 overflow-hidden transition-all duration-300 ${
             mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
@@ -170,9 +170,16 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="mt-3 pt-3 border-t border-white/10 space-y-2 px-1 pb-2">
-              <Link href={ROUTES.book} onClick={closeMobile} className="btn-gwecely w-full justify-center text-sm py-3">
-                Book a service
+              <Link href={ROUTES.quote} onClick={closeMobile} className="btn-gwecely w-full justify-center text-sm py-3">
+                Get a Quote
               </Link>
+              <a
+                href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+                className="btn-outline-gwecely w-full justify-center text-sm py-3"
+              >
+                <Phone size={16} />
+                Call us
+              </a>
               <MobileNavbarAuth onNavigate={closeMobile} />
             </div>
           </div>

@@ -7,7 +7,7 @@ import { Calendar, MessageCircle, ShoppingBag, X } from 'lucide-react';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import {
   buildGeneralEnquiryMessage,
-  buildServiceBookingQuickMessage,
+  buildQuoteQuickMessage,
   whatsAppUrl,
 } from '@/lib/whatsapp';
 
@@ -19,10 +19,10 @@ const QUICK_ACTIONS = [
     message: () => buildGeneralEnquiryMessage(),
   },
   {
-    id: 'booking',
-    label: 'Book a service',
+    id: 'quote',
+    label: 'Request a quotation',
     icon: Calendar,
-    message: () => buildServiceBookingQuickMessage(),
+    message: () => buildQuoteQuickMessage(),
   },
   {
     id: 'order',

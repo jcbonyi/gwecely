@@ -102,7 +102,7 @@ function PrimaryServiceCard({
             className="flex-1 btn-gwecely text-xs py-2.5 px-3 justify-center"
           >
             <Calendar size={14} />
-            Book This Service
+            Get a Quote
           </button>
           <button
             type="button"
@@ -278,7 +278,7 @@ export default function ServicesSection() {
                 onClick={() => bookService('Vehicle Servicing')}
                 className="btn-outline-gwecely text-sm py-2.5 px-6"
               >
-                Book Repair
+                Get a Quote
               </button>
               <a
                 href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}

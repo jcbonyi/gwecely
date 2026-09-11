@@ -11,12 +11,15 @@ import SignUpPage from "@/pages/SignUpPage";
 import Home from "@/pages/Home";
 import AboutPage from "@/pages/AboutPage";
 import ServicesPage from "@/pages/ServicesPage";
+import ServiceDetailPage from "@/pages/ServiceDetailPage";
 import BookPage from "@/pages/BookPage";
 import GalleryPage from "@/pages/GalleryPage";
 import ReviewsPage from "@/pages/ReviewsPage";
 import ShopPage from "@/pages/ShopPage";
 import ContactPage from "@/pages/ContactPage";
 import HospitalityPage from "@/pages/HospitalityPage";
+import InsuranceClaimsPage from "@/pages/InsuranceClaimsPage";
+import WhyGwecelyPage from "@/pages/WhyGwecelyPage";
 import { ROUTES } from "@/lib/routes";
 import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -29,9 +32,18 @@ function Router() {
     <Switch>
       <Route path={ROUTES.home} component={Home} />
       <Route path={ROUTES.about} component={AboutPage} />
+      <Route path="/services/:slug" component={ServiceDetailPage} />
       <Route path={ROUTES.services} component={ServicesPage} />
-      <Route path={ROUTES.book} component={BookPage} />
-      <Route path={ROUTES.gallery} component={GalleryPage} />
+      <Route path={ROUTES.insuranceClaims} component={InsuranceClaimsPage} />
+      <Route path={ROUTES.ourWork} component={GalleryPage} />
+      <Route path={ROUTES.whyGwecely} component={WhyGwecelyPage} />
+      <Route path={ROUTES.quote} component={BookPage} />
+      <Route path={ROUTES.book}>
+        <Redirect to={ROUTES.quote} />
+      </Route>
+      <Route path={ROUTES.gallery}>
+        <Redirect to={ROUTES.ourWork} />
+      </Route>
       <Route path={ROUTES.reviews} component={ReviewsPage} />
       <Route path={ROUTES.shop} component={ShopPage} />
       <Route path={ROUTES.contact} component={ContactPage} />

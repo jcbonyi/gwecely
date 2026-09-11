@@ -276,17 +276,35 @@ export default function GallerySection() {
     <section id="gallery" ref={ref} className="py-20 md:py-28 bg-[#F6F6F6]">
       <div className="container">
         <div className="mb-10 md:mb-12 max-w-2xl">
-          <p className="section-eyebrow">Project gallery</p>
+          <p className="section-eyebrow">Our work</p>
           <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading mb-4">
             Work from the Mombasa workshop
           </h2>
           <p className="text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-5">
-            Panel beating, spray painting, mechanical repairs, and related supply jobs. Filter by category or open a
-            photo for detail.
+            Photographs from workshop jobs. Captions describe the type of work — replace any marketing-style project
+            stories with verified job records as you document them.
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="border border-dashed border-[#C8C8C8] bg-[#F6F6F6] aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
+              <p className="font-[family-name:var(--font-display)] font-semibold text-sm text-[#404040] mb-1">
+                TODO: Before photo
+              </p>
+              <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)]">
+                Add a verified damaged-vehicle photo for a completed job
+              </p>
+            </div>
+            <div className="border border-dashed border-[#C8C8C8] bg-[#F6F6F6] aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
+              <p className="font-[family-name:var(--font-display)] font-semibold text-sm text-[#404040] mb-1">
+                TODO: After photo
+              </p>
+              <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)]">
+                Add the matching completed repair photo for the same vehicle
+              </p>
+            </div>
+          </div>
           <div className="flex flex-wrap gap-3">
             <button type="button" onClick={() => bookService('Panel Beating')} className="btn-gwecely text-xs py-2.5 px-4">
-              Book a repair
+              Get a quote
             </button>
             <Link href={ROUTES.contact} className="btn-secondary-gwecely text-xs py-2.5 px-4">
               Ask about a job

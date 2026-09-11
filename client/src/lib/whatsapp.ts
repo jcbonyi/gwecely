@@ -38,7 +38,60 @@ function footer(): string {
   return `\n────────────\n_${BRAND.name} · Mombasa_`;
 }
 
+export function buildServiceBookingQuickMessage(): string {
+  return [
+    `*GWECELY — SERVICE ENQUIRY*`,
+    '',
+    'Hello Gwecely, I would like to enquire about vehicle repair services.',
+    '',
+    '*My details*',
+    '• Name:',
+    '• Phone:',
+    '',
+    '*Vehicle*',
+    '• Make / model:',
+    '• Registration number:',
+    '',
+    '*Service / damage*',
+    '• ',
+    '',
+    'Please advise on assessment and quotation. Thank you!',
+    footer(),
+  ].join('\n');
+}
+
+export function buildQuoteQuickMessage(): string {
+  return [
+    `*GWECELY — QUOTE REQUEST*`,
+    '',
+    'Hello Gwecely, I would like to request a quotation for my vehicle.',
+    '',
+    '*My details*',
+    '• Name:',
+    '• Phone:',
+    '',
+    '*Vehicle*',
+    '• Make / model:',
+    '• Registration:',
+    '',
+    '*Damage / service needed*',
+    '• ',
+    '',
+    'I can send photos of the damage in this chat. Thank you!',
+    footer(),
+  ].join('\n');
+}
+
 export function buildGeneralEnquiryMessage(topic = 'General Enquiry'): string {
+  if (topic === 'General Enquiry') {
+    return [
+      'Hello Gwecely, I would like to enquire about vehicle repair services.',
+      '',
+      'Please assist me with:',
+      '• ',
+      footer(),
+    ].join('\n');
+  }
   return [
     `*GWECELY — ENQUIRY*`,
     '',
@@ -50,29 +103,6 @@ export function buildGeneralEnquiryMessage(topic = 'General Enquiry'): string {
     '• ',
     '',
     'Thank you!',
-    footer(),
-  ].join('\n');
-}
-
-export function buildServiceBookingQuickMessage(): string {
-  return [
-    `*GWECELY — SERVICE BOOKING*`,
-    '',
-    'Hello, I would like to book a *vehicle service* at your Mombasa workshop.',
-    '',
-    '*My details*',
-    '• Name:',
-    '• Phone:',
-    '',
-    '*Vehicle*',
-    '• Make / model:',
-    '• Registration number:',
-    '',
-    '*Service*',
-    '• Service type:',
-    '• Preferred date:',
-    '',
-    'Please confirm availability. Thank you!',
     footer(),
   ].join('\n');
 }
@@ -188,6 +218,8 @@ export function buildBookingMessage(
     service: string;
     date: string;
     notes?: string;
+    preferredContact?: string;
+    photoCount?: number;
   },
   ref: string
 ): string {
@@ -201,7 +233,7 @@ export function buildBookingMessage(
     : form.date;
 
   return [
-    `*GWECELY — SERVICE BOOKING*`,
+    `*GWECELY — QUOTE / SERVICE REQUEST*`,
     '',
     `*Reference:* ${ref}`,
     '',
@@ -209,6 +241,7 @@ export function buildBookingMessage(
     `• Name: ${form.name}`,
     `• Phone: ${form.phone}`,
     ...(form.email ? [`• Email: ${form.email}`] : []),
+    ...(form.preferredContact ? [`• Preferred contact: ${form.preferredContact}`] : []),
     '',
     '*Vehicle*',
     `• ${form.vehicleMake} ${form.vehicleModel}`,
@@ -216,10 +249,13 @@ export function buildBookingMessage(
     '',
     '*Service requested*',
     `• ${form.service}`,
-    `• Preferred date: *${preferredDate}*`,
-    ...(form.notes?.trim() ? ['', `*Additional notes:*`, form.notes.trim()] : []),
+    ...(form.date ? [`• Preferred date: *${preferredDate}*`] : []),
+    ...(form.photoCount && form.photoCount > 0
+      ? [`• Damage photos selected: ${form.photoCount} (please find attached / following)`]
+      : []),
+    ...(form.notes?.trim() ? ['', `*Description of damage / problem:*`, form.notes.trim()] : []),
     '',
-    'Please confirm my booking. Thank you!',
+    'Please send a quotation or confirm assessment. Thank you!',
     footer(),
   ].join('\n');
 }

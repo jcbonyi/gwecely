@@ -5,13 +5,13 @@
 import { useState, useEffect, useMemo } from 'react';
 import DemoBanner from '@/components/DemoBanner';
 import { submitBooking, generateRef } from '@/lib/api';
-import { buildBookingMessage, buildServiceBookingQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
+import { buildBookingMessage, buildQuoteQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { consumePreselectedService } from '@/lib/booking';
 import { BOOKING_SERVICE_OPTIONS } from '@/lib/services';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
-import { Calendar, Car, CheckCircle, Clock, Mail, MessageCircle, Phone, User } from 'lucide-react';
+import { Calendar, Car, CheckCircle, Clock, ImagePlus, Mail, MessageCircle, Phone, User } from 'lucide-react';
 
 const SERVICES = [...BOOKING_SERVICE_OPTIONS];
 
@@ -25,6 +25,7 @@ interface FormData {
   service: string;
   date: string;
   notes: string;
+  preferredContact: string;
 }
 
 interface FormErrors {
@@ -41,6 +42,7 @@ const INITIAL_FORM: FormData = {
   service: '',
   date: '',
   notes: '',
+  preferredContact: 'WhatsApp',
 };
 
 const STEPS = [
@@ -55,6 +57,7 @@ export default function BookingSection() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [bookingRef, setBookingRef] = useState('');
+  const [photoCount, setPhotoCount] = useState(0);
 
   useEffect(() => {
     const preselected = consumePreselectedService();
@@ -68,7 +71,7 @@ export default function BookingSection() {
     const vehicleDone = Boolean(
       form.vehicleMake.trim() && form.vehicleModel.trim() && form.regNumber.trim()
     );
-    const serviceDone = Boolean(form.service && form.date);
+    const serviceDone = Boolean(form.service);
     if (!contactDone) return 1;
     if (!vehicleDone) return 2;
     if (!serviceDone) return 3;
@@ -87,8 +90,8 @@ export default function BookingSection() {
     if (!form.vehicleModel.trim()) newErrors.vehicleModel = 'Vehicle model is required';
     if (!form.regNumber.trim()) newErrors.regNumber = 'Registration number is required';
     if (!form.service) newErrors.service = 'Please select a service';
-    if (!form.date) newErrors.date = 'Please select a preferred date';
-    else {
+    if (!form.notes.trim()) newErrors.notes = 'Please describe the damage or problem';
+    if (form.date) {
       const selected = new Date(form.date);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -130,13 +133,13 @@ export default function BookingSection() {
     <section id="booking" className="py-20 md:py-28 bg-[#F6F6F6]">
       <div className="container">
         <div className="mb-14 max-w-2xl">
-          <p className="section-eyebrow">Book a Service</p>
+          <p className="section-eyebrow">Get a quote</p>
           <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading">
-            Book a vehicle service
+            Request a quotation
           </h2>
           <p className="text-gray-600 font-[family-name:var(--font-body)] mt-4">
-            Drop your vehicle at our Mombasa workshop or book online. We confirm within 2 hours and keep you updated
-            throughout.
+            Tell us about the vehicle and the damage or service you need. We will follow up by phone or WhatsApp during
+            opening hours. For faster assessment, attach photos below and send them when you confirm on WhatsApp.
           </p>
         </div>
 
@@ -151,7 +154,7 @@ export default function BookingSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#404040] via-[#404040]/40 to-transparent" />
             </div>
             <div className="p-8 -mt-4 relative">
-              <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl mb-6">BOOKING INFORMATION</h3>
+              <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl mb-6">WORKSHOP DETAILS</h3>
 
               <div className="space-y-5">
                 {[
@@ -181,13 +184,13 @@ export default function BookingSection() {
               </div>
 
               <a
-                href={whatsAppUrl(buildServiceBookingQuickMessage())}
+                href={whatsAppUrl(buildQuoteQuickMessage())}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-8 btn-whatsapp w-full justify-center rounded-xl py-3"
               >
                 <WhatsAppIcon className="w-5 h-5" />
-                Book via WhatsApp
+                Quote via WhatsApp
               </a>
             </div>
           </div>
@@ -199,10 +202,10 @@ export default function BookingSection() {
                   <CheckCircle size={32} className="text-[#F05030]" />
                 </div>
                 <div>
-                  <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl text-[#111111] mb-2">BOOKING RECEIVED</h3>
+                  <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl text-[#111111] mb-2">REQUEST RECEIVED</h3>
                   <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm max-w-sm">
-                    Thank you, <strong>{form.name}</strong>! We have your request for <strong>{form.service}</strong>.
-                    Our team will follow up via phone or WhatsApp.
+                    Thank you, <strong>{form.name}</strong>. We have your quotation request for{' '}
+                    <strong>{form.service}</strong>. Confirm on WhatsApp and attach damage photos if you have them.
                   </p>
                 </div>
                 <DemoBanner compact className="w-full max-w-sm text-left" />
@@ -211,7 +214,9 @@ export default function BookingSection() {
                   <p className="font-[family-name:var(--font-display)] font-700 text-[#F05030] text-lg">{bookingRef}</p>
                 </div>
                 <a
-                  href={whatsAppUrl(buildBookingMessage(form, bookingRef))}
+                  href={whatsAppUrl(
+                    buildBookingMessage({ ...form, preferredContact: form.preferredContact, photoCount }, bookingRef)
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-[family-name:var(--font-display)] font-700 text-sm px-6 py-3 rounded-lg transition-colors"
@@ -224,10 +229,11 @@ export default function BookingSection() {
                     setSubmitted(false);
                     setForm(INITIAL_FORM);
                     setBookingRef('');
+                    setPhotoCount(0);
                   }}
                   className="btn-gwecely text-sm py-2.5 px-6"
                 >
-                  Book Another Service
+                  Submit another request
                 </button>
               </div>
             ) : (
@@ -271,7 +277,7 @@ export default function BookingSection() {
                 </div>
 
                 <h3 className="font-[family-name:var(--font-display)] font-700 text-xl text-[#111111] mb-6">
-                  VEHICLE SERVICE BOOKING
+                  VEHICLE QUOTE REQUEST
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -412,7 +418,7 @@ export default function BookingSection() {
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">
                       <Calendar size={12} className="inline mr-1" />
-                      Preferred Date *
+                      Preferred assessment date (optional)
                     </label>
                     <input
                       type="date"
@@ -429,16 +435,56 @@ export default function BookingSection() {
 
                   <div className="sm:col-span-2">
                     <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">
-                      Additional Notes
+                      Preferred contact method *
+                    </label>
+                    <select
+                      name="preferredContact"
+                      value={form.preferredContact}
+                      onChange={handleChange}
+                      className={inputClass('preferredContact')}
+                    >
+                      <option value="WhatsApp">WhatsApp</option>
+                      <option value="Phone call">Phone call</option>
+                      <option value="Email">Email</option>
+                    </select>
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">
+                      Description of problem / damage *
                     </label>
                     <textarea
                       name="notes"
                       value={form.notes}
                       onChange={handleChange}
                       rows={3}
-                      placeholder="Describe any specific issues or requirements..."
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20 transition-all resize-none"
+                      placeholder="Describe the damage, fault, or service needed..."
+                      className={`w-full px-4 py-2.5 border rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20 transition-all resize-none ${
+                        errors.notes ? 'border-red-400' : 'border-gray-200'
+                      }`}
                     />
+                    {errors.notes && (
+                      <p className="text-red-500 text-xs mt-1 font-[family-name:var(--font-body)]">{errors.notes}</p>
+                    )}
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">
+                      <ImagePlus size={12} className="inline mr-1" />
+                      Damage photos (optional)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={(e) => setPhotoCount(e.target.files?.length ?? 0)}
+                      className="block w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-3 file:border file:border-[#E6E6E6] file:bg-[#F6F6F6] file:text-sm file:font-medium"
+                    />
+                    <p className="text-xs text-[#6B6B6B] mt-1.5 font-[family-name:var(--font-body)]">
+                      {photoCount > 0
+                        ? `${photoCount} file(s) selected. After submit, attach them in the WhatsApp chat that opens.`
+                        : 'Photos stay on your device until you attach them in WhatsApp after submitting.'}
+                    </p>
                   </div>
                 </div>
 
@@ -450,12 +496,12 @@ export default function BookingSection() {
                   {loading ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Submitting Booking...
+                      Submitting...
                     </>
                   ) : (
                     <>
-                      <Calendar size={16} />
-                      Confirm Booking
+                      <MessageCircle size={16} />
+                      Send photos &amp; request a quote
                     </>
                   )}
                 </button>
