@@ -1,6 +1,7 @@
 import { ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+/** Bottom-left on mobile to avoid sticky WhatsApp bar; bottom-right on desktop (FAB is right). */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
@@ -17,7 +18,7 @@ export default function BackToTop() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Back to top"
-      className="fixed bottom-[5.5rem] md:bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#404040] text-white shadow-lg flex items-center justify-center hover:bg-[#F05030] transition-all duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-[#F05030] focus-visible:ring-offset-2 max-md:bottom-[calc(9.5rem+env(safe-area-inset-bottom,0px))]"
+      className="fixed z-40 w-11 h-11 rounded bg-[#404040] text-white flex items-center justify-center hover:bg-[#F05030] transition-colors focus-visible:ring-2 focus-visible:ring-[#F05030] focus-visible:ring-offset-2 left-4 max-md:bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] md:left-auto md:right-6 md:bottom-24"
     >
       <ArrowUp size={18} />
     </button>

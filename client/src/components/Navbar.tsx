@@ -1,5 +1,5 @@
 /**
- * Navbar — automotive journey only (no cart/wishlist distraction)
+ * Navbar — automotive journey; mobile quote + phone always reachable
  */
 
 import { BRAND } from '@/lib/brand';
@@ -33,26 +33,24 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-[#111111] text-[#B0B0B0] text-xs py-2 border-b border-white/5 hidden md:block">
+      <div className="bg-[#141414] text-[#B0B0B0] text-xs py-2 border-b border-white/5 hidden md:block">
         <div className="container flex flex-wrap justify-between items-center gap-2">
           <span className="font-[family-name:var(--font-body)]">
             Mombasa vehicle repair workshop · Behind CMC Motors
           </span>
-          <div className="flex items-center gap-4">
-            <a
-              href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
-              className="flex items-center gap-1.5 hover:text-white transition-colors"
-            >
-              <Phone size={12} className="text-[#F05030]" />
-              {BRAND.contact.phones[0]}
-            </a>
-          </div>
+          <a
+            href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+            className="flex items-center gap-1.5 hover:text-white transition-colors"
+          >
+            <Phone size={12} className="text-[#F05030]" />
+            {BRAND.contact.phones[0]}
+          </a>
         </div>
       </div>
 
       <nav
         className={`fixed w-full z-50 transition-colors duration-200 ${
-          navSolid ? 'bg-[#111111] top-0 shadow-sm' : 'bg-[#111111]/90 md:bg-transparent top-0 md:top-[33px]'
+          navSolid ? 'bg-[#141414] top-0 shadow-sm' : 'bg-[#141414]/90 md:bg-transparent top-0 md:top-[33px]'
         }`}
         aria-label="Main navigation"
       >
@@ -78,8 +76,8 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 flex-shrink-0">
-              <Link href={ROUTES.quote} className="hidden sm:flex btn-gwecely text-xs py-2 px-3.5">
-                Get a Quote
+              <Link href={ROUTES.quote} className="btn-gwecely text-xs py-2 px-3.5">
+                Get a quote
               </Link>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -102,18 +100,28 @@ export default function Navbar() {
         )}
 
         <div
-          className={`lg:hidden bg-[#111111] border-t border-white/10 overflow-hidden transition-all duration-300 ${
+          className={`lg:hidden bg-[#141414] border-t border-white/10 overflow-hidden transition-all duration-300 ${
             mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
           }`}
         >
           <div className="container py-3 flex flex-col gap-0.5 max-h-[calc(80vh-1rem)] overflow-y-auto">
+            <a
+              href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+              className="px-3 py-3 text-white font-[family-name:var(--font-body)] text-base min-h-[48px] flex items-center gap-2 border-b border-white/10 mb-1"
+              onClick={closeMobile}
+            >
+              <Phone size={16} className="text-[#F05030]" />
+              {BRAND.contact.phones[0]}
+            </a>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={closeMobile}
                 className={`px-3 py-3 text-white/85 hover:text-white font-[family-name:var(--font-body)] text-base min-h-[48px] flex items-center ${
-                  isActiveRoute(location, link.href) ? 'text-white border-l-2 border-[#F05030] pl-2.5' : ''
+                  isActiveRoute(location, link.href)
+                    ? 'text-white box-border border-b-2 border-[#F05030]'
+                    : ''
                 }`}
               >
                 {link.label}
@@ -124,9 +132,9 @@ export default function Navbar() {
               onClick={closeMobile}
               className="btn-gwecely w-full justify-center text-sm py-3 mt-2"
             >
-              Get a Quote
+              Get a quote
             </Link>
-            <p className="px-3 pt-4 pb-1 text-[10px] uppercase tracking-widest text-white/35">Other business</p>
+            <p className="px-3 pt-4 pb-1 text-xs uppercase tracking-widest text-white/40">Other business</p>
             {OTHER_BUSINESS_LINKS.map((link) => (
               <Link
                 key={link.href}

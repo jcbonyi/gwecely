@@ -108,6 +108,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   * {
     @apply border-border outline-ring/50;
@@ -115,6 +118,8 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
   }
   section[id] {
     scroll-margin-top: 7rem;
@@ -284,26 +289,35 @@
     transform: none;
   }
 
-  /* Service card */
+  /* Service card — quiet brochure surface */
   .service-card {
     background: white;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     border: 1px solid var(--gwecely-border);
-    border-left: 3px solid var(--gwecely-orange);
     box-shadow: none;
     transition: border-color 150ms ease;
     overflow: hidden;
   }
   .service-card:hover {
     box-shadow: none;
-    border-color: #d0d0d0;
-    border-left-color: var(--gwecely-orange);
+    border-color: #c8c8c8;
+  }
+
+  /* Shared surface for home/services cards */
+  .surface-card {
+    background: white;
+    border: 1px solid var(--gwecely-border);
+    border-radius: 0.5rem;
+    transition: border-color 150ms ease;
+  }
+  .surface-card:hover {
+    border-color: #c8c8c8;
   }
 
   /* Product card */
   .product-card {
     background: white;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     box-shadow: none;
     transition: border-color 150ms ease;
     overflow: hidden;
@@ -317,7 +331,7 @@
 
   .supplies-card {
     background: white;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     border: 1px solid var(--gwecely-border);
     box-shadow: none;
     overflow: hidden;
@@ -475,6 +489,10 @@
     color: var(--gwecely-silver);
   }
 
+  /* Compat for legacy numeric weight utilities used across pages */
+  .font-700 { font-weight: 700; }
+  .font-800 { font-weight: 800; }
+
   .mobile-sticky-bar {
     position: fixed;
     left: 0;
@@ -499,9 +517,9 @@
   .form-field {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
+    border: 1px solid var(--gwecely-border);
+    border-radius: 0.25rem;
+    font-size: 1rem;
     font-family: var(--font-body);
     transition: border-color 0.15s, box-shadow 0.15s;
     min-height: 44px;

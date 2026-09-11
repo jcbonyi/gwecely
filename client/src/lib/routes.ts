@@ -40,8 +40,7 @@ export const FOOTER_LINKS: { label: string; href: AppRoute }[] = [
   { label: 'Our Work', href: ROUTES.ourWork },
   { label: 'About', href: ROUTES.about },
   { label: 'Contact', href: ROUTES.contact },
-  { label: 'Get a Quote', href: ROUTES.quote },
-  { label: 'Insurance & Claims', href: ROUTES.insuranceClaims },
+  { label: 'Get a quote', href: ROUTES.quote },
 ];
 
 export function isActiveRoute(current: string, href: AppRoute): boolean {

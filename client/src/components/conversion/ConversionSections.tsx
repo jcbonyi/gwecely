@@ -102,7 +102,7 @@ export function FaqSection() {
 
 export function LeadCtaBand({
   title = 'Send photos of the damage — we will guide the next step',
-  text = 'WhatsApp is usually fastest. Or request a short quote online.',
+  text = 'WhatsApp is usually fastest. Or get a short quote online.',
 }: {
   title?: string;
   text?: string;
@@ -126,7 +126,7 @@ export function LeadCtaBand({
             Send photos on WhatsApp
           </a>
           <button type="button" onClick={() => requestQuote()} className="btn-gwecely">
-            Request a quote
+            Get a quote
           </button>
         </div>
       </div>

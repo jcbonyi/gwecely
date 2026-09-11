@@ -1,5 +1,5 @@
 /**
- * Quote form — name, phone, vehicle, damage, photo → WhatsApp
+ * Quote form — WhatsApp-primary; secondary form details
  */
 
 import { useState, useRef } from 'react';
@@ -53,46 +53,42 @@ export default function BookingSection() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const field = (name: string) =>
-    `w-full px-4 py-3 border rounded-xl text-sm font-[family-name:var(--font-body)] focus:outline-none focus:ring-2 min-h-[44px] ${
-      errors[name]
-        ? 'border-red-400 focus:ring-red-100'
-        : 'border-[#E5E7E7] focus:border-[#F05030] focus:ring-[#F05030]/15'
-    }`;
+  const fieldClass = (name: string) =>
+    `form-field ${errors[name] ? 'form-field-error' : ''}`;
 
   return (
     <section id="booking" className="py-14 md:py-20 bg-[#F6F6F6]">
       <div className="container max-w-xl">
         <p className="section-eyebrow">Get a quote</p>
         <h1 className="font-[family-name:var(--font-display)] font-bold text-3xl text-[#111111] section-heading mb-3">
-          Request a quotation
+          Get a quote
         </h1>
-        <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-6">
-          Fill the form, continue on WhatsApp, and attach damage photos in the chat.
+        <p className="text-base text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-8">
+          Fastest path: send damage photos on WhatsApp. Or fill the short form below and continue in chat.
         </p>
 
         <a
           href={whatsAppUrl(buildPhotoQuoteMessage())}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-whatsapp w-full justify-center mb-6"
+          className="btn-whatsapp w-full justify-center mb-8"
           data-conversion="whatsapp-photos-quote-page"
         >
           <WhatsAppIcon className="w-5 h-5" />
-          Send photos on WhatsApp now
+          Send photos on WhatsApp
         </a>
 
-        <form
-          onSubmit={openWhatsApp}
-          noValidate
-          className="bg-white border border-[#E5E7E7] rounded-xl p-6 md:p-8 space-y-4"
-        >
+        <p className="text-xs uppercase tracking-wider text-[#6B6B6B] font-[family-name:var(--font-display)] font-semibold mb-3">
+          Or request a quote with details
+        </p>
+
+        <form onSubmit={openWhatsApp} noValidate className="surface-card bg-white p-6 md:p-8 space-y-4">
           <div>
             <label htmlFor="name" className="block text-xs font-medium text-[#404040] mb-1.5">
               <User size={12} className="inline mr-1" />
               Name *
             </label>
-            <input id="name" name="name" value={form.name} onChange={handleChange} className={field('name')} />
+            <input id="name" name="name" value={form.name} onChange={handleChange} className={fieldClass('name')} />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
 
@@ -108,7 +104,7 @@ export default function BookingSection() {
               value={form.phone}
               onChange={handleChange}
               placeholder="+254 7XX XXX XXX"
-              className={field('phone')}
+              className={fieldClass('phone')}
             />
             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
           </div>
@@ -124,7 +120,7 @@ export default function BookingSection() {
               value={form.vehicle}
               onChange={handleChange}
               placeholder="e.g. Toyota Hilux"
-              className={field('vehicle')}
+              className={fieldClass('vehicle')}
             />
             {errors.vehicle && <p className="text-red-500 text-xs mt-1">{errors.vehicle}</p>}
           </div>
@@ -141,7 +137,7 @@ export default function BookingSection() {
               value={form.damage}
               onChange={handleChange}
               placeholder="e.g. Front bumper and left wing after a collision"
-              className={field('damage')}
+              className={fieldClass('damage')}
             />
             {errors.damage && <p className="text-red-500 text-xs mt-1">{errors.damage}</p>}
           </div>
@@ -167,13 +163,10 @@ export default function BookingSection() {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="w-full min-h-[44px] border border-dashed border-[#E5E7E7] rounded-xl px-4 py-3 text-sm text-[#6B6B6B] text-left hover:border-[#F05030]"
+              className="w-full min-h-[44px] border border-dashed border-[#E6E6E6] rounded px-4 py-3 text-sm text-[#6B6B6B] text-left hover:border-[#F05030]"
             >
               {photoName ? `Selected: ${photoName}` : 'Choose a photo from your phone'}
             </button>
-            <p className="text-xs text-[#888] mt-1.5 font-[family-name:var(--font-body)]">
-              After you continue, send the same photo in the WhatsApp chat.
-            </p>
           </div>
 
           <button type="submit" className="btn-whatsapp w-full justify-center" data-conversion="quote-form-whatsapp">
@@ -181,7 +174,7 @@ export default function BookingSection() {
             Continue on WhatsApp
           </button>
 
-          <p className="text-xs text-center text-[#888]">
+          <p className="text-xs text-center text-[#6B6B6B]">
             Or call{' '}
             <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="text-[#F05030] font-medium">
               {BRAND.contact.phones[0]}

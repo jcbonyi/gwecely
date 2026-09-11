@@ -1,6 +1,5 @@
 /**
- * Homepage sections — only render proof blocks when real data is filled.
- * Never show empty / "coming soon" placeholders to visitors.
+ * Homepage — tightened brochure rhythm (classy workshop)
  */
 
 import { useEffect } from 'react';
@@ -12,7 +11,6 @@ import {
   ClipboardList,
   FileText,
   MapPin,
-  MessageCircle,
   Phone,
   Search,
   Wrench,
@@ -22,9 +20,8 @@ import { PRIMARY_GARAGE_SERVICES } from '@/lib/services';
 import { SERVICE_IMAGE_BASES } from '@/lib/categoryImages';
 import { BRAND } from '@/lib/brand';
 import { ROUTES, MAPS_DIRECTIONS_URL } from '@/lib/routes';
-import { TRUST_STRIP, WHAT_HAPPENS_NEXT, WHY_POINTS, FAQ_ITEMS, SERVICE_PROBLEMS } from '@/lib/siteContent';
+import { TRUST_STRIP, WHAT_HAPPENS_NEXT, FAQ_ITEMS, SERVICE_PROBLEMS } from '@/lib/siteContent';
 import { slugForService } from '@/lib/servicePages';
-import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 import {
   ACCEPTED_INSURERS,
   AREA_SERVED,
@@ -105,9 +102,9 @@ export default function HomeSections() {
 
   return (
     <>
-      <section className="border-b border-[#E5E7E7] bg-white" aria-label="Workshop facts">
-        <div className="container py-6 md:py-8">
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="border-b border-[#E6E6E6] bg-white" aria-label="Workshop facts">
+        <div className="container py-8 md:py-10">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {TRUST_STRIP.map((item) => (
               <li
                 key={item}
@@ -121,18 +118,18 @@ export default function HomeSections() {
       </section>
 
       {showProofStats ? (
-        <section className="bg-white border-b border-[#E5E7E7]" aria-labelledby="proof-stats-heading">
-          <div className="container py-8 md:py-10">
+        <section className="bg-white border-b border-[#E6E6E6]" aria-labelledby="proof-stats-heading">
+          <div className="container py-10">
             <h2
               id="proof-stats-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-xl text-[#111111] section-heading mb-4"
+              className="font-[family-name:var(--font-display)] font-bold text-xl text-[#111111] section-heading mb-5"
             >
               Workshop at a glance
             </h2>
             <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {PROOF_STATS.map((stat) => (
-                <div key={stat.label} className="border border-[#E5E7E7] rounded-xl p-4">
-                  <dt className="text-xs uppercase tracking-wider text-[#888] mb-1">{stat.label}</dt>
+                <div key={stat.label} className="surface-card p-5">
+                  <dt className="text-xs uppercase tracking-wider text-[#6B6B6B] mb-1">{stat.label}</dt>
                   <dd className="font-[family-name:var(--font-display)] font-bold text-2xl text-[#111111]">
                     {stat.value}
                   </dd>
@@ -144,8 +141,8 @@ export default function HomeSections() {
       ) : null}
 
       <section className="bg-[#F6F6F6]" aria-labelledby="services-heading">
-        <div className="container py-12 md:py-16">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+        <div className="container py-14 md:py-20">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div className="max-w-xl">
               <p className="section-eyebrow">Workshop services</p>
               <h2
@@ -160,23 +157,20 @@ export default function HomeSections() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PRIMARY_GARAGE_SERVICES.map((service) => {
               const base = SERVICE_IMAGE_BASES[service.imageKey];
               const blurb = SERVICE_PROBLEMS[service.title] ?? service.desc;
               return (
-                <article
-                  key={service.title}
-                  className="bg-white border border-[#E5E7E7] rounded-xl p-5 flex flex-col hover:shadow-sm transition-shadow"
-                >
-                  <div className="h-36 mb-4 overflow-hidden rounded-lg bg-[#141414]">
+                <article key={service.title} className="surface-card overflow-hidden flex flex-col">
+                  <div className="aspect-[16/10] overflow-hidden bg-[#141414]">
                     {base ? (
                       <ResponsivePicture
                         baseName={base}
                         alt={SERVICE_ALTS[service.imageKey] ?? `${service.title} at Gwecely Limited, Mombasa`}
                         className="w-full h-full object-cover"
                         width={800}
-                        height={400}
+                        height={500}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                         includeWebp={service.imageKey !== 'panelBeating'}
                       />
@@ -186,22 +180,24 @@ export default function HomeSections() {
                         alt={SERVICE_ALTS[service.imageKey] ?? service.title}
                         className="w-full h-full object-cover"
                         width={800}
-                        height={400}
+                        height={500}
                       />
                     )}
                   </div>
-                  <h3 className="font-[family-name:var(--font-display)] font-semibold text-lg text-[#111111] mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed line-clamp-2 flex-1 mb-4">
-                    {blurb}
-                  </p>
-                  <Link
-                    href={`/services/${slugForService(service.title)}`}
-                    className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A] min-h-[44px] inline-flex items-center"
-                  >
-                    Learn more
-                  </Link>
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-[family-name:var(--font-display)] font-semibold text-lg text-[#111111] mb-2">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed line-clamp-2 flex-1 mb-4">
+                      {blurb}
+                    </p>
+                    <Link
+                      href={`/services/${slugForService(service.title)}`}
+                      className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A] min-h-[44px] inline-flex items-center"
+                    >
+                      Learn more
+                    </Link>
+                  </div>
                 </article>
               );
             })}
@@ -211,8 +207,8 @@ export default function HomeSections() {
 
       {showBeforeAfter ? (
         <section className="bg-white" aria-labelledby="ba-heading">
-          <div className="container py-12 md:py-16">
-            <div className="max-w-2xl mb-8">
+          <div className="container py-14 md:py-20">
+            <div className="max-w-2xl mb-10">
               <p className="section-eyebrow">Proof of work</p>
               <h2
                 id="ba-heading"
@@ -237,11 +233,47 @@ export default function HomeSections() {
             </div>
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section className="bg-white" aria-labelledby="proof-heading">
+          <div className="container py-14 md:py-20">
+            <div className="max-w-2xl mb-10">
+              <p className="section-eyebrow">Our work</p>
+              <h2
+                id="proof-heading"
+                className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
+              >
+                Workshop photographs
+              </h2>
+              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
+                From the Mombasa workshop behind CMC Motors.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+              {WORKSHOP_PHOTOS.map((photo) => (
+                <figure key={photo.base} className="aspect-[4/3] overflow-hidden bg-[#141414] border border-[#E6E6E6] rounded-lg">
+                  <ResponsivePicture
+                    baseName={photo.base}
+                    alt={photo.alt}
+                    widths={[...photo.widths]}
+                    className="w-full h-full object-cover"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    includeWebp={photo.base !== '/images/panel'}
+                  />
+                </figure>
+              ))}
+            </div>
+            <Link href={ROUTES.ourWork} className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A]">
+              View our work <ArrowRight size={14} className="inline" />
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="bg-[#F6F6F6]" aria-labelledby="process-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-8">
+        <div className="container py-14 md:py-20">
+          <div className="max-w-2xl mb-10">
             <p className="section-eyebrow">What happens next</p>
             <h2
               id="process-heading"
@@ -257,8 +289,8 @@ export default function HomeSections() {
             {WHAT_HAPPENS_NEXT.map((item, i) => {
               const Icon = PROCESS_ICONS[i] ?? FileText;
               return (
-                <li key={item.step} className="border border-[#E5E7E7] bg-white rounded-xl p-4">
-                  <div className="w-9 h-9 rounded-lg bg-[#F05030]/10 text-[#F05030] flex items-center justify-center mb-3">
+                <li key={item.step} className="surface-card p-5 bg-white">
+                  <div className="w-9 h-9 rounded bg-[#F05030]/10 text-[#F05030] flex items-center justify-center mb-3">
                     <Icon size={18} aria-hidden />
                   </div>
                   <p className="font-[family-name:var(--font-display)] font-bold text-[#F05030] text-xs mb-1">
@@ -274,7 +306,7 @@ export default function HomeSections() {
               );
             })}
           </ol>
-          <p className="mt-6 text-sm">
+          <p className="mt-8 text-sm">
             <Link href={ROUTES.insuranceClaims} className="text-[#F05030] font-semibold hover:underline">
               Insurance &amp; claims guidance
             </Link>
@@ -284,7 +316,7 @@ export default function HomeSections() {
 
       {showInsurers ? (
         <section className="bg-white" aria-labelledby="insurers-heading">
-          <div className="container py-12 md:py-16">
+          <div className="container py-14 md:py-20">
             <div className="max-w-2xl">
               <p className="section-eyebrow">Insurance</p>
               <h2
@@ -293,14 +325,14 @@ export default function HomeSections() {
               >
                 Working with insurers
               </h2>
-              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-4">
+              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-5">
                 We prepare assessments and documentation for claim files. Claim approval remains with your insurer.
               </p>
-              <ul className="flex flex-wrap gap-2 mb-4">
+              <ul className="flex flex-wrap gap-2 mb-5">
                 {ACCEPTED_INSURERS.map((name) => (
                   <li
                     key={name}
-                    className="text-sm border border-[#E5E7E7] rounded-xl px-3 py-1.5 font-[family-name:var(--font-body)] text-[#404040]"
+                    className="text-sm border border-[#E6E6E6] rounded px-3 py-1.5 font-[family-name:var(--font-body)] text-[#404040]"
                   >
                     {name}
                   </li>
@@ -314,48 +346,43 @@ export default function HomeSections() {
         </section>
       ) : null}
 
-      <section className="bg-white" aria-labelledby="proof-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-8">
-            <p className="section-eyebrow">Our work</p>
-            <h2
-              id="proof-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading mb-3"
-            >
-              Workshop photographs
-            </h2>
-            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
-              From the Mombasa workshop behind CMC Motors.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-            {WORKSHOP_PHOTOS.map((photo) => (
-              <figure
-                key={photo.base}
-                className="aspect-[4/3] overflow-hidden bg-[#141414] border border-[#E5E7E7] rounded-xl"
+      {showBeforeAfter ? (
+        <section className="bg-white border-t border-[#E6E6E6]" aria-labelledby="gallery-heading">
+          <div className="container py-14">
+            <div className="flex items-end justify-between gap-4 mb-6">
+              <h2
+                id="gallery-heading"
+                className="font-[family-name:var(--font-display)] font-bold text-xl text-[#111111]"
               >
-                <ResponsivePicture
-                  baseName={photo.base}
-                  alt={photo.alt}
-                  widths={[...photo.widths]}
-                  className="w-full h-full object-cover"
-                  width={800}
-                  height={600}
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  includeWebp={photo.base !== '/images/panel'}
-                />
-              </figure>
-            ))}
+                More workshop photographs
+              </h2>
+              <Link href={ROUTES.ourWork} className="text-sm font-semibold text-[#F05030]">
+                Our work <ArrowRight size={14} className="inline" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {WORKSHOP_PHOTOS.map((photo) => (
+                <figure key={photo.base} className="aspect-[4/3] overflow-hidden bg-[#141414] rounded-lg">
+                  <ResponsivePicture
+                    baseName={photo.base}
+                    alt={photo.alt}
+                    widths={[...photo.widths]}
+                    className="w-full h-full object-cover"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    includeWebp={photo.base !== '/images/panel'}
+                  />
+                </figure>
+              ))}
+            </div>
           </div>
-          <Link href={ROUTES.ourWork} className="text-sm font-semibold text-[#F05030] hover:text-[#D9482A]">
-            View our work <ArrowRight size={14} className="inline" />
-          </Link>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {showReviews ? (
         <section className="bg-[#F6F6F6]" aria-labelledby="reviews-heading">
-          <div className="container py-12 md:py-16">
+          <div className="container py-14 md:py-20">
             <div className="max-w-2xl mb-8">
               <p className="section-eyebrow">Customers</p>
               <h2
@@ -368,11 +395,11 @@ export default function HomeSections() {
             {GOOGLE_REVIEWS.length > 0 ? (
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {GOOGLE_REVIEWS.map((review) => (
-                  <li key={`${review.name}-${review.date}`} className="border border-[#E5E7E7] bg-white rounded-xl p-5">
+                  <li key={`${review.name}-${review.date}`} className="surface-card p-5 bg-white">
                     <p className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1">
                       {review.name}
                     </p>
-                    <p className="text-xs text-[#888] mb-2">
+                    <p className="text-xs text-[#6B6B6B] mb-2">
                       {'★'.repeat(Math.round(review.rating))} · {review.date}
                     </p>
                     <p className="text-sm text-[#404040] font-[family-name:var(--font-body)] leading-relaxed">
@@ -396,34 +423,8 @@ export default function HomeSections() {
         </section>
       ) : null}
 
-      <section className="bg-[#F6F6F6]" aria-labelledby="why-heading">
-        <div className="container py-12 md:py-16">
-          <div className="max-w-2xl mb-8">
-            <p className="section-eyebrow">Why Gwecely</p>
-            <h2
-              id="why-heading"
-              className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl text-[#111111] section-heading"
-            >
-              Why contact this workshop
-            </h2>
-          </div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {WHY_POINTS.map((item) => (
-              <li key={item.title} className="border-l-2 border-[#F05030] pl-4">
-                <h3 className="font-[family-name:var(--font-display)] font-semibold text-[#111111] mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed">
-                  {item.detail}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       <section id="contact" className="bg-[#141414] text-white" aria-labelledby="location-heading">
-        <div className="container py-12 md:py-16 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="container py-14 md:py-20 grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <p className="section-eyebrow !text-[#B0B0B0]">Visit / contact</p>
             <h2
@@ -435,14 +436,14 @@ export default function HomeSections() {
             <p className="text-[#B0B0B0] text-sm font-[family-name:var(--font-body)] mb-2">
               Serving {AREA_SERVED.join(', ')}.
             </p>
-            <p className="text-[#B0B0B0] text-sm font-[family-name:var(--font-body)] mb-6 select-all">
+            <p className="text-[#C8C8C8] text-sm font-[family-name:var(--font-body)] mb-6 select-all">
               {BRAND.legalName}
               <br />
               {BRAND.contact.address}
               <br />
               {BRAND.contact.poBox}
             </p>
-            <ul className="space-y-3 text-sm font-[family-name:var(--font-body)] mb-8">
+            <ul className="space-y-1 text-sm font-[family-name:var(--font-body)] mb-6">
               {BRAND.contact.phones.map((phone) => (
                 <li key={phone}>
                   <a
@@ -462,10 +463,8 @@ export default function HomeSections() {
                   {BRAND.contact.emails[0]}
                 </a>
               </li>
-              <li className="text-[#B0B0B0]">
-                <OpeningHours className="text-[#B0B0B0]" />
-              </li>
             </ul>
+            <OpeningHours className="text-[#B0B0B0] text-sm mb-8" />
             <div className="flex flex-wrap gap-3">
               <a
                 href={MAPS_DIRECTIONS_URL}
@@ -477,25 +476,25 @@ export default function HomeSections() {
                 Get directions
               </a>
               <Link href={ROUTES.quote} className="btn-gwecely text-xs inline-flex min-h-[44px]">
-                Request a quote
+                Get a quote
               </Link>
             </div>
           </div>
-          <div className="border border-white/10 overflow-hidden rounded-xl min-h-[280px] bg-[#1F1F1F]">
-            <ContactMap className="w-full h-full min-h-[280px] border-0" />
+          <div className="border border-white/10 overflow-hidden rounded-lg min-h-[300px] bg-[#1F1F1F]">
+            <ContactMap className="w-full h-full min-h-[300px] border-0" />
           </div>
         </div>
       </section>
 
-      <section className="bg-white border-t border-[#E5E7E7]" aria-labelledby="faq-heading">
-        <div className="container py-12 md:py-14 max-w-3xl">
+      <section className="bg-white border-t border-[#E6E6E6]" aria-labelledby="faq-heading">
+        <div className="container py-14 md:py-16 max-w-3xl">
           <h2
             id="faq-heading"
             className="font-[family-name:var(--font-display)] font-bold text-2xl text-[#111111] section-heading mb-6"
           >
             Common questions
           </h2>
-          <div className="divide-y divide-[#E5E7E7] border border-[#E5E7E7] rounded-xl">
+          <div className="divide-y divide-[#E6E6E6] border border-[#E6E6E6] rounded-lg">
             {FAQ_ITEMS.map((item) => (
               <details key={item.q} className="group p-4">
                 <summary className="cursor-pointer list-none font-[family-name:var(--font-display)] font-semibold text-sm text-[#111111] min-h-[44px] flex items-center">

@@ -1,6 +1,5 @@
 /**
- * Sticky WhatsApp — mobile only. Desktop uses the FAB.
- * Single CTA: send damage photos (Base44: reduce CTA redundancy).
+ * Sticky WhatsApp — mobile only
  */
 
 import { useEffect } from 'react';
@@ -38,7 +37,7 @@ export default function MobileStickyBar() {
         data-conversion="whatsapp-sticky"
       >
         <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
-        Send damage photos on WhatsApp
+        WhatsApp photos
       </a>
     </div>
   );
