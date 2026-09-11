@@ -9,7 +9,6 @@ export default function ServicesPage() {
     title: 'Garage Services Mombasa | Panel Beating & Repairs | Gwecely Limited',
     description:
       'Panel beating, spray painting, accident repairs, servicing, mechanical repairs and fleet maintenance at Gwecely Limited, Mombasa.',
-    keywords: 'garage services Mombasa, panel beating Mombasa, car repair Mombasa',
   });
 
   return (

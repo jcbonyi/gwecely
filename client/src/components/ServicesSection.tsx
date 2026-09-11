@@ -14,6 +14,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { BRAND } from '@/lib/brand';
 import { PRIMARY_GARAGE_SERVICES } from '@/lib/services';
 import { SERVICE_IMAGES } from '@/lib/categoryImages';
@@ -51,10 +52,12 @@ function PrimaryServiceCard({
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div className="relative h-52 overflow-hidden">
-        <img
+        <ImageWithFallback
           src={image}
-          alt={service.title}
+          alt={`${service.title} at the Gwecely workshop, Mombasa`}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          width={800}
+          height={416}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 to-transparent" />

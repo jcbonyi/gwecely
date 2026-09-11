@@ -39,7 +39,7 @@ export default function MobileStickyBar() {
         data-conversion="whatsapp-sticky"
       >
         <WhatsAppIcon className="w-4 h-4 flex-shrink-0" />
-        Photos
+        WhatsApp Photos
       </a>
       <a
         href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}

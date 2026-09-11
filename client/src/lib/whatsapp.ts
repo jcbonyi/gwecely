@@ -117,6 +117,26 @@ export function buildQuoteFormMessage(form: {
   ].join('\n');
 }
 
+/** Simplified 4-field quote → WhatsApp */
+export function buildSimpleQuoteMessage(form: {
+  name: string;
+  phone: string;
+  vehicle: string;
+  photoSelected?: boolean;
+}): string {
+  return [
+    '*Gwecely — quote request*',
+    '',
+    `Name: ${form.name}`,
+    `Phone: ${form.phone}`,
+    `Vehicle: ${form.vehicle}`,
+    '',
+    form.photoSelected
+      ? 'I selected a damage photo on the website and will attach it in this chat.'
+      : 'I will attach damage photos in this chat.',
+  ].join('\n');
+}
+
 export function buildGeneralEnquiryMessage(topic = 'General Enquiry'): string {
   if (topic === 'General Enquiry') {
     return [

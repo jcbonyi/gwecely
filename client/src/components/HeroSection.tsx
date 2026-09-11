@@ -1,51 +1,73 @@
 /**
- * Hero — WhatsApp-first conversion
+ * Hero — fixed asset pipeline, compact fold (≤78vh), CTAs above the fold on 1280×800
  */
 
 import { FileText, MessageCircle } from 'lucide-react';
 import { Link } from 'wouter';
-import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
 import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-[78vh] flex items-center overflow-hidden bg-[#111111]">
-      <div className="absolute inset-0">
-        <img
-          src={IMAGES.hero}
-          alt="Gwecely Limited workshop behind CMC Motors, Mombasa"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          fetchPriority="high"
-          width={1600}
-          height={900}
-        />
+    <section
+      id="home"
+      className="relative max-h-[78vh] min-h-[520px] md:min-h-[560px] flex items-center overflow-hidden bg-[#111111]"
+      style={{
+        background:
+          'linear-gradient(105deg, #111111 0%, #1a1a1a 45%, #2a2220 100%)',
+      }}
+    >
+      <div className="absolute inset-0" aria-hidden>
+        <picture>
+          <source
+            type="image/webp"
+            srcSet="/images/hero-400.webp 400w, /images/hero-800.webp 800w, /images/hero-1920.webp 1920w"
+            sizes="100vw"
+          />
+          <source
+            type="image/jpeg"
+            srcSet="/images/hero-400.jpg 400w, /images/hero-800.jpg 800w, /images/hero-1920.jpg 1920w"
+            sizes="100vw"
+          />
+          <img
+            src="/images/hero-1920.jpg"
+            alt="Vehicle bodywork and panel repairs at the Gwecely workshop behind CMC Motors, Mombasa"
+            className="absolute inset-0 w-full h-full object-cover opacity-35"
+            width={1920}
+            height={1067}
+            fetchPriority="high"
+            decoding="async"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </picture>
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(105deg, rgba(17,17,17,0.96) 0%, rgba(17,17,17,0.85) 55%, rgba(17,17,17,0.55) 100%)',
+              'linear-gradient(105deg, rgba(17,17,17,0.92) 0%, rgba(17,17,17,0.78) 50%, rgba(17,17,17,0.55) 100%)',
           }}
         />
       </div>
 
-      <div className="container relative z-10 pt-28 pb-14 md:pt-36 md:pb-20">
+      <div className="container relative z-10 pt-24 pb-10 md:pt-28 md:pb-12">
         <div className="max-w-2xl">
-          <p className="text-[#B0B0B0] text-xs uppercase tracking-[0.12em] font-[family-name:var(--font-display)] font-semibold mb-4">
+          <p className="text-[#B0B0B0] text-xs uppercase tracking-[0.12em] font-[family-name:var(--font-display)] font-semibold mb-3">
             {BRAND.legalName} · Mombasa
           </p>
 
-          <h1 className="font-[family-name:var(--font-display)] font-bold text-[1.75rem] sm:text-4xl md:text-[2.5rem] text-white leading-[1.18] tracking-tight mb-5">
+          <h1 className="font-[family-name:var(--font-display)] font-bold text-[1.65rem] sm:text-3xl md:text-[2.35rem] text-white leading-[1.15] tracking-tight mb-3">
             Accident repairs and vehicle bodywork in Mombasa
           </h1>
 
-          <p className="text-[#D0D0D0] text-base md:text-lg font-[family-name:var(--font-body)] leading-relaxed max-w-xl mb-8">
+          <p className="text-[#D0D0D0] text-sm md:text-base font-[family-name:var(--font-body)] leading-relaxed max-w-xl mb-5">
             Panel beating, spray painting, mechanical repairs and servicing from a workshop behind CMC Motors. Send
             photos of the damage on WhatsApp or request an inspection.
           </p>
 
-          <div className="flex flex-wrap gap-3 mb-10">
+          <div className="flex flex-wrap gap-3 mb-6">
             <a
               href={whatsAppUrl(buildPhotoQuoteMessage())}
               target="_blank"
@@ -62,17 +84,17 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/15 pt-6 text-sm font-[family-name:var(--font-body)]">
+          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-white/15 pt-4 text-sm font-[family-name:var(--font-body)]">
             <div>
-              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Workshop</dt>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-0.5">Workshop</dt>
               <dd className="text-white/90">Behind CMC Motors, Mombasa</dd>
             </div>
             <div>
-              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Hours</dt>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-0.5">Hours</dt>
               <dd className="text-white/90">Mon–Fri 8am–6pm · Sat 8am–2pm</dd>
             </div>
             <div>
-              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Call</dt>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-0.5">Call</dt>
               <dd>
                 <a
                   href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}

@@ -1,73 +1,77 @@
 /**
- * Shared product & category imagery URLs (Unsplash + local assets)
+ * Shared product & category imagery — local workshop assets only for garage surfaces
  */
-
-const u = (id: string, w = 800) =>
-  `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;
 
 const local = (path: string) => path;
 
-/** Default image per shop category — used for filters, fallbacks, and cards */
+/** Shop category images — local first; avoid remote Unsplash on trust surfaces */
 export const CATEGORY_IMAGES: Record<string, string> = {
-  all: u('photo-1738507869660-b44ea20ab037', 1000),
+  all: local('/images/workshop-bay-800.jpg'),
   'spare-parts': local('/products/brake-disc.jpg'),
   batteries: local('/products/battery-60ah.jpg'),
   tyres: local('/products/tyre-bridgestone.jpg'),
   'engine-oils': local('/products/castrol-oil.jpg'),
   filters: local('/products/oil-filter.jpg'),
-  'office-stationery': u('photo-1573164574511-73c77306328f', 700),
-  furniture: u('photo-1497366754035-f200968a6e72', 700),
-  'it-equipment': u('photo-1581092918056-0c4c3acd378a', 700),
+  'office-stationery': local('/images/workshop-bay-800.jpg'),
+  furniture: local('/images/workshop-bay-800.jpg'),
+  'it-equipment': local('/services/computer-accessories.jpg'),
   'safety-equipment': local('/products/hard-hat.jpg'),
   'dry-foods': local('/services/dry-foods-beverages.jpg'),
-  'hospitality-supplies': u('photo-1600565893385-07be688dd25a', 700),
+  'hospitality-supplies': local('/images/workshop-bay-800.jpg'),
 };
 
-/** Garage service card images */
+/** Garage service card images — optimised local derivatives */
 export const SERVICE_IMAGES = {
-  panelBeating: local('/services/panel-beating-spray-painting.jpg'),
-  sprayPainting: local('/brand/page9_img1.jpeg'),
-  accidentRepair: local('/gallery/hilux-body-repair.jpg'),
-  mechanical: local('/brand/page7_img4.jpeg'),
-  vehicleServicing: local('/gallery/engine-overhaul.jpg'),
-  fleetMaintenance: u('photo-1738507869660-b44ea20ab037', 800),
+  panelBeating: local('/images/panel-800.jpg'),
+  sprayPainting: local('/images/spray-800.jpg'),
+  accidentRepair: local('/images/accident-800.jpg'),
+  mechanical: local('/images/mechanical-800.jpg'),
+  vehicleServicing: local('/images/servicing-800.jpg'),
+  fleetMaintenance: local('/images/fleet-800.jpg'),
   automotiveParts: local('/products/brake-disc.jpg'),
-  corporateProcurement: u('photo-1573164574511-73c77306328f', 700),
-  hospitality: u('photo-1559339352-11d035aa65de', 700),
+  corporateProcurement: local('/images/workshop-bay-800.jpg'),
+  hospitality: local('/images/workshop-bay-800.jpg'),
   emergencyBanner: local('/brand/page6_img1.jpeg'),
 } as const;
 
-/** Hospitality product imagery for seed catalog */
+/** Base names for ResponsivePicture (without -size.ext) */
+export const SERVICE_IMAGE_BASES: Record<string, string> = {
+  panelBeating: '/images/panel',
+  sprayPainting: '/images/spray',
+  accidentRepair: '/images/accident',
+  mechanical: '/images/mechanical',
+  vehicleServicing: '/images/servicing',
+  fleetMaintenance: '/images/fleet',
+};
+
 export const HOSPITALITY_PRODUCT_IMAGES = {
-  dinnerPlates: u('photo-1600565893385-07be688dd25a', 800),
-  cutlerySet: u('photo-1603199506016-5826e98607e0', 800),
-  wineGlasses: u('photo-1514362545857-3bc16c4c7d9b', 800),
-  chafingDish: u('photo-1555244167-11d288d2130f', 800),
-  buffetSet: u('photo-1556911220-e15b29be8c8f', 800),
-  housekeepingTrolley: u('photo-1581578731548-c64695cc6952', 800),
-  glassPitcher: u('photo-1514362545857-3bc16c4c7d9b', 800),
-  chefPan: u('photo-1556912173-3bb406ef7e77', 800),
+  dinnerPlates: local('/images/workshop-bay-800.jpg'),
+  cutlerySet: local('/images/workshop-bay-800.jpg'),
+  wineGlasses: local('/images/workshop-bay-800.jpg'),
+  chafingDish: local('/images/workshop-bay-800.jpg'),
+  buffetSet: local('/images/workshop-bay-800.jpg'),
+  housekeepingTrolley: local('/images/workshop-bay-800.jpg'),
+  glassPitcher: local('/images/workshop-bay-800.jpg'),
+  chefPan: local('/images/workshop-bay-800.jpg'),
 } as const;
 
-/** Home page highlight card images — African / Kenyan people */
 export const HIGHLIGHT_IMAGES = {
-  services: local('/highlights/garage-services.png'),
-  book: local('/highlights/book-repair.png'),
-  gallery: local('/highlights/project-gallery.png'),
-  reviews: u('photo-1573496799515-eebbb63814f2', 1000),
-  contact: local('/highlights/contact-us.png'),
-  hospitality: local('/highlights/hospitality-supplies.png'),
-  shop: local('/highlights/parts-shop.jpg'),
+  services: local('/images/panel-800.jpg'),
+  book: local('/images/workshop-bay-800.jpg'),
+  gallery: local('/images/spray-800.jpg'),
+  reviews: local('/images/workshop-bay-800.jpg'),
+  contact: local('/images/workshop-bay-800.jpg'),
+  hospitality: local('/images/workshop-bay-800.jpg'),
+  shop: local('/products/brake-disc.jpg'),
 } as const;
 
 export function getCategoryImage(categoryId: string): string {
   return CATEGORY_IMAGES[categoryId] ?? CATEGORY_IMAGES['spare-parts'];
 }
 
-/** Prefer stored product image; fall back to category default */
 export function resolveProductImage(image: string | undefined | null, category: string): string {
   const trimmed = image?.trim();
-  if (trimmed && !trimmed.includes('/brand/page12')) {
+  if (trimmed && !trimmed.includes('/brand/page12') && !trimmed.includes('unsplash.com')) {
     return trimmed;
   }
   return getCategoryImage(category);

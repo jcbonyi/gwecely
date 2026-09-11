@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 interface PageMeta {
   title: string;
   description: string;
+  /** @deprecated Ignored — keywords meta removed */
   keywords?: string;
 }
 
@@ -20,11 +21,12 @@ const DEFAULT_TITLE = 'Vehicle Repair & Panel Beating Mombasa | Gwecely Limited'
 const DEFAULT_DESCRIPTION =
   'Professional vehicle repair, panel beating, spray painting and accident repairs in Mombasa. Workshop behind CMC Motors. Get a quote from Gwecely Limited.';
 
-export function usePageMeta({ title, description, keywords }: PageMeta) {
+export function usePageMeta({ title, description }: PageMeta) {
   useEffect(() => {
     document.title = title;
     setMetaTag('description', description);
-    if (keywords) setMetaTag('keywords', keywords);
+    // Drop legacy keywords meta if present (no SEO value)
+    document.querySelector('meta[name="keywords"]')?.remove();
     setMetaTag('og:title', title, 'property');
     setMetaTag('og:description', description, 'property');
     setMetaTag('twitter:title', title);
@@ -34,5 +36,5 @@ export function usePageMeta({ title, description, keywords }: PageMeta) {
       document.title = DEFAULT_TITLE;
       setMetaTag('description', DEFAULT_DESCRIPTION);
     };
-  }, [title, description, keywords]);
+  }, [title, description]);
 }

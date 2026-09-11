@@ -1,51 +1,27 @@
 /**
- * Quote form — WhatsApp-first (honest: no fake backend success)
+ * Quote form — 4 fields max: name, phone, vehicle, photo upload
+ * WhatsApp is the primary path (Kenya accident customers)
  */
 
-import { useState, useEffect } from 'react';
-import { buildQuoteFormMessage, buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
+import { useState, useRef } from 'react';
+import { buildSimpleQuoteMessage, buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
-import { consumePreselectedService } from '@/lib/booking';
-import { BOOKING_SERVICE_OPTIONS } from '@/lib/services';
 import { BRAND } from '@/lib/brand';
-import { Car, Mail, MessageCircle, Phone, User } from 'lucide-react';
-
-const SERVICES = [...BOOKING_SERVICE_OPTIONS];
+import { Camera, Car, Phone, User } from 'lucide-react';
 
 interface FormData {
   name: string;
   phone: string;
-  email: string;
-  vehicleMake: string;
-  vehicleModel: string;
-  regNumber: string;
-  service: string;
-  notes: string;
-  preferredContact: string;
+  vehicle: string;
 }
 
-const INITIAL: FormData = {
-  name: '',
-  phone: '',
-  email: '',
-  vehicleMake: '',
-  vehicleModel: '',
-  regNumber: '',
-  service: '',
-  notes: '',
-  preferredContact: 'WhatsApp',
-};
+const INITIAL: FormData = { name: '', phone: '', vehicle: '' };
 
 export default function BookingSection() {
   const [form, setForm] = useState<FormData>(INITIAL);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const preselected = consumePreselectedService();
-    if (preselected && SERVICES.includes(preselected as (typeof SERVICES)[number])) {
-      setForm((prev) => ({ ...prev, service: preselected }));
-    }
-  }, []);
+  const [photoName, setPhotoName] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const validate = (): boolean => {
     const next: Record<string, string> = {};
@@ -53,15 +29,12 @@ export default function BookingSection() {
     if (!form.phone.trim()) next.phone = 'Phone number is required';
     else if (!/^(\+254|0)[17]\d{8}$/.test(form.phone.replace(/\s/g, '')))
       next.phone = 'Enter a valid Kenyan phone number';
-    if (!form.vehicleMake.trim()) next.vehicleMake = 'Vehicle make is required';
-    if (!form.vehicleModel.trim()) next.vehicleModel = 'Vehicle model is required';
-    if (!form.service) next.service = 'Select a service';
-    if (!form.notes.trim()) next.notes = 'Describe the damage or problem';
+    if (!form.vehicle.trim()) next.vehicle = 'Vehicle make / model is required';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
@@ -70,7 +43,12 @@ export default function BookingSection() {
   const openWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    const url = whatsAppUrl(buildQuoteFormMessage(form));
+    const url = whatsAppUrl(
+      buildSimpleQuoteMessage({
+        ...form,
+        photoSelected: Boolean(photoName),
+      })
+    );
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -89,8 +67,8 @@ export default function BookingSection() {
           Request a quotation
         </h1>
         <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-6">
-          Fill in the details below, then continue on WhatsApp. That opens a message to the workshop with your vehicle
-          information so you can attach damage photos in the same chat.
+          Four fields, then WhatsApp — attach damage photos in the chat. That is the fastest way for accident
+          assessments in Mombasa.
         </p>
 
         <a
@@ -101,7 +79,7 @@ export default function BookingSection() {
           data-conversion="whatsapp-photos-quote-page"
         >
           <WhatsAppIcon className="w-5 h-5" />
-          Or send photos on WhatsApp now
+          Send photos on WhatsApp now
         </a>
 
         <form
@@ -136,130 +114,60 @@ export default function BookingSection() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-xs font-medium text-[#404040] mb-1.5">
-              <Mail size={12} className="inline mr-1" />
-              Email (optional)
+            <label htmlFor="vehicle" className="block text-xs font-medium text-[#404040] mb-1.5">
+              <Car size={12} className="inline mr-1" />
+              Vehicle (make / model) *
             </label>
             <input
-              id="email"
-              name="email"
-              type="email"
-              value={form.email}
+              id="vehicle"
+              name="vehicle"
+              value={form.vehicle}
               onChange={handleChange}
-              className={field('email')}
+              placeholder="e.g. Toyota Hilux"
+              className={field('vehicle')}
             />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="vehicleMake" className="block text-xs font-medium text-[#404040] mb-1.5">
-                <Car size={12} className="inline mr-1" />
-                Make *
-              </label>
-              <input
-                id="vehicleMake"
-                name="vehicleMake"
-                value={form.vehicleMake}
-                onChange={handleChange}
-                placeholder="Toyota"
-                className={field('vehicleMake')}
-              />
-              {errors.vehicleMake && <p className="text-red-500 text-xs mt-1">{errors.vehicleMake}</p>}
-            </div>
-            <div>
-              <label htmlFor="vehicleModel" className="block text-xs font-medium text-[#404040] mb-1.5">
-                Model *
-              </label>
-              <input
-                id="vehicleModel"
-                name="vehicleModel"
-                value={form.vehicleModel}
-                onChange={handleChange}
-                placeholder="Hilux"
-                className={field('vehicleModel')}
-              />
-              {errors.vehicleModel && <p className="text-red-500 text-xs mt-1">{errors.vehicleModel}</p>}
-            </div>
+            {errors.vehicle && <p className="text-red-500 text-xs mt-1">{errors.vehicle}</p>}
           </div>
 
           <div>
-            <label htmlFor="regNumber" className="block text-xs font-medium text-[#404040] mb-1.5">
-              Registration (optional)
+            <label htmlFor="photo" className="block text-xs font-medium text-[#404040] mb-1.5">
+              <Camera size={12} className="inline mr-1" />
+              Damage photo (optional here — attach on WhatsApp)
             </label>
             <input
-              id="regNumber"
-              name="regNumber"
-              value={form.regNumber}
-              onChange={handleChange}
-              className={`${field('regNumber')} uppercase`}
+              ref={fileRef}
+              id="photo"
+              name="photo"
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="sr-only"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                setPhotoName(file ? file.name : null);
+              }}
             />
-          </div>
-
-          <div>
-            <label htmlFor="service" className="block text-xs font-medium text-[#404040] mb-1.5">
-              Service needed *
-            </label>
-            <select
-              id="service"
-              name="service"
-              value={form.service}
-              onChange={handleChange}
-              className={field('service')}
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="w-full min-h-[44px] border border-dashed border-[#E6E6E6] px-4 py-3 text-sm text-[#6B6B6B] text-left hover:border-[#F05030]"
             >
-              <option value="">Select…</option>
-              {SERVICES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
+              {photoName ? `Selected: ${photoName}` : 'Choose a photo from your phone'}
+            </button>
+            <p className="text-xs text-[#888] mt-1.5 font-[family-name:var(--font-body)]">
+              Browsers cannot attach files into WhatsApp automatically. After you continue, send the same photo in the
+              WhatsApp chat.
+            </p>
           </div>
 
-          <div>
-            <label htmlFor="notes" className="block text-xs font-medium text-[#404040] mb-1.5">
-              Description of damage / problem *
-            </label>
-            <textarea
-              id="notes"
-              name="notes"
-              value={form.notes}
-              onChange={handleChange}
-              rows={4}
-              className={`${field('notes')} resize-none`}
-            />
-            {errors.notes && <p className="text-red-500 text-xs mt-1">{errors.notes}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="preferredContact" className="block text-xs font-medium text-[#404040] mb-1.5">
-              Preferred contact method
-            </label>
-            <select
-              id="preferredContact"
-              name="preferredContact"
-              value={form.preferredContact}
-              onChange={handleChange}
-              className={field('preferredContact')}
-            >
-              <option value="WhatsApp">WhatsApp</option>
-              <option value="Phone call">Phone call</option>
-              <option value="Email">Email</option>
-            </select>
-          </div>
-
-          <p className="text-xs text-[#6B6B6B] font-[family-name:var(--font-body)]">
-            Your details are used only to respond to this enquiry. After you continue, attach photos in WhatsApp.
-          </p>
-
-          <button type="submit" className="btn-whatsapp w-full justify-center" data-conversion="quote-whatsapp-submit">
-            <MessageCircle size={16} />
+          <button type="submit" className="btn-whatsapp w-full justify-center" data-conversion="quote-form-whatsapp">
+            <WhatsAppIcon className="w-5 h-5" />
             Continue on WhatsApp
           </button>
 
-          <p className="text-center text-xs text-[#6B6B6B]">
+          <p className="text-xs text-center text-[#888]">
             Or call{' '}
-            <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="text-[#F05030] font-semibold">
+            <a href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`} className="text-[#F05030] font-medium">
               {BRAND.contact.phones[0]}
             </a>
           </p>

@@ -12,8 +12,8 @@ export const IMAGES = {
   logo: '/gwecely-logo.png',
   icon: '/gwecely-icon.png',
 
-  hero: '/brand/page1_img1.jpeg',
-  heroOg: u('photo-1738507869660-b44ea20ab037', 1200), // Kenya logistics — no people
+  hero: '/images/hero-1920.jpg',
+  heroOg: '/images/hero-1920.jpg',
 
   /** Photos featuring African / Kenyan people */
   people: {
@@ -92,12 +92,12 @@ export const IMAGES = {
   },
 
   booking: {
-    workshop: '/brand/page7_img4.jpeg',
+    workshop: '/images/workshop-bay-800.jpg',
   },
 
   contact: {
     mombasa: p(AFRICAN_PORTRAITS.businessMeeting, 1000),
-    port: u('photo-1738507869660-b44ea20ab037', 800), // Mombasa coast logistics
+    port: '/images/workshop-bay-800.jpg',
   },
 
   hospitality: {

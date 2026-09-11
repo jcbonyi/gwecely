@@ -33,7 +33,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-[#111111] text-[#B0B0B0] text-xs py-2 border-b border-white/5">
+      <div className="bg-[#111111] text-[#B0B0B0] text-xs py-2 border-b border-white/5 hidden md:block">
         <div className="container flex flex-wrap justify-between items-center gap-2">
           <span className="font-[family-name:var(--font-body)]">
             Mombasa vehicle repair workshop · Behind CMC Motors

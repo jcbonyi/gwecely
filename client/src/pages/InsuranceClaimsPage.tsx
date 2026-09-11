@@ -31,7 +31,6 @@ export default function InsuranceClaimsPage() {
     title: 'Insurance & Accident Claim Repairs Mombasa | Gwecely Limited',
     description:
       'Accident repair support in Mombasa — vehicle assessment, damage estimates, and insurance documentation assistance where required. Gwecely Limited behind CMC Motors.',
-    keywords: 'insurance car repair Mombasa, accident claim repair Mombasa, vehicle assessment Mombasa',
   });
 
   return (
