@@ -86,7 +86,7 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
             onError={() => setImgError(true)}
           />
           {product.badge && (
-            <span className="absolute top-3 left-3 bg-[#F05A32] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+            <span className="absolute top-3 left-3 bg-[#F05030] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
               {product.badge}
             </span>
           )}
@@ -94,10 +94,10 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
 
         <div className="p-6">
           <DialogHeader className="text-left space-y-1 mb-4">
-            <p className="text-[10px] text-[#F05A32] font-['Inter'] font-medium uppercase tracking-wide">
+            <p className="text-[10px] text-[#F05030] font-[family-name:var(--font-body)] font-medium uppercase tracking-wide">
               {categoryLabel}
             </p>
-            <DialogTitle className="font-['Barlow_Condensed'] font-700 text-2xl text-[#2D2626] leading-tight">
+            <DialogTitle className="font-[family-name:var(--font-display)] font-700 text-2xl text-[#111111] leading-tight">
               {product.name}
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -107,17 +107,17 @@ export default function ProductQuickView({ product, open, onOpenChange }: Produc
 
           <div className="flex items-center gap-2 mb-4">
             <StarRating rating={product.rating} />
-            <span className="text-xs text-gray-400 font-['Inter']">({product.reviews} reviews)</span>
+            <span className="text-xs text-gray-400 font-[family-name:var(--font-body)]">({product.reviews} reviews)</span>
           </div>
 
           {product.description && (
-            <p className="text-gray-600 text-sm font-['Inter'] leading-relaxed mb-4">{product.description}</p>
+            <p className="text-gray-600 text-sm font-[family-name:var(--font-body)] leading-relaxed mb-4">{product.description}</p>
           )}
 
           <div className="flex items-center gap-3 mb-5">
-            <span className="font-['Barlow'] font-700 text-2xl text-[#2D2626]">{formatPrice(product.price)}</span>
+            <span className="font-[family-name:var(--font-display)] font-700 text-2xl text-[#111111]">{formatPrice(product.price)}</span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through font-['Inter']">{formatPrice(product.originalPrice)}</span>
+              <span className="text-sm text-gray-400 line-through font-[family-name:var(--font-body)]">{formatPrice(product.originalPrice)}</span>
             )}
           </div>
 

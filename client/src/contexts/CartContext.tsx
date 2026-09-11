@@ -1,7 +1,7 @@
 /**
  * CartContext — Gwecely Limited
  * Global cart state with localStorage persistence
- * Design: Gwecely Blue (#F05A32) brand, Kenyan Marketplace Energy
+ * Design: Gwecely Blue (#F05030) brand, Kenyan Marketplace Energy
  */
 
 import React, { createContext, useContext, useEffect, useReducer } from 'react';

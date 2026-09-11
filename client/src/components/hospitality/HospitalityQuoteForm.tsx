@@ -149,66 +149,66 @@ export default function HospitalityQuoteForm() {
               <span className="section-eyebrow-dot" />
               Get a Quote
             </div>
-            <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading mb-4">
+            <h2 className="font-[family-name:var(--font-display)] font-800 text-4xl md:text-5xl text-[#111111] section-heading mb-4">
               REQUEST A QUOTATION
             </h2>
-            <p className="text-gray-600 font-['Inter'] text-sm leading-relaxed">
+            <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm leading-relaxed">
               Tell us what you need — our procurement team will respond with competitive wholesale pricing and delivery
               options.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-[#F5F3F2] rounded-2xl p-6 md:p-10 border border-gray-100 shadow-lg space-y-5">
+          <form onSubmit={handleSubmit} className="bg-[#F6F6F6] rounded-2xl p-6 md:p-10 border border-gray-100 shadow-lg space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Full Name *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Full Name *</label>
                 <input
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="Your full name"
                 />
               </div>
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Company Name *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Company Name *</label>
                 <input
                   name="company"
                   value={form.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="Hotel / restaurant / institution"
                 />
               </div>
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Phone Number *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Phone Number *</label>
                 <input
                   name="phone"
                   type="tel"
                   value={form.phone}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="+254 7XX XXX XXX"
                 />
               </div>
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Email Address</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Email Address</label>
                 <input
                   name="email"
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="you@company.co.ke"
                 />
               </div>
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Product Category *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Product Category *</label>
                 <select
                   name="category"
                   value={form.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                 >
                   {QUOTE_CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -218,33 +218,33 @@ export default function HospitalityQuoteForm() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Quantity Required *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Quantity Required *</label>
                 <input
                   name="quantity"
                   value={form.quantity}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="e.g. 200 dinner plates, 50 sets"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Delivery Location *</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Delivery Location *</label>
                 <input
                   name="location"
                   value={form.location}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030]"
                   placeholder="City, county, or full delivery address"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1.5">Additional Requirements</label>
+                <label className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1.5">Additional Requirements</label>
                 <textarea
                   name="notes"
                   value={form.notes}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] resize-y"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] resize-y"
                   placeholder="Brand preferences, timeline, setup project details…"
                 />
               </div>

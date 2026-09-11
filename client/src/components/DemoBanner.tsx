@@ -18,7 +18,7 @@ export default function DemoBanner({ className = '', compact = false }: DemoBann
       } ${className}`}
     >
       <Info size={compact ? 14 : 16} className="flex-shrink-0 mt-0.5" aria-hidden />
-      <p className="font-['Inter'] leading-relaxed">
+      <p className="font-[family-name:var(--font-body)] leading-relaxed">
         <strong>Demo mode:</strong> This is a preview site. Bookings and M-Pesa checkout are not connected to live systems yet — use phone or WhatsApp to confirm orders.
       </p>
     </div>

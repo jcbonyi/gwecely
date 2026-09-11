@@ -108,20 +108,20 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-28 bg-[#F5F3F2]">
+    <section id="contact" className="py-20 md:py-28 bg-[#F6F6F6]">
       <div className="container">
         <div className="mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#F05A32]/10 text-[#F05A32] text-sm px-4 py-1.5 rounded-full mb-4 font-['Inter'] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F05A32]" />
+          <div className="inline-flex items-center gap-2 bg-[#F05030]/10 text-[#F05030] text-sm px-4 py-1.5 rounded-full mb-4 font-[family-name:var(--font-body)] font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F05030]" />
             Get In Touch
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
+            <h2 className="font-[family-name:var(--font-display)] font-800 text-4xl md:text-5xl text-[#111111] section-heading">
               FIND US IN
               <br />
               MOMBASA
             </h2>
-            <p className="text-gray-600 font-['Inter'] max-w-sm">
+            <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-sm">
               Visit us behind CMC Motors, off Bishop Macarios Road. Call, email, or chat on WhatsApp.
             </p>
           </div>
@@ -136,10 +136,10 @@ export default function ContactSection() {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/70 to-transparent" />
               <div className="absolute bottom-4 left-4">
-                <p className="text-white font-['Barlow_Condensed'] font-700 text-lg">{BRAND.contact.address}</p>
-                <p className="text-orange-100 text-sm font-['Inter']">{BRAND.contact.poBox}</p>
+                <p className="text-white font-[family-name:var(--font-display)] font-700 text-lg">{BRAND.contact.address}</p>
+                <p className="text-orange-100 text-sm font-[family-name:var(--font-body)]">{BRAND.contact.poBox}</p>
               </div>
             </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -147,19 +147,19 @@ export default function ContactSection() {
               const Icon = item.icon;
               return (
                 <div key={i} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                  <div className="w-10 h-10 rounded-xl bg-[#F05A32]/10 flex items-center justify-center mb-4">
-                    <Icon size={20} className="text-[#F05A32]" />
+                  <div className="w-10 h-10 rounded-xl bg-[#F05030]/10 flex items-center justify-center mb-4">
+                    <Icon size={20} className="text-[#F05030]" />
                   </div>
-                  <h3 className="font-['Barlow_Condensed'] font-700 text-base text-[#2D2626] mb-2">{item.title}</h3>
+                  <h3 className="font-[family-name:var(--font-display)] font-700 text-base text-[#111111] mb-2">{item.title}</h3>
                   {item.lines.map((line, j) => (
-                    <p key={j} className="text-gray-600 text-sm font-['Inter']">{line}</p>
+                    <p key={j} className="text-gray-600 text-sm font-[family-name:var(--font-body)]">{line}</p>
                   ))}
                   {item.action && (
                     <a
                       href={item.action.href}
                       target={item.action.href.startsWith('http') ? '_blank' : undefined}
                       rel={item.action.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="inline-flex items-center gap-1.5 mt-3 text-[#F05A32] text-xs font-['Inter'] font-medium hover:text-[#463C3C] transition-colors"
+                      className="inline-flex items-center gap-1.5 mt-3 text-[#F05030] text-xs font-[family-name:var(--font-body)] font-medium hover:text-[#404040] transition-colors"
                     >
                       {item.action.label} →
                     </a>
@@ -172,15 +172,15 @@ export default function ContactSection() {
               <div className="flex items-center gap-3 mb-3">
                 <WhatsAppIcon className="w-8 h-8" />
                 <div>
-                  <h3 className="font-['Barlow_Condensed'] font-700 text-lg">WhatsApp Us</h3>
-                  <p className="text-green-100 text-xs font-['Inter']">Fastest response — usually within minutes</p>
+                  <h3 className="font-[family-name:var(--font-display)] font-700 text-lg">WhatsApp Us</h3>
+                  <p className="text-green-100 text-xs font-[family-name:var(--font-body)]">Fastest response — usually within minutes</p>
                 </div>
               </div>
               <a
                 href={whatsAppUrl(buildGeneralEnquiryMessage())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-white text-[#25D366] font-['Barlow_Condensed'] font-700 text-sm px-5 py-2.5 rounded-lg hover:bg-green-50 transition-colors"
+                className="inline-flex items-center gap-2 bg-white text-[#25D366] font-[family-name:var(--font-display)] font-700 text-sm px-5 py-2.5 rounded-lg hover:bg-green-50 transition-colors"
               >
                 <WhatsAppIcon className="w-4 h-4" />
                 Chat on WhatsApp
@@ -189,52 +189,52 @@ export default function ContactSection() {
             </div>
 
             <form onSubmit={handleEnquiry} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-              <h3 className="font-['Barlow_Condensed'] font-700 text-lg text-[#2D2626] mb-1">Send an Enquiry</h3>
-              <p className="text-gray-500 text-xs font-['Inter'] mb-4">We typically respond within one business day.</p>
+              <h3 className="font-[family-name:var(--font-display)] font-700 text-lg text-[#111111] mb-1">Send an Enquiry</h3>
+              <p className="text-gray-500 text-xs font-[family-name:var(--font-body)] mb-4">We typically respond within one business day.</p>
 
               <div className="grid sm:grid-cols-2 gap-3 mb-3">
                 <div>
-                  <label htmlFor="enquiry-name" className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1">Name *</label>
+                  <label htmlFor="enquiry-name" className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1">Name *</label>
                   <input
                     id="enquiry-name"
                     type="text"
                     required
                     value={enquiry.name}
                     onChange={(e) => setEnquiry({ ...enquiry, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20"
                   />
                 </div>
                 <div>
-                  <label htmlFor="enquiry-phone" className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1">Phone</label>
+                  <label htmlFor="enquiry-phone" className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1">Phone</label>
                   <input
                     id="enquiry-phone"
                     type="tel"
                     value={enquiry.phone}
                     onChange={(e) => setEnquiry({ ...enquiry, phone: e.target.value })}
                     placeholder="+254 7XX XXX XXX"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20"
                   />
                 </div>
               </div>
 
               <div className="mb-3">
-                <label htmlFor="enquiry-email" className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1">Email</label>
+                <label htmlFor="enquiry-email" className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1">Email</label>
                 <input
                   id="enquiry-email"
                   type="email"
                   value={enquiry.email}
                   onChange={(e) => setEnquiry({ ...enquiry, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20"
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="enquiry-topic" className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1">Topic</label>
+                <label htmlFor="enquiry-topic" className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1">Topic</label>
                 <select
                   id="enquiry-topic"
                   value={enquiry.topic}
                   onChange={(e) => setEnquiry({ ...enquiry, topic: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] bg-white"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] bg-white"
                 >
                   {ENQUIRY_TOPICS.map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -243,14 +243,14 @@ export default function ContactSection() {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="enquiry-message" className="block text-xs font-['Inter'] font-medium text-gray-700 mb-1">Message *</label>
+                <label htmlFor="enquiry-message" className="block text-xs font-[family-name:var(--font-body)] font-medium text-gray-700 mb-1">Message *</label>
                 <textarea
                   id="enquiry-message"
                   required
                   rows={4}
                   value={enquiry.message}
                   onChange={(e) => setEnquiry({ ...enquiry, message: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20 resize-none"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20 resize-none"
                 />
               </div>
 
@@ -279,7 +279,7 @@ export default function ContactSection() {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-[#463C3C]/40" />
+              <div className="absolute inset-0 bg-[#404040]/40" />
             </div>
             <div className="flex-1 relative">
               <iframe
@@ -296,14 +296,14 @@ export default function ContactSection() {
             </div>
             <div className="p-4 border-t border-gray-100">
               <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-[#F05A32]" />
-                <span className="text-sm font-['Inter'] text-gray-700 font-medium">{BRAND.contact.address}</span>
+                <MapPin size={16} className="text-[#F05030]" />
+                <span className="text-sm font-[family-name:var(--font-body)] text-gray-700 font-medium">{BRAND.contact.address}</span>
               </div>
               <a
                 href="https://maps.google.com/?q=Behind+CMC+Motors+Mombasa+Bishop+Macarios+Road"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[#F05A32] font-['Inter'] hover:underline mt-1 block"
+                className="text-xs text-[#F05030] font-[family-name:var(--font-body)] hover:underline mt-1 block"
               >
                 Open in Google Maps →
               </a>

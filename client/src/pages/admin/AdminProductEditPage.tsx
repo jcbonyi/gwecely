@@ -143,13 +143,13 @@ export default function AdminProductEditPage() {
     <AdminLayout>
       <Link
         href="/admin/products"
-        className="inline-flex items-center gap-1.5 text-[#F05A32] text-sm font-['Inter'] mb-6 hover:underline"
+        className="inline-flex items-center gap-1.5 text-[#F05030] text-sm font-[family-name:var(--font-body)] mb-6 hover:underline"
       >
         <ArrowLeft size={16} />
         Back to catalog
       </Link>
 
-      <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626] mb-6">
+      <h1 className="font-[family-name:var(--font-display)] font-800 text-3xl text-[#111111] mb-6">
         {isNew ? 'Add Product' : 'Edit Product'}
       </h1>
 
@@ -159,7 +159,7 @@ export default function AdminProductEditPage() {
           <input
             value={form.name}
             onChange={(e) => set('name', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#F05A32]"
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#F05030]"
             required
           />
         </div>

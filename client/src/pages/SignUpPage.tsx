@@ -6,12 +6,12 @@ import { isClerkConfigured } from '@/lib/clerk';
 export default function SignUpPage() {
   if (!isClerkConfigured) {
     return (
-      <div className="min-h-screen bg-[#F5F3F2] flex flex-col items-center justify-center px-4">
-        <p className="text-gray-600 font-['Inter'] text-sm text-center">
+      <div className="min-h-screen bg-[#F6F6F6] flex flex-col items-center justify-center px-4">
+        <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm text-center">
           Sign-up is unavailable. Configure <code className="text-xs bg-gray-100 px-1 rounded">VITE_CLERK_PUBLISHABLE_KEY</code>{' '}
           on the server and redeploy.
         </p>
-        <Link href="/" className="mt-4 text-[#F05A32] font-['Inter'] text-sm hover:underline">
+        <Link href="/" className="mt-4 text-[#F05030] font-[family-name:var(--font-body)] text-sm hover:underline">
           Back to home
         </Link>
       </div>
@@ -19,7 +19,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F3F2] flex flex-col">
+    <div className="min-h-screen bg-[#F6F6F6] flex flex-col">
       <header className="container py-6">
         <Link href="/">
           <BrandLogo size="nav" />

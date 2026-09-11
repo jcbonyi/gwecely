@@ -14,18 +14,18 @@ export default function HospitalityFeatured() {
               <span className="section-eyebrow-dot" />
               Best Sellers
             </div>
-            <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
+            <h2 className="font-[family-name:var(--font-display)] font-800 text-4xl md:text-5xl text-[#111111] section-heading">
               FEATURED PRODUCTS
             </h2>
           </div>
           <div className="flex flex-col gap-2 sm:items-end">
-            <p className="text-gray-600 font-['Inter'] text-sm max-w-md leading-relaxed sm:text-right">
+            <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm max-w-md leading-relaxed sm:text-right">
               Popular hospitality lines — request a quote or browse the full range in our shop.
             </p>
             <button
               type="button"
               onClick={() => goToShopCategory('hospitality-supplies')}
-              className="text-sm font-['Inter'] font-medium text-[#F05A32] hover:text-[#463C3C] transition-colors"
+              className="text-sm font-[family-name:var(--font-body)] font-medium text-[#F05030] hover:text-[#404040] transition-colors"
             >
               View all hospitality supplies in shop →
             </button>
@@ -36,7 +36,7 @@ export default function HospitalityFeatured() {
           {HOSPITALITY_FEATURED.map((product) => (
             <article
               key={product.id}
-              className="group rounded-2xl border border-gray-100 overflow-hidden bg-[#F5F3F2] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="group rounded-2xl border border-gray-100 overflow-hidden bg-[#F6F6F6] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="relative h-52 overflow-hidden">
                 <img
@@ -46,16 +46,16 @@ export default function HospitalityFeatured() {
                   loading="lazy"
                 />
                 <div className="absolute top-3 left-3">
-                  <span className="text-[10px] uppercase tracking-wide bg-[#463C3C]/90 text-orange-100 px-2.5 py-1 rounded-full font-['Inter'] font-medium">
+                  <span className="text-[10px] uppercase tracking-wide bg-[#404040]/90 text-orange-100 px-2.5 py-1 rounded-full font-[family-name:var(--font-body)] font-medium">
                     {product.category}
                   </span>
                 </div>
               </div>
               <div className="p-5 bg-white">
-                <h3 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-2 group-hover:text-[#F05A32] transition-colors">
+                <h3 className="font-[family-name:var(--font-display)] font-700 text-xl text-[#111111] mb-2 group-hover:text-[#F05030] transition-colors">
                   {product.name}
                 </h3>
-                <p className="text-gray-600 text-sm font-['Inter'] leading-relaxed mb-4">{product.description}</p>
+                <p className="text-gray-600 text-sm font-[family-name:var(--font-body)] leading-relaxed mb-4">{product.description}</p>
                 <button
                   type="button"
                   onClick={() =>

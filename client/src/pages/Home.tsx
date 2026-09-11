@@ -1,17 +1,17 @@
 /**
- * Home Page — brand hero + proof strip
+ * Home Page
  */
 
 import SiteLayout from '@/components/SiteLayout';
 import HeroSection from '@/components/HeroSection';
-import HomeProof from '@/components/HomeProof';
+import HomeSections from '@/components/HomeSections';
 
 export default function Home() {
   return (
     <SiteLayout>
       <main id="main">
         <HeroSection />
-        <HomeProof />
+        <HomeSections />
       </main>
     </SiteLayout>
   );

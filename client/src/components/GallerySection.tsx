@@ -5,10 +5,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { X, ZoomIn } from 'lucide-react';
-import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 import { GALLERY_IMAGES } from '@/lib/galleryImages';
 import { HOSPITALITY_PRODUCT_IMAGES } from '@/lib/categoryImages';
 import { bookService } from '@/lib/booking';
+import { Link } from 'wouter';
+import { ROUTES } from '@/lib/routes';
 
 const GALLERY_FILTERS = [
   { id: 'all', label: 'All Projects' },
@@ -201,7 +202,7 @@ function GalleryCard({
     <button
       type="button"
       onClick={onOpen}
-      className={`group relative overflow-hidden rounded-2xl text-left cursor-pointer reveal ${visible ? 'visible' : ''} ${layoutClass} bg-[#2D2626] shadow-md shadow-[#2D2626]/10 ring-1 ring-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F05A32] focus-visible:ring-offset-2`}
+      className={`group relative overflow-hidden rounded-2xl text-left cursor-pointer reveal ${visible ? 'visible' : ''} ${layoutClass} bg-[#111111] shadow-md shadow-[#111111]/10 ring-1 ring-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F05030] focus-visible:ring-offset-2`}
       style={{ transitionDelay: `${index * 50}ms` }}
     >
       <div className={`relative w-full h-full ${aspectClass}`}>
@@ -213,10 +214,10 @@ function GalleryCard({
           onError={() => setImgError(true)}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2D2626]/90 via-[#2D2626]/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-[#111111]/25 to-transparent" />
 
         <div className="absolute top-3 left-3">
-          <span className="inline-block px-2.5 py-1 rounded-md bg-[#F05A32] text-white text-[10px] font-[family-name:var(--font-body)] font-semibold uppercase tracking-wide">
+          <span className="inline-block px-2.5 py-1 rounded-md bg-[#F05030] text-white text-[10px] font-[family-name:var(--font-body)] font-semibold uppercase tracking-wide">
             {categoryLabel}
           </span>
         </div>
@@ -226,10 +227,10 @@ function GalleryCard({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 p-4 md:p-5">
-          <h3 className="font-['Barlow_Condensed'] font-700 text-white text-lg md:text-xl leading-tight mb-1 group-hover:text-[#F0826E] transition-colors">
+          <h3 className="font-[family-name:var(--font-display)] font-700 text-white text-lg md:text-xl leading-tight mb-1 group-hover:text-[#F07058] transition-colors">
             {item.title}
           </h3>
-          <p className="text-orange-100/90 text-xs md:text-sm font-['Inter'] line-clamp-2 opacity-90">
+          <p className="text-orange-100/90 text-xs md:text-sm font-[family-name:var(--font-body)] line-clamp-2 opacity-90">
             {item.desc}
           </p>
         </div>
@@ -272,32 +273,25 @@ export default function GallerySection() {
       : GALLERY_ITEMS.filter(i => i.category === activeFilter);
 
   return (
-    <section id="gallery" ref={ref} className="py-20 md:py-28 bg-[#F5F3F2]">
+    <section id="gallery" ref={ref} className="py-20 md:py-28 bg-[#F6F6F6]">
       <div className="container">
-        <div className="mb-12 md:mb-14">
-          <p className="section-eyebrow">Our Work</p>
-          <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading mb-4">
-            WORKSHOP RESULTS
+        <div className="mb-10 md:mb-12 max-w-2xl">
+          <p className="section-eyebrow">Project gallery</p>
+          <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading mb-4">
+            Work from the Mombasa workshop
           </h2>
-          <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-xl mb-8">
-            Drag to compare a typical bodywork finish, then browse the full project grid below.
+          <p className="text-[#6B6B6B] font-[family-name:var(--font-body)] leading-relaxed mb-5">
+            Panel beating, spray painting, mechanical repairs, and related supply jobs. Filter by category or open a
+            photo for detail.
           </p>
-          <div className="overflow-hidden rounded-sm shadow-lg mb-6">
-            <BeforeAfterSlider
-              beforeSrc={GALLERY_IMAGES.hiluxRepair}
-              afterSrc={GALLERY_IMAGES.paintSpray}
-              beforeLabel="In progress"
-              afterLabel="Finished"
-              alt="Panel beating to paint finish"
-            />
+          <div className="flex flex-wrap gap-3">
+            <button type="button" onClick={() => bookService('Panel Beating')} className="btn-gwecely text-xs py-2.5 px-4">
+              Book a repair
+            </button>
+            <Link href={ROUTES.contact} className="btn-secondary-gwecely text-xs py-2.5 px-4">
+              Ask about a job
+            </Link>
           </div>
-          <button
-            type="button"
-            onClick={() => bookService('Panel Beating')}
-            className="btn-gwecely text-sm py-2.5 px-5"
-          >
-            Book a similar job
-          </button>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-8 md:mb-10">
@@ -310,14 +304,14 @@ export default function GallerySection() {
               <button
                 key={f.id}
                 onClick={() => setActiveFilter(f.id)}
-                className={`px-4 py-2 text-sm font-[family-name:var(--font-body)] font-medium transition-all duration-200 rounded-md ${
+                className={`px-3.5 py-2 text-sm font-[family-name:var(--font-body)] font-medium transition-colors duration-150 rounded-sm ${
                   activeFilter === f.id
-                    ? 'bg-[#F05A32] text-white shadow-md shadow-[#F05A32]/25'
-                    : 'bg-white text-gray-600 hover:bg-white/80 ring-1 ring-black/5'
+                    ? 'bg-[#F05030] text-white'
+                    : 'bg-white text-[#404040] border border-[#E6E6E6] hover:border-[#c8c8c8]'
                 }`}
               >
                 {f.label}
-                <span className={`ml-1.5 text-xs ${activeFilter === f.id ? 'text-orange-100' : 'text-gray-400'}`}>
+                <span className={`ml-1.5 text-xs ${activeFilter === f.id ? 'text-white/80' : 'text-[#999]'}`}>
                   ({count})
                 </span>
               </button>
@@ -345,7 +339,7 @@ export default function GallerySection() {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-gray-500 font-['Inter'] py-16">
+          <p className="text-center text-gray-500 font-[family-name:var(--font-body)] py-16">
             No projects in this category yet.
           </p>
         )}
@@ -360,7 +354,7 @@ export default function GallerySection() {
           aria-label={lightbox.title}
         >
           <div
-            className="relative max-w-5xl w-full bg-[#2D2626] rounded-2xl overflow-hidden shadow-2xl"
+            className="relative max-w-5xl w-full bg-[#111111] rounded-2xl overflow-hidden shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             <img
@@ -370,13 +364,13 @@ export default function GallerySection() {
             />
             <div className="p-6 flex items-start justify-between gap-4">
               <div>
-                <span className="text-[10px] text-[#F0826E] font-['Inter'] font-medium uppercase tracking-wide">
+                <span className="text-[10px] text-[#F07058] font-[family-name:var(--font-body)] font-medium uppercase tracking-wide">
                   {GALLERY_FILTERS.find(f => f.id === lightbox.category)?.label}
                 </span>
-                <h3 className="font-['Barlow_Condensed'] font-700 text-2xl text-white mt-0.5">
+                <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl text-white mt-0.5">
                   {lightbox.title}
                 </h3>
-                <p className="text-orange-100 text-sm font-['Inter'] mt-2 max-w-2xl">
+                <p className="text-orange-100 text-sm font-[family-name:var(--font-body)] mt-2 max-w-2xl">
                   {lightbox.desc}
                 </p>
               </div>

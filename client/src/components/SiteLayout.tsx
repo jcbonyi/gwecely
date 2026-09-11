@@ -30,7 +30,7 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-[#F5F3F2]">
+    <div className="min-h-screen bg-white">
       <a href="#main" className="skip-link">
         Skip to main content
       </a>

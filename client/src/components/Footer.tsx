@@ -47,39 +47,39 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ background: 'linear-gradient(135deg, #2D2626 0%, #463C3C 50%, #2D2626 100%)' }}>
+    <footer className="bg-[#111111]">
       {/* Main footer */}
-      <div className="container py-16">
+      <div className="container py-14 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Company overview */}
           <div className="lg:col-span-1">
             <div className="mb-5">
               <BrandLogo size="footer" />
             </div>
-            <p className="text-orange-100 text-sm font-['Inter'] leading-relaxed mb-1 font-medium">
+            <p className="text-[#D0D0D0] text-sm font-[family-name:var(--font-body)] leading-relaxed mb-1 font-medium">
               {BRAND.subtitle}
             </p>
-            <p className="text-orange-100/60 text-xs font-['Inter'] leading-relaxed mb-2 italic">
-              &ldquo;{BRAND.tagline}&rdquo;
+            <p className="brand-tagline text-xs leading-relaxed mb-2">
+              {BRAND.tagline}
             </p>
-            <p className="text-orange-100/80 text-sm font-['Inter'] leading-relaxed mb-5">
+            <p className="text-[#A8A8A8] text-sm font-[family-name:var(--font-body)] leading-relaxed mb-5">
               {BRAND.about}
             </p>
             <div className="space-y-2">
               {BRAND.contact.phones.map((phone) => (
-                <a key={phone} href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors">
-                  <Phone size={13} className="text-[#F05A32]" />
+                <a key={phone} href={`tel:${phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-orange-100 hover:text-white text-sm font-[family-name:var(--font-body)] transition-colors">
+                  <Phone size={13} className="text-[#F05030]" />
                   {phone}
                 </a>
               ))}
               {BRAND.contact.emails.map((email) => (
-                <a key={email} href={`mailto:${email}`} className="flex items-center gap-2 text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors">
-                  <Mail size={13} className="text-[#F05A32]" />
+                <a key={email} href={`mailto:${email}`} className="flex items-center gap-2 text-orange-100 hover:text-white text-sm font-[family-name:var(--font-body)] transition-colors">
+                  <Mail size={13} className="text-[#F05030]" />
                   {email}
                 </a>
               ))}
-              <div className="flex items-start gap-2 text-orange-100 text-sm font-['Inter']">
-                <MapPin size={13} className="text-[#F05A32] mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-2 text-orange-100 text-sm font-[family-name:var(--font-body)]">
+                <MapPin size={13} className="text-[#F05030] mt-0.5 flex-shrink-0" />
                 <span>{BRAND.contact.address}<br />{BRAND.contact.poBox}</span>
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-orange-100 hover:bg-[#F05A32] hover:text-white transition-all"
+                  className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-orange-100 hover:bg-[#F05030] hover:text-white transition-all"
                 >
                   <Icon size={14} />
                 </a>
@@ -103,7 +103,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <h3 className="font-['Barlow_Condensed'] font-700 text-white text-base mb-5 uppercase tracking-wide">
+            <h3 className="font-[family-name:var(--font-display)] font-700 text-white text-base mb-5 uppercase tracking-wide">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -111,9 +111,9 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors flex items-center gap-1.5 group"
+                    className="text-orange-100 hover:text-white text-sm font-[family-name:var(--font-body)] transition-colors flex items-center gap-1.5 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#F0826E] group-hover:w-2 transition-all" />
+                    <span className="w-1 h-1 rounded-full bg-[#F07058] group-hover:w-2 transition-all" />
                     {link.label}
                   </Link>
                 </li>
@@ -123,7 +123,7 @@ export default function Footer() {
 
           {/* Product categories */}
           <div>
-            <h3 className="font-['Barlow_Condensed'] font-700 text-white text-base mb-5 uppercase tracking-wide">
+            <h3 className="font-[family-name:var(--font-display)] font-700 text-white text-base mb-5 uppercase tracking-wide">
               Product Categories
             </h3>
             <ul className="space-y-2">
@@ -131,9 +131,9 @@ export default function Footer() {
                 <li key={cat.label}>
                   <Link
                     href={cat.href}
-                    className="text-orange-100 hover:text-white text-sm font-['Inter'] transition-colors flex items-center gap-1.5 group"
+                    className="text-orange-100 hover:text-white text-sm font-[family-name:var(--font-body)] transition-colors flex items-center gap-1.5 group"
                   >
-                    <span className="w-1 h-1 rounded-full bg-[#F05A32] group-hover:w-2 transition-all" />
+                    <span className="w-1 h-1 rounded-full bg-[#F05030] group-hover:w-2 transition-all" />
                     {cat.label}
                   </Link>
                 </li>
@@ -143,10 +143,10 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-['Barlow_Condensed'] font-700 text-white text-base mb-5 uppercase tracking-wide">
+            <h3 className="font-[family-name:var(--font-display)] font-700 text-white text-base mb-5 uppercase tracking-wide">
               Stay Updated
             </h3>
-            <p className="text-orange-100 text-sm font-['Inter'] mb-4">
+            <p className="text-orange-100 text-sm font-[family-name:var(--font-body)] mb-4">
               Subscribe for exclusive deals, automotive tips, and product updates.
             </p>
             <form onSubmit={handleNewsletter} className="mb-5">
@@ -156,7 +156,7 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-orange-200 text-sm font-['Inter'] focus:outline-none focus:border-[#F0826E] transition-colors"
+                  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-orange-200 text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F07058] transition-colors"
                 />
                 <button
                   type="submit"
@@ -169,10 +169,10 @@ export default function Footer() {
 
             {/* Service lines */}
             <div className="space-y-2">
-              <p className="text-orange-200 text-xs font-['Inter'] font-medium uppercase tracking-wide">Our Service Lines</p>
+              <p className="text-orange-200 text-xs font-[family-name:var(--font-body)] font-medium uppercase tracking-wide">Our Service Lines</p>
               <div className="flex flex-wrap gap-2">
                 {FOOTER_SERVICE_LINES.map((line) => (
-                  <span key={line} className="text-[10px] bg-white/10 border border-white/20 text-orange-100 px-2 py-0.5 rounded font-['Inter']">
+                  <span key={line} className="text-[10px] bg-white/10 border border-white/20 text-orange-100 px-2 py-0.5 rounded font-[family-name:var(--font-body)]">
                     {line}
                   </span>
                 ))}
@@ -185,18 +185,18 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-orange-200 text-xs font-['Inter']">
+          <p className="text-orange-200 text-xs font-[family-name:var(--font-body)]">
             © {new Date().getFullYear()} Gwecely Limited. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/privacy" className="text-orange-200 hover:text-white text-xs font-['Inter'] transition-colors">
+            <Link href="/privacy" className="text-orange-200 hover:text-white text-xs font-[family-name:var(--font-body)] transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-orange-200 hover:text-white text-xs font-['Inter'] transition-colors">
+            <Link href="/terms" className="text-orange-200 hover:text-white text-xs font-[family-name:var(--font-body)] transition-colors">
               Terms of Service
             </Link>
           </div>
-          <p className="text-orange-300 text-xs font-['Inter']">
+          <p className="text-orange-300 text-xs font-[family-name:var(--font-body)]">
             Made with ❤️ in Kenya
           </p>
         </div>

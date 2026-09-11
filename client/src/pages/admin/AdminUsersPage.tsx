@@ -73,10 +73,10 @@ export default function AdminUsersPage() {
     <AdminLayout>
       <div className="max-w-2xl">
         <div className="flex items-center gap-3 mb-6">
-          <Users className="text-[#F05A32]" size={28} />
+          <Users className="text-[#F05030]" size={28} />
           <div>
-            <h1 className="font-['Barlow_Condensed'] font-800 text-3xl text-[#2D2626]">Team access</h1>
-            <p className="text-gray-500 text-sm font-['Inter']">Invite staff to add and edit products</p>
+            <h1 className="font-[family-name:var(--font-display)] font-800 text-3xl text-[#111111]">Team access</h1>
+            <p className="text-gray-500 text-sm font-[family-name:var(--font-body)]">Invite staff to add and edit products</p>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function AdminUsersPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="colleague@company.com"
-              className="flex-1 px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#F05A32]"
+              className="flex-1 px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#F05030]"
               required
             />
             <button type="submit" disabled={inviting} className="btn-gwecely text-sm py-2.5 px-5 justify-center">
@@ -105,8 +105,8 @@ export default function AdminUsersPage() {
           {loading ? (
             <p className="p-6 text-sm text-gray-500">Loading team…</p>
           ) : (
-            <table className="w-full text-sm font-['Inter']">
-              <thead className="bg-[#F5F3F2] text-left text-xs uppercase tracking-wide text-gray-500">
+            <table className="w-full text-sm font-[family-name:var(--font-body)]">
+              <thead className="bg-[#F6F6F6] text-left text-xs uppercase tracking-wide text-gray-500">
                 <tr>
                   <th className="p-3">Email</th>
                   <th className="p-3">Role</th>

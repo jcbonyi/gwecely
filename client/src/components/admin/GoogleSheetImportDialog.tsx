@@ -55,9 +55,9 @@ export default function GoogleSheetImportDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg font-['Inter']">
+      <DialogContent className="max-w-lg font-[family-name:var(--font-body)]">
         <DialogHeader>
-          <DialogTitle className="font-['Barlow_Condensed'] text-2xl">Import from Google Sheet</DialogTitle>
+          <DialogTitle className="font-[family-name:var(--font-display)] text-2xl">Import from Google Sheet</DialogTitle>
           <DialogDescription>
             Paste a shared Google Sheet link. Products are created or updated from each row.
           </DialogDescription>
@@ -71,12 +71,12 @@ export default function GoogleSheetImportDialog({
               value={sheetUrl}
               onChange={(e) => setSheetUrl(e.target.value)}
               placeholder="https://docs.google.com/spreadsheets/d/..."
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:border-[#F05A32]"
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:border-[#F05030]"
             />
           </div>
 
-          <div className="rounded-lg bg-[#F5F3F2] p-3 text-xs text-gray-600 space-y-2">
-            <p className="font-medium text-[#2D2626]">Sheet setup</p>
+          <div className="rounded-lg bg-[#F6F6F6] p-3 text-xs text-gray-600 space-y-2">
+            <p className="font-medium text-[#111111]">Sheet setup</p>
             <ol className="list-decimal list-inside space-y-1">
               <li>Row 1 headers: <code>name</code>, <code>category</code>, <code>price</code>, <code>image</code>, <code>description</code></li>
               <li>Optional: <code>id</code> (update existing), <code>inStock</code>, <code>status</code> (use <code>skip</code> to ignore a row)</li>

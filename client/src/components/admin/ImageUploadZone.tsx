@@ -87,33 +87,33 @@ export default function ImageUploadZone({
         onDrop={onDrop}
         className={cn(
           'relative rounded-xl border-2 border-dashed p-6 text-center transition-colors cursor-pointer',
-          dragOver ? 'border-[#F05A32] bg-[#F05A32]/5' : 'border-gray-200 bg-[#FAFAF9] hover:border-[#F05A32]/50',
+          dragOver ? 'border-[#F05030] bg-[#F05030]/5' : 'border-gray-200 bg-[#FAFAF9] hover:border-[#F05030]/50',
           (disabled || uploading) && 'pointer-events-none opacity-70'
         )}
       >
         {uploading ? (
           <div className="flex flex-col items-center gap-3 py-2">
-            <Loader2 className="h-8 w-8 text-[#F05A32] animate-spin" />
-            <p className="text-sm font-medium text-[#2D2626] font-['Inter']">
+            <Loader2 className="h-8 w-8 text-[#F05030] animate-spin" />
+            <p className="text-sm font-medium text-[#111111] font-[family-name:var(--font-body)]">
               {progress <= 5 ? 'Preparing image…' : `Uploading… ${progress}%`}
             </p>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#F05A32] transition-all duration-200"
+                className="h-full bg-[#F05030] transition-all duration-200"
                 style={{ width: `${Math.max(progress, 8)}%` }}
               />
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2 py-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F05A32]/10 text-[#F05A32]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F05030]/10 text-[#F05030]">
               <ImagePlus size={24} />
             </div>
-            <p className="text-sm font-medium text-[#2D2626] font-['Inter']">
-              Drag & drop an image here, or <span className="text-[#F05A32]">browse</span>
+            <p className="text-sm font-medium text-[#111111] font-[family-name:var(--font-body)]">
+              Drag & drop an image here, or <span className="text-[#F05030]">browse</span>
             </p>
-            <p className="text-xs text-gray-500 font-['Inter']">JPEG, PNG, WebP, GIF — max 5 MB</p>
-            <p className="inline-flex items-center gap-1.5 text-xs text-gray-400 font-['Inter'] mt-1">
+            <p className="text-xs text-gray-500 font-[family-name:var(--font-body)]">JPEG, PNG, WebP, GIF — max 5 MB</p>
+            <p className="inline-flex items-center gap-1.5 text-xs text-gray-400 font-[family-name:var(--font-body)] mt-1">
               <Upload size={14} />
               Uploads go directly to Cloudinary
             </p>
@@ -130,13 +130,13 @@ export default function ImageUploadZone({
           onChange={(e) => onChange(e.target.value)}
           placeholder="Upload above, or paste https://… or /products/…"
           className={cn(
-            'w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#F05A32]',
+            'w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#F05030]',
             showError && !value.trim() ? 'border-red-400 bg-red-50/50' : 'border-gray-200'
           )}
           disabled={disabled || uploading}
         />
         {showError && !value.trim() && (
-          <p className="mt-1 text-xs text-red-600 font-['Inter']">Upload an image or enter an image URL.</p>
+          <p className="mt-1 text-xs text-red-600 font-[family-name:var(--font-body)]">Upload an image or enter an image URL.</p>
         )}
       </div>
 

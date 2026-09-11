@@ -1,4 +1,4 @@
-import { ArrowRight, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { Link } from 'wouter';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
@@ -9,58 +9,54 @@ import { requestHospitalityQuote, scrollToHospitalityCatalogue } from '@/lib/hos
 
 export default function HospitalityHero() {
   return (
-    <section className="hospitality-hero relative min-h-[78vh] flex items-end overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(180deg, rgba(29,24,24,0.55) 0%, rgba(45,38,38,0.75) 45%, rgba(29,24,24,0.94) 100%), url('${IMAGES.hospitality.hero}') center/cover no-repeat`,
-        }}
-      />
+    <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-[#111111]">
+      <div className="absolute inset-0">
+        <img
+          src={IMAGES.hospitality.hero}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover opacity-35"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/88 to-[#111111]/55" />
+      </div>
 
-      <div className="container relative z-10 pt-36 pb-16 md:pt-44 md:pb-20">
-        <div className="max-w-2xl">
-          <p className="section-eyebrow !text-[#F0826E] mb-4 [&::before]:bg-[#F05A32]">
-            From {BRAND.name} · B2B supply lane
-          </p>
-          <h1 className="font-['Barlow_Condensed'] font-800 text-4xl sm:text-5xl md:text-6xl text-white leading-[1.02] mb-4">
-            Hospitality supplies
-            <br />
-            <span className="text-[#F05A32]">for Kenya&apos;s venues</span>
+      <div className="container relative z-10 pt-32 pb-16 md:pt-40 md:pb-20">
+        <div className="max-w-xl">
+          <p className="section-eyebrow !text-[#B0B0B0]">Gwecely Limited · Institutional supply</p>
+          <h1 className="font-[family-name:var(--font-display)] font-bold text-3xl sm:text-4xl md:text-5xl text-white leading-[1.15] tracking-tight mb-4">
+            Hospitality and institutional supplies
           </h1>
-          <p className="text-white/75 text-base md:text-lg font-[family-name:var(--font-body)] leading-relaxed max-w-xl mb-8">
-            Tableware, kitchen equipment, and institutional procurement — backed by the same Gwecely team behind CMC
-            Motors, Mombasa.
+          <p className="text-[#C8C8C8] text-base md:text-lg font-[family-name:var(--font-body)] leading-relaxed mb-8">
+            Tableware, kitchen equipment, and bulk procurement for hotels, restaurants, and institutions — managed by
+            the same Mombasa team behind our vehicle workshop.
           </p>
 
           <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => requestHospitalityQuote()} className="btn-gwecely text-sm md:text-base">
-              <FileText size={18} />
-              Request a Quotation
+            <button type="button" onClick={() => requestHospitalityQuote()} className="btn-gwecely">
+              <FileText size={16} />
+              Request a quotation
             </button>
-            <button
-              type="button"
-              onClick={scrollToHospitalityCatalogue}
-              className="btn-outline-gwecely text-sm md:text-base"
-            >
-              View catalogue
-              <ArrowRight size={16} />
+            <button type="button" onClick={scrollToHospitalityCatalogue} className="btn-outline-gwecely">
+              Browse catalogue
             </button>
             <a
               href={whatsAppUrl(buildGeneralEnquiryMessage('Hospitality Supplies Quotation'))}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-whatsapp text-sm md:text-base"
+              className="btn-whatsapp"
             >
-              <WhatsAppIcon className="w-[18px] h-[18px]" />
+              <WhatsAppIcon className="w-4 h-4" />
               WhatsApp
             </a>
           </div>
 
-          <p className="mt-8 text-white/40 text-xs font-[family-name:var(--font-body)]">
-            Looking for vehicle repairs?{' '}
-            <Link href={ROUTES.services} className="text-white/60 hover:text-[#F0826E] underline-offset-2 hover:underline">
-              Go to garage services
+          <p className="mt-8 text-[#777] text-sm font-[family-name:var(--font-body)]">
+            Need vehicle repairs instead?{' '}
+            <Link href={ROUTES.services} className="text-[#F05030] hover:underline">
+              Garage services
             </Link>
+            {' · '}
+            <span className="text-[#999]">{BRAND.contact.phones[0]}</span>
           </p>
         </div>
       </div>

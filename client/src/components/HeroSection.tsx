@@ -1,93 +1,73 @@
 /**
- * HeroSection — brand-first, full-bleed workshop hero
+ * HeroSection — professional workshop introduction
  */
 
-import { motion, useReducedMotion } from 'framer-motion';
-import { Calendar, ChevronDown, MessageCircle } from 'lucide-react';
+import { Calendar, Phone } from 'lucide-react';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { bookService } from '@/lib/booking';
-import { buildServiceBookingQuickMessage, whatsAppUrl } from '@/lib/whatsapp';
-
-const fadeUp = (delay: number, reduce: boolean | null) =>
-  reduce
-    ? { initial: false as const, animate: { opacity: 1, y: 0 } }
-    : {
-        initial: { opacity: 0, y: 28 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.7, delay, ease: [0.23, 1, 0.32, 1] as const },
-      };
 
 export default function HeroSection() {
-  const reduce = useReducedMotion();
-
   return (
-    <section id="home" className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden">
+    <section id="home" className="relative min-h-[88vh] flex items-center overflow-hidden bg-[#111111]">
       <div className="absolute inset-0">
         <img
           src={IMAGES.hero}
-          alt=""
-          aria-hidden
-          className={`absolute inset-0 w-full h-full object-cover ${reduce ? '' : 'hero-ken-burns'}`}
+          alt="Gwecely workshop in Mombasa"
+          className="absolute inset-0 w-full h-full object-cover opacity-45"
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(180deg, rgba(45,38,38,0.45) 0%, rgba(45,38,38,0.55) 40%, rgba(29,24,24,0.92) 100%)',
+              'linear-gradient(105deg, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.78) 48%, rgba(17,17,17,0.45) 100%)',
           }}
         />
       </div>
 
-      <div className="container relative z-10 pt-36 pb-24 md:pt-44 md:pb-28">
-        <div className="max-w-3xl">
-          <motion.p
-            {...fadeUp(0.05, reduce)}
-            className="font-['Barlow_Condensed'] font-800 text-[clamp(3.5rem,12vw,8rem)] leading-[0.85] tracking-tight text-white mb-5"
-          >
-            {BRAND.name}
-          </motion.p>
+      <div className="container relative z-10 pt-32 pb-20 md:pt-40 md:pb-28">
+        <div className="max-w-2xl">
+          <p className="brand-tagline text-base md:text-lg mb-5">{BRAND.tagline}</p>
 
-          <motion.p
-            {...fadeUp(0.15, reduce)}
-            className="text-white/90 text-lg md:text-xl font-[family-name:var(--font-body)] max-w-xl mb-2 leading-snug"
-          >
-            Panel beating &amp; spray painting — Mombasa
-          </motion.p>
+          <h1 className="font-[family-name:var(--font-display)] font-bold text-[2rem] sm:text-4xl md:text-5xl text-white leading-[1.15] tracking-tight mb-5">
+            Motor vehicle garage &amp; panel beating in Mombasa
+          </h1>
 
-          <motion.p
-            {...fadeUp(0.22, reduce)}
-            className="text-white/55 text-sm font-[family-name:var(--font-body)] mb-8"
-          >
-            Behind CMC Motors · Accident repairs · Fleet maintenance
-          </motion.p>
+          <p className="text-[#D0D0D0] text-base md:text-lg font-[family-name:var(--font-body)] leading-relaxed max-w-xl mb-8">
+            Accident repairs, spray painting, servicing, and fleet maintenance at our workshop behind CMC Motors on
+            Bishop Macarios Road.
+          </p>
 
-          <motion.div {...fadeUp(0.3, reduce)} className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => bookService('Vehicle Servicing')} className="btn-gwecely text-base">
-              <Calendar size={18} />
-              Book Repair
+          <div className="flex flex-wrap gap-3 mb-10">
+            <button type="button" onClick={() => bookService('Vehicle Servicing')} className="btn-gwecely">
+              <Calendar size={16} />
+              Book a service
             </button>
             <a
-              href={whatsAppUrl(buildServiceBookingQuickMessage())}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline-gwecely text-base"
+              href={`tel:${BRAND.contact.phones[0].replace(/\s/g, '')}`}
+              className="btn-outline-gwecely"
             >
-              <MessageCircle size={18} />
-              WhatsApp
+              <Phone size={16} />
+              {BRAND.contact.phones[0]}
             </a>
-          </motion.div>
+          </div>
+
+          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 border-t border-white/15 pt-6 text-sm font-[family-name:var(--font-body)]">
+            <div>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Location</dt>
+              <dd className="text-white/90">Behind CMC Motors, Mombasa</dd>
+            </div>
+            <div>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Weekdays</dt>
+              <dd className="text-white/90">8:00 AM – 6:00 PM</dd>
+            </div>
+            <div>
+              <dt className="text-[#888] text-xs uppercase tracking-wider mb-1">Saturday</dt>
+              <dd className="text-white/90">8:00 AM – 2:00 PM</dd>
+            </div>
+          </dl>
         </div>
       </div>
-
-      <button
-        type="button"
-        onClick={() => document.getElementById('proof')?.scrollIntoView({ behavior: 'smooth' })}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white transition-colors z-10"
-        aria-label="See workshop proof"
-      >
-        <ChevronDown size={28} className={reduce ? '' : 'animate-bounce'} />
-      </button>
     </section>
   );
 }

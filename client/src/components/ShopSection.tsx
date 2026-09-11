@@ -91,17 +91,17 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
           <span
             className={`absolute top-2 left-2 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ${
               product.badge === 'Sale' ? 'bg-red-500' :
-              product.badge === 'Best Seller' ? 'bg-[#F05A32]' :
-              product.badge === 'Genuine' ? 'bg-[#F05A32]' :
-              product.badge === 'Certified' ? 'bg-[#F05A32]' :
-              'bg-[#F05A32]'
+              product.badge === 'Best Seller' ? 'bg-[#F05030]' :
+              product.badge === 'Genuine' ? 'bg-[#F05030]' :
+              product.badge === 'Certified' ? 'bg-[#F05030]' :
+              'bg-[#F05030]'
             }`}
           >
             {product.badge}
           </span>
         )}
         {product.isNew && (
-          <span className="absolute top-2 right-2 bg-[#F0826E] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+          <span className="absolute top-2 right-2 bg-[#F07058] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
             New
           </span>
         )}
@@ -110,7 +110,7 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
         <div className="product-actions absolute bottom-2 right-2 flex flex-col gap-1.5">
           <button
             onClick={() => onQuickView(product)}
-            className="w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-white text-gray-600 hover:bg-[#F05A32] hover:text-white transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-white text-gray-600 hover:bg-[#F05030] hover:text-white transition-colors"
             aria-label="Quick view"
           >
             <Eye size={14} />
@@ -129,13 +129,13 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
 
       {/* Content */}
       <div className="p-4">
-        <div className="text-[10px] text-[#F05A32] font-['Inter'] font-medium uppercase tracking-wide mb-1">
+        <div className="text-[10px] text-[#F05030] font-[family-name:var(--font-body)] font-medium uppercase tracking-wide mb-1">
           {CATEGORIES.find(c => c.id === product.category)?.label}
         </div>
         <button
           type="button"
           onClick={() => onQuickView(product)}
-          className="font-['Inter'] font-600 text-sm text-[#2D2626] mb-2 line-clamp-2 leading-snug text-left hover:text-[#F05A32] transition-colors w-full"
+          className="font-[family-name:var(--font-body)] font-600 text-sm text-[#111111] mb-2 line-clamp-2 leading-snug text-left hover:text-[#F05030] transition-colors w-full"
         >
           {product.name}
         </button>
@@ -143,16 +143,16 @@ function ProductCard({ product, onQuickView }: { product: Product; onQuickView: 
         {/* Rating */}
         <div className="flex items-center gap-2 mb-3">
           <StarRating rating={product.rating} />
-          <span className="text-[11px] text-gray-400 font-['Inter']">({product.reviews})</span>
+          <span className="text-[11px] text-gray-400 font-[family-name:var(--font-body)]">({product.reviews})</span>
         </div>
 
         {/* Price */}
         <div className="flex items-center gap-2 mb-3">
-          <span className="font-['Barlow'] font-700 text-lg text-[#2D2626]">
+          <span className="font-[family-name:var(--font-display)] font-700 text-lg text-[#111111]">
             {formatPrice(product.price)}
           </span>
           {product.originalPrice && (
-            <span className="text-xs text-gray-400 line-through font-['Inter']">
+            <span className="text-xs text-gray-400 line-through font-[family-name:var(--font-body)]">
               {formatPrice(product.originalPrice)}
             </span>
           )}
@@ -214,24 +214,24 @@ export default function ShopSection() {
       <div className="container">
         {/* Header */}
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 bg-[#F05A32]/10 text-[#F05A32] text-sm px-4 py-1.5 rounded-full mb-4 font-['Inter'] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F05A32]" />
+          <div className="inline-flex items-center gap-2 bg-[#F05030]/10 text-[#F05030] text-sm px-4 py-1.5 rounded-full mb-4 font-[family-name:var(--font-body)] font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F05030]" />
             Genuine Parts &amp; Supplies — Mombasa &amp; Nairobi Delivery
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
+            <h2 className="font-[family-name:var(--font-display)] font-800 text-4xl md:text-5xl text-[#111111] section-heading">
               BUILT FOR KENYA'S
               <br />
               ROADS &amp; OFFICES
             </h2>
-            <p className="text-gray-600 font-['Inter'] max-w-sm">
+            <p className="text-gray-600 font-[family-name:var(--font-body)] max-w-sm">
               Genuine OEM parts, hospitality supplies, office essentials, and fast delivery across Kenya.
             </p>
           </div>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm font-['Inter']">
+          <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm font-[family-name:var(--font-body)]">
             Could not load products from server. Start the API with <code className="text-xs">npm run dev</code> (runs web + API together).
           </div>
         )}
@@ -243,8 +243,8 @@ export default function ShopSection() {
             className="w-full h-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2D2626]/80 via-[#463C3C]/50 to-transparent flex items-center">
-            <p className="text-white font-['Barlow_Condensed'] font-700 text-xl md:text-2xl px-8 max-w-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/80 via-[#404040]/50 to-transparent flex items-center">
+            <p className="text-white font-[family-name:var(--font-display)] font-700 text-xl md:text-2xl px-8 max-w-lg">
               Delivering across Kenya — from Mombasa to Nairobi and beyond
             </p>
           </div>
@@ -256,9 +256,9 @@ export default function ShopSection() {
             <button
               key={cat.id}
               onClick={() => { setActiveCategory(cat.id); setSearchQuery(''); setShowFilters(false); }}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-['Inter'] font-medium transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-[family-name:var(--font-body)] font-medium transition-all ${
                 activeCategory === cat.id && !searchQuery
-                  ? 'bg-[#F05A32] text-white shadow-sm'
+                  ? 'bg-[#F05030] text-white shadow-sm'
                   : 'bg-white border border-gray-200 text-gray-600'
               }`}
             >
@@ -276,7 +276,7 @@ export default function ShopSection() {
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20 transition-all"
+              className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20 transition-all"
             />
             {searchQuery && (
               <button
@@ -291,7 +291,7 @@ export default function ShopSection() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-['Inter'] focus:outline-none focus:border-[#F05A32] bg-white cursor-pointer"
+            className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] bg-white cursor-pointer"
           >
             <option value="default">Sort: Default</option>
             <option value="price-asc">Price: Low to High</option>
@@ -302,7 +302,7 @@ export default function ShopSection() {
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="sm:hidden flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-['Inter'] text-gray-600"
+            className="sm:hidden flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] text-gray-600"
           >
             <SlidersHorizontal size={15} />
             Filters
@@ -310,16 +310,16 @@ export default function ShopSection() {
         </div>
 
         {/* Featured products strip */}
-        <div className="mb-8 p-4 bg-[#F5F3F2] rounded-xl border-l-4 border-[#F05A32] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="mb-8 p-4 bg-[#F6F6F6] rounded-xl border-l-4 border-[#F05030] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="badge-genuine">FEATURED</span>
-            <span className="font-['Barlow_Condensed'] font-700 text-[#2D2626] text-sm">
+            <span className="font-[family-name:var(--font-display)] font-700 text-[#111111] text-sm">
               Genuine OEM parts — same-day dispatch from Mombasa
             </span>
           </div>
           <div className="flex gap-2">
-            <span className="text-[10px] bg-[#F05A32] text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">M-Pesa Accepted</span>
-            <span className="text-[10px] bg-[#F05A32] text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Free Delivery KSh 5000+</span>
+            <span className="text-[10px] bg-[#F05030] text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">M-Pesa Accepted</span>
+            <span className="text-[10px] bg-[#F05030] text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Free Delivery KSh 5000+</span>
           </div>
         </div>
 
@@ -327,7 +327,7 @@ export default function ShopSection() {
           {/* Sidebar categories */}
           <aside className={`w-56 flex-shrink-0 ${showFilters ? 'block' : 'hidden'} sm:block`}>
             <div className="sticky top-28">
-              <h3 className="font-['Barlow_Condensed'] font-700 text-lg text-[#2D2626] mb-3">
+              <h3 className="font-[family-name:var(--font-display)] font-700 text-lg text-[#111111] mb-3">
                 CATEGORIES
               </h3>
               <div className="flex flex-col gap-1">
@@ -337,10 +337,10 @@ export default function ShopSection() {
                     <button
                       key={cat.id}
                       onClick={() => { setActiveCategory(cat.id); setSearchQuery(''); }}
-                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-['Inter'] transition-all text-left ${
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-[family-name:var(--font-body)] transition-all text-left ${
                         activeCategory === cat.id && !searchQuery
-                          ? 'bg-[#F05A32] text-white font-medium'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-[#F05A32]'
+                          ? 'bg-[#F05030] text-white font-medium'
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-[#F05030]'
                       }`}
                     >
                       <span>{cat.label}</span>
@@ -357,13 +357,13 @@ export default function ShopSection() {
               </div>
 
               {/* M-Pesa badge */}
-              <div className="mt-6 p-4 bg-[#F5F3F2] rounded-xl border border-[#F05A32]/10">
-                <div className="text-xs font-['Barlow_Condensed'] font-700 text-[#2D2626] mb-1">
+              <div className="mt-6 p-4 bg-[#F6F6F6] rounded-xl border border-[#F05030]/10">
+                <div className="text-xs font-[family-name:var(--font-display)] font-700 text-[#111111] mb-1">
                   PAYMENT OPTIONS
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {['M-Pesa', 'Bank Transfer', 'Cash'].map(p => (
-                    <span key={p} className="text-[10px] bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded font-['Inter']">
+                    <span key={p} className="text-[10px] bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded font-[family-name:var(--font-body)]">
                       {p}
                     </span>
                   ))}
@@ -376,7 +376,7 @@ export default function ShopSection() {
           <div className="flex-1 min-w-0">
             {/* Results count */}
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-gray-500 font-['Inter']">
+              <p className="text-sm text-gray-500 font-[family-name:var(--font-body)]">
                 {searchQuery
                   ? `${filteredProducts.length} results for "${searchQuery}"`
                   : `Showing ${filteredProducts.length} products`}
@@ -384,12 +384,12 @@ export default function ShopSection() {
             </div>
 
             {loading ? (
-              <div className="text-center py-16 text-gray-500 font-['Inter']">Loading products…</div>
+              <div className="text-center py-16 text-gray-500 font-[family-name:var(--font-body)]">Loading products…</div>
             ) : filteredProducts.length === 0 ? (
-              <div className="text-center py-16 bg-[#F5F3F2] rounded-2xl border border-dashed border-gray-200">
+              <div className="text-center py-16 bg-[#F6F6F6] rounded-2xl border border-dashed border-gray-200">
                 <Search size={40} className="text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-600 font-['Inter'] font-medium mb-1">No products found</p>
-                <p className="text-gray-400 text-sm font-['Inter'] mb-4">
+                <p className="text-gray-600 font-[family-name:var(--font-body)] font-medium mb-1">No products found</p>
+                <p className="text-gray-400 text-sm font-[family-name:var(--font-body)] mb-4">
                   {searchQuery ? `No results for "${searchQuery}"` : 'Try a different category'}
                 </p>
                 <button

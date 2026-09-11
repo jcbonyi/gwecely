@@ -123,18 +123,16 @@ export default function BookingSection() {
     `w-full px-4 py-3 border rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:ring-2 transition-all min-h-[44px] ${
       errors[field]
         ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-        : 'border-gray-200 focus:border-[#F05A32] focus:ring-[#F05A32]/20'
+        : 'border-gray-200 focus:border-[#F05030] focus:ring-[#F05030]/20'
     }`;
 
   return (
-    <section id="booking" className="py-20 md:py-28 bg-[#F5F3F2]">
+    <section id="booking" className="py-20 md:py-28 bg-[#F6F6F6]">
       <div className="container">
         <div className="mb-14 max-w-2xl">
           <p className="section-eyebrow">Book a Service</p>
-          <h2 className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-[#2D2626] section-heading">
-            BOOK YOUR
-            <br />
-            VEHICLE SERVICE
+          <h2 className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-[#111111] section-heading">
+            Book a vehicle service
           </h2>
           <p className="text-gray-600 font-[family-name:var(--font-body)] mt-4">
             Drop your vehicle at our Mombasa workshop or book online. We confirm within 2 hours and keep you updated
@@ -143,17 +141,17 @@ export default function BookingSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-5xl mx-auto">
-          <div className="lg:col-span-2 bg-[#463C3C] rounded-2xl overflow-hidden text-white">
+          <div className="lg:col-span-2 bg-[#404040] rounded-2xl overflow-hidden text-white">
             <div className="relative h-44">
               <img
                 src={IMAGES.booking.workshop}
                 alt="Gwecely workshop in Mombasa"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#463C3C] via-[#463C3C]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#404040] via-[#404040]/40 to-transparent" />
             </div>
             <div className="p-8 -mt-4 relative">
-              <h3 className="font-['Barlow_Condensed'] font-700 text-2xl mb-6">BOOKING INFORMATION</h3>
+              <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl mb-6">BOOKING INFORMATION</h3>
 
               <div className="space-y-5">
                 {[
@@ -171,7 +169,7 @@ export default function BookingSection() {
                       <Icon size={16} className="text-orange-100" />
                     </div>
                     <div>
-                      <p className="font-['Barlow_Condensed'] font-700 text-sm text-orange-50 mb-0.5">{title}</p>
+                      <p className="font-[family-name:var(--font-display)] font-700 text-sm text-orange-50 mb-0.5">{title}</p>
                       {lines.map((l, i) => (
                         <p key={i} className="text-orange-100 text-sm font-[family-name:var(--font-body)]">
                           {l}
@@ -197,26 +195,26 @@ export default function BookingSection() {
           <div className="lg:col-span-3 bg-white rounded-2xl p-8 shadow-sm">
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full gap-5 py-8 text-center animate-fade-in-up">
-                <div className="w-16 h-16 rounded-full bg-[#F05A32]/10 flex items-center justify-center animate-pulse-ring">
-                  <CheckCircle size={32} className="text-[#F05A32]" />
+                <div className="w-16 h-16 rounded-full bg-[#F05030]/10 flex items-center justify-center animate-pulse-ring">
+                  <CheckCircle size={32} className="text-[#F05030]" />
                 </div>
                 <div>
-                  <h3 className="font-['Barlow_Condensed'] font-700 text-2xl text-[#2D2626] mb-2">BOOKING RECEIVED</h3>
+                  <h3 className="font-[family-name:var(--font-display)] font-700 text-2xl text-[#111111] mb-2">BOOKING RECEIVED</h3>
                   <p className="text-gray-600 font-[family-name:var(--font-body)] text-sm max-w-sm">
                     Thank you, <strong>{form.name}</strong>! We have your request for <strong>{form.service}</strong>.
                     Our team will follow up via phone or WhatsApp.
                   </p>
                 </div>
                 <DemoBanner compact className="w-full max-w-sm text-left" />
-                <div className="bg-[#F5F3F2] rounded-xl p-4 text-left w-full max-w-sm">
+                <div className="bg-[#F6F6F6] rounded-xl p-4 text-left w-full max-w-sm">
                   <p className="text-xs text-gray-500 font-[family-name:var(--font-body)] mb-1">Reference Number</p>
-                  <p className="font-['Barlow_Condensed'] font-700 text-[#F05A32] text-lg">{bookingRef}</p>
+                  <p className="font-[family-name:var(--font-display)] font-700 text-[#F05030] text-lg">{bookingRef}</p>
                 </div>
                 <a
                   href={whatsAppUrl(buildBookingMessage(form, bookingRef))}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-['Barlow_Condensed'] font-700 text-sm px-6 py-3 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-[family-name:var(--font-display)] font-700 text-sm px-6 py-3 rounded-lg transition-colors"
                 >
                   <MessageCircle size={18} />
                   Confirm on WhatsApp
@@ -248,22 +246,22 @@ export default function BookingSection() {
                           <span
                             className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-colors ${
                               done
-                                ? 'bg-[#F05A32] text-white'
+                                ? 'bg-[#F05030] text-white'
                                 : current
-                                  ? 'bg-[#463C3C] text-white'
+                                  ? 'bg-[#404040] text-white'
                                   : 'bg-gray-200 text-gray-500'
                             }`}
                           >
                             {done && step.id < activeStep ? '✓' : step.id}
                           </span>
-                          <span className="font-['Barlow_Condensed'] font-700 text-sm text-[#2D2626] truncate hidden sm:inline">
+                          <span className="font-[family-name:var(--font-display)] font-700 text-sm text-[#111111] truncate hidden sm:inline">
                             {step.label}
                           </span>
                         </div>
                         {i < STEPS.length - 1 && (
                           <div
                             className={`h-0.5 flex-1 rounded transition-colors ${
-                              activeStep > step.id ? 'bg-[#F05A32]' : 'bg-gray-200'
+                              activeStep > step.id ? 'bg-[#F05030]' : 'bg-gray-200'
                             }`}
                           />
                         )}
@@ -272,7 +270,7 @@ export default function BookingSection() {
                   })}
                 </div>
 
-                <h3 className="font-['Barlow_Condensed'] font-700 text-xl text-[#2D2626] mb-6">
+                <h3 className="font-[family-name:var(--font-display)] font-700 text-xl text-[#111111] mb-6">
                   VEHICLE SERVICE BOOKING
                 </h3>
 
@@ -439,7 +437,7 @@ export default function BookingSection() {
                       onChange={handleChange}
                       rows={3}
                       placeholder="Describe any specific issues or requirements..."
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05A32] focus:ring-2 focus:ring-[#F05A32]/20 transition-all resize-none"
+                      className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-[family-name:var(--font-body)] focus:outline-none focus:border-[#F05030] focus:ring-2 focus:ring-[#F05030]/20 transition-all resize-none"
                     />
                   </div>
                 </div>

@@ -126,17 +126,15 @@ export default function TestimonialsSection() {
       ref={ref}
       className="py-20 md:py-28"
       aria-labelledby="testimonials-heading"
-      style={{ background: 'linear-gradient(135deg, #2D2626 0%, #463C3C 60%, #2D2626 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #111111 0%, #404040 60%, #111111 100%)' }}
     >
       <div className="container">
         <div className="mb-14 max-w-2xl mx-auto text-center">
-          <p className="section-eyebrow !text-[#F0826E] justify-center [&::before]:bg-[#F05A32]">
+          <p className="section-eyebrow !text-[#F07058] justify-center [&::before]:bg-[#F05030]">
             Customer Reviews
           </p>
-          <h2 id="testimonials-heading" className="font-['Barlow_Condensed'] font-800 text-4xl md:text-5xl text-white section-heading centered">
-            TRUSTED ACROSS
-            <br />
-            <span className="text-[#F0826E]">KENYA</span>
+          <h2 id="testimonials-heading" className="font-[family-name:var(--font-display)] font-bold text-3xl md:text-4xl text-white section-heading centered">
+            What clients say
           </h2>
           <p className="text-orange-100/85 font-[family-name:var(--font-body)] max-w-xl mx-auto mt-4">
             Hear from vehicle owners and fleet managers who trust our Mombasa workshop.
@@ -161,21 +159,21 @@ export default function TestimonialsSection() {
               return (
                 <div
                   key={idx}
-                  className={`glass-card p-6 transition-all duration-300 ${i === 1 ? 'scale-105 border-[#F0826E]/40' : 'opacity-80'}`}
+                  className={`glass-card p-6 transition-all duration-300 ${i === 1 ? 'scale-105 border-[#F07058]/40' : 'opacity-80'}`}
                 >
-                  <Quote size={28} className="text-[#F0826E] mb-4 opacity-60" />
-                  <p className="text-orange-50 font-['Inter'] text-sm leading-relaxed mb-6">
+                  <Quote size={28} className="text-[#F07058] mb-4 opacity-60" />
+                  <p className="text-orange-50 font-[family-name:var(--font-body)] text-sm leading-relaxed mb-6">
                     "{t.review}"
                   </p>
                   <div className="flex items-center gap-3">
                     <img
                       src={t.avatar}
                       alt={t.name}
-                      className="w-11 h-11 rounded-full object-cover border-2 border-[#F0826E]/40"
+                      className="w-11 h-11 rounded-full object-cover border-2 border-[#F07058]/40"
                     />
                     <div>
-                      <p className="font-['Barlow_Condensed'] font-700 text-white text-sm">{t.name}</p>
-                      <p className="text-orange-200 text-xs font-['Inter']">{t.role} · {t.location}</p>
+                      <p className="font-[family-name:var(--font-display)] font-700 text-white text-sm">{t.name}</p>
+                      <p className="text-orange-200 text-xs font-[family-name:var(--font-body)]">{t.role} · {t.location}</p>
                     </div>
                     <div className="ml-auto">
                       <StarRating rating={t.rating} />
@@ -189,19 +187,19 @@ export default function TestimonialsSection() {
           {/* Mobile: single card */}
           <div className="md:hidden">
             <div className="glass-card p-6">
-              <Quote size={28} className="text-[#F0826E] mb-4 opacity-60" />
-              <p className="text-orange-50 font-['Inter'] text-sm leading-relaxed mb-6">
+              <Quote size={28} className="text-[#F07058] mb-4 opacity-60" />
+              <p className="text-orange-50 font-[family-name:var(--font-body)] text-sm leading-relaxed mb-6">
                 "{TESTIMONIALS[current].review}"
               </p>
               <div className="flex items-center gap-3">
                 <img
                   src={TESTIMONIALS[current].avatar}
                   alt={TESTIMONIALS[current].name}
-                  className="w-11 h-11 rounded-full object-cover border-2 border-[#F0826E]/40"
+                  className="w-11 h-11 rounded-full object-cover border-2 border-[#F07058]/40"
                 />
                 <div>
-                  <p className="font-['Barlow_Condensed'] font-700 text-white text-sm">{TESTIMONIALS[current].name}</p>
-                  <p className="text-orange-200 text-xs font-['Inter']">{TESTIMONIALS[current].role} · {TESTIMONIALS[current].location}</p>
+                  <p className="font-[family-name:var(--font-display)] font-700 text-white text-sm">{TESTIMONIALS[current].name}</p>
+                  <p className="text-orange-200 text-xs font-[family-name:var(--font-body)]">{TESTIMONIALS[current].role} · {TESTIMONIALS[current].location}</p>
                 </div>
                 <div className="ml-auto">
                   <StarRating rating={TESTIMONIALS[current].rating} />
@@ -229,7 +227,7 @@ export default function TestimonialsSection() {
                 aria-label={`Go to testimonial ${i + 1}`}
                 aria-current={i === current ? 'true' : undefined}
                 className={`transition-all duration-200 rounded-full ${
-                  i === current ? 'w-6 h-2 bg-[#F0826E]' : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                  i === current ? 'w-6 h-2 bg-[#F07058]' : 'w-2 h-2 bg-white/30 hover:bg-white/50'
                 }`}
               />
             ))}

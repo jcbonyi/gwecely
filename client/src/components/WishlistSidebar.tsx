@@ -67,12 +67,12 @@ export default function WishlistSidebar() {
         aria-modal="true"
         aria-label="Wishlist"
       >
-        <div className="bg-[#463C3C] text-white px-5 py-4 flex items-center justify-between flex-shrink-0">
+        <div className="bg-[#404040] text-white px-5 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
             <Heart size={20} />
             <div>
-              <h2 className="font-['Barlow_Condensed'] font-700 text-lg leading-tight">YOUR WISHLIST</h2>
-              <p className="text-orange-100 text-xs font-['Inter']">{items.length} saved item{items.length !== 1 ? 's' : ''}</p>
+              <h2 className="font-[family-name:var(--font-display)] font-700 text-lg leading-tight">YOUR WISHLIST</h2>
+              <p className="text-orange-100 text-xs font-[family-name:var(--font-body)]">{items.length} saved item{items.length !== 1 ? 's' : ''}</p>
             </div>
           </div>
           <button
@@ -87,8 +87,8 @@ export default function WishlistSidebar() {
         {items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
             <Heart size={40} className="text-gray-200 mb-4" />
-            <p className="font-['Barlow_Condensed'] font-700 text-lg text-[#2D2626] mb-2">No saved items yet</p>
-            <p className="text-gray-500 text-sm font-['Inter'] mb-6">Tap the heart on any product to save it for later.</p>
+            <p className="font-[family-name:var(--font-display)] font-700 text-lg text-[#111111] mb-2">No saved items yet</p>
+            <p className="text-gray-500 text-sm font-[family-name:var(--font-body)] mb-6">Tap the heart on any product to save it for later.</p>
             <button onClick={handleBrowse} className="btn-gwecely text-sm py-2.5 px-6">
               Browse Products
             </button>
@@ -97,18 +97,18 @@ export default function WishlistSidebar() {
           <>
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
               {items.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 bg-[#F5F3F2] rounded-xl">
+                <div key={item.id} className="flex gap-3 p-3 bg-[#F6F6F6] rounded-xl">
                   <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] text-[#F05A32] font-['Inter'] font-medium uppercase tracking-wide">
+                    <p className="text-[10px] text-[#F05030] font-[family-name:var(--font-body)] font-medium uppercase tracking-wide">
                       {CATEGORIES.find(c => c.id === item.category)?.label ?? item.category}
                     </p>
-                    <p className="font-['Inter'] font-medium text-sm text-[#2D2626] line-clamp-2 leading-snug">{item.name}</p>
-                    <p className="font-['Barlow'] font-700 text-[#F05A32] text-sm mt-1">{formatPrice(item.price)}</p>
+                    <p className="font-[family-name:var(--font-body)] font-medium text-sm text-[#111111] line-clamp-2 leading-snug">{item.name}</p>
+                    <p className="font-[family-name:var(--font-display)] font-700 text-[#F05030] text-sm mt-1">{formatPrice(item.price)}</p>
                     <div className="flex gap-2 mt-2">
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="flex items-center gap-1 text-xs font-['Inter'] font-medium text-white bg-[#F05A32] hover:bg-[#D94E28] px-2.5 py-1.5 rounded-md transition-colors"
+                        className="flex items-center gap-1 text-xs font-[family-name:var(--font-body)] font-medium text-white bg-[#F05030] hover:bg-[#D9482A] px-2.5 py-1.5 rounded-md transition-colors"
                       >
                         <ShoppingCart size={12} />
                         Add to Cart

@@ -15,7 +15,7 @@ export default function NavbarAuth() {
         <SignInButton mode="redirect" forceRedirectUrl="/sign-in">
           <button
             type="button"
-            className="hidden sm:inline-flex px-3 py-2 text-white/90 hover:text-white font-['Inter'] text-sm font-medium transition-colors rounded-md hover:bg-white/10"
+            className="hidden sm:inline-flex px-3 py-2 text-white/90 hover:text-white font-[family-name:var(--font-body)] text-sm font-medium transition-colors rounded-md hover:bg-white/10"
           >
             Sign in
           </button>
@@ -32,7 +32,7 @@ export default function NavbarAuth() {
       <SignedIn>
         <Link
           href="/admin/products"
-          className="hidden sm:inline-flex px-3 py-2 text-orange-100 hover:text-white font-['Inter'] text-xs font-medium transition-colors rounded-md hover:bg-white/10"
+          className="hidden sm:inline-flex px-3 py-2 text-orange-100 hover:text-white font-[family-name:var(--font-body)] text-xs font-medium transition-colors rounded-md hover:bg-white/10"
         >
           Admin
         </Link>
@@ -59,7 +59,7 @@ export function MobileNavbarAuth({ onNavigate }: { onNavigate?: () => void }) {
           <button
             type="button"
             onClick={onNavigate}
-            className="w-full px-4 py-3.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg font-['Inter'] text-base font-medium min-h-[48px]"
+            className="w-full px-4 py-3.5 text-white/90 hover:text-white hover:bg-white/10 rounded-lg font-[family-name:var(--font-body)] text-base font-medium min-h-[48px]"
           >
             Sign in
           </button>
@@ -78,13 +78,13 @@ export function MobileNavbarAuth({ onNavigate }: { onNavigate?: () => void }) {
         <Link
           href="/admin/products"
           onClick={onNavigate}
-          className="block px-4 py-3.5 text-orange-100 hover:text-white hover:bg-white/10 rounded-lg font-['Inter'] text-base min-h-[48px]"
+          className="block px-4 py-3.5 text-orange-100 hover:text-white hover:bg-white/10 rounded-lg font-[family-name:var(--font-body)] text-base min-h-[48px]"
         >
           Admin catalog
         </Link>
         <div className="px-4 py-2 flex items-center gap-3">
           <UserButton afterSignOutUrl="/" />
-          <span className="text-orange-100 text-sm font-['Inter']">Your account</span>
+          <span className="text-orange-100 text-sm font-[family-name:var(--font-body)]">Your account</span>
         </div>
       </SignedIn>
     </div>
