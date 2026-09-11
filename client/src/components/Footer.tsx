@@ -8,6 +8,7 @@ import { BRAND } from '@/lib/brand';
 import { FOOTER_LINKS, OTHER_BUSINESS_LINKS, ROUTES, MAPS_DIRECTIONS_URL } from '@/lib/routes';
 import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
 import BrandLogo from '@/components/BrandLogo';
+import OpeningHours from '@/components/OpeningHours';
 
 const GARAGE_SERVICES = [
   { label: 'Accident Repairs', href: '/services/accident-repairs' },
@@ -111,13 +112,7 @@ export default function Footer() {
             <h3 className="font-[family-name:var(--font-display)] font-semibold text-white text-sm mb-4 uppercase tracking-wide">
               Hours
             </h3>
-            <p className="text-[#C8C8C8] text-sm font-[family-name:var(--font-body)] leading-relaxed mb-6">
-              {BRAND.hours.weekdays}
-              <br />
-              {BRAND.hours.saturday}
-              <br />
-              {BRAND.hours.sunday}
-            </p>
+            <OpeningHours className="text-[#C8C8C8] text-sm font-[family-name:var(--font-body)] leading-relaxed mb-6" />
             <h3 className="font-[family-name:var(--font-display)] font-semibold text-white text-sm mb-3 uppercase tracking-wide">
               Other business
             </h3>

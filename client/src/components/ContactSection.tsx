@@ -11,6 +11,9 @@ import WhatsAppIcon from '@/components/WhatsAppIcon';
 import { IMAGES } from '@/lib/images';
 import { BRAND } from '@/lib/brand';
 import { MAPS_DIRECTIONS_URL, MAPS_EMBED_URL } from '@/lib/routes';
+import { formatOpeningHoursLines } from '@/lib/openingHours';
+
+const HOURS_LINES = formatOpeningHoursLines();
 
 const ENQUIRY_TOPICS = [
   'Vehicle Service / Repairs',
@@ -41,7 +44,7 @@ const CONTACT_INFO = [
   {
     icon: Clock,
     title: 'Working Hours',
-    lines: ['Mon – Fri: 8:00 AM – 6:00 PM', 'Saturday: 8:00 AM – 2:00 PM', 'Sunday: Closed'],
+    lines: [...HOURS_LINES],
     action: null,
   },
 ];

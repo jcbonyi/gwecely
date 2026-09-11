@@ -38,6 +38,7 @@ import ResponsivePicture from '@/components/ResponsivePicture';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 import ContactMap from '@/components/ContactMap';
+import OpeningHours from '@/components/OpeningHours';
 
 const SERVICE_ALTS: Record<string, string> = {
   panelBeating: 'Panel beating and dent repair on a vehicle body at the Gwecely workshop, Mombasa',
@@ -462,11 +463,7 @@ export default function HomeSections() {
                 </a>
               </li>
               <li className="text-[#B0B0B0]">
-                {BRAND.hours.weekdays}
-                <br />
-                {BRAND.hours.saturday}
-                <br />
-                {BRAND.hours.sunday}
+                <OpeningHours className="text-[#B0B0B0]" />
               </li>
             </ul>
             <div className="flex flex-wrap gap-3">

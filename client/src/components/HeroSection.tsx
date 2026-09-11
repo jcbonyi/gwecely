@@ -7,6 +7,7 @@ import { Link } from 'wouter';
 import { BRAND } from '@/lib/brand';
 import { ROUTES } from '@/lib/routes';
 import { buildPhotoQuoteMessage, whatsAppUrl } from '@/lib/whatsapp';
+import { formatOpeningHoursLines } from '@/lib/openingHours';
 
 export default function HeroSection() {
   return (
@@ -90,7 +91,7 @@ export default function HeroSection() {
             </div>
             <div>
               <dt className="text-[#888] text-xs uppercase tracking-wider mb-0.5">Hours</dt>
-              <dd className="text-white/90">Mon–Fri 8am–6pm · Sat 8am–2pm</dd>
+              <dd className="text-white/90">{formatOpeningHoursLines().slice(0, 2).join(' · ')}</dd>
             </div>
             <div>
               <dt className="text-[#888] text-xs uppercase tracking-wider mb-0.5">Call</dt>

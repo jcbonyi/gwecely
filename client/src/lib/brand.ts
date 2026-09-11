@@ -21,10 +21,14 @@ export const BRAND = {
     white: '#FFFFFF',
   },
 
+  /**
+   * Structured workshop hours (24h). Display via formatOpeningHoursLines() —
+   * never pipe these through Date / Intl.DateTimeFormat (hour12 can yield "00 PM").
+   */
   hours: {
-    weekdays: 'Monday – Friday, 8:00 AM – 6:00 PM',
-    saturday: 'Saturday, 8:00 AM – 2:00 PM',
-    sunday: 'Sunday closed',
+    weekdays: { days: 'Mon–Fri', open: '08:00', close: '18:00' },
+    saturday: { days: 'Saturday', open: '08:00', close: '14:00' },
+    sunday: { days: 'Sunday', closed: true as const },
   },
 
   about:

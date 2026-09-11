@@ -1,3 +1,5 @@
+import { formatOpeningHoursSummary } from '@/lib/openingHours';
+
 /**
  * Honest site content — no invented proof, stats, or partnerships
  */
@@ -84,9 +86,9 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What are your opening hours?',
-    a: 'Monday–Friday 8:00 AM – 6:00 PM, Saturday 8:00 AM – 2:00 PM. Closed Sunday.',
+    a: formatOpeningHoursSummary(),
   },
-] as const;
+];
 
 /** Customer-problem oriented service blurbs */
 export const SERVICE_PROBLEMS: Record<string, string> = {
